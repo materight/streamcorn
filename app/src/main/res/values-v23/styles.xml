@@ -1,0 +1,15 @@
+<resources>
+    
+    <style name="AppTheme" parent="BaseTheme">
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="AppTheme.TransparentStatusBar" parent="BaseTheme.TransparentStatusBar">
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.Dialog" parent="BaseTheme.Dialog" >
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+</resources>

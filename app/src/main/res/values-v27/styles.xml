@@ -1,0 +1,20 @@
+<resources>
+    
+    <style name="AppTheme" parent="BaseTheme">
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
+    </style>
+
+    <style name="AppTheme.TransparentStatusBar" parent="BaseTheme.TransparentStatusBar">
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
+    </style>
+
+    <style name="AppTheme.Dialog" parent="BaseTheme.Dialog">
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:navigationBarColor">@color/transparent</item>
+    </style>
+
+
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AspectRatioImageView">
+        <attr name="aspectRatio" format="float" />
+    </declare-styleable>
+
+    <attr name="cardStyle" format="reference"/>
+    <attr name="toolbarStyle" format="reference"/>
+
+    <attr name="dialogBackgroundColor" format="color"/>
+</resources>

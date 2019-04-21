@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true">
+
+        <Button
+            android:id="@+id/expand_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/expandable_description_button_background"
+            android:text="@string/expand"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="?attr/colorAccent"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="0dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/text"
+            app:layout_constraintBottom_toBottomOf="@id/text" />
+
+        <com.est.streamcorn.ui.customs.widgets.ExpandableTextView
+            android:id="@+id/text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:singleLine="false"
+            android:maxLines="2"
+            android:lines="2"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="?android:attr/textColorSecondary"
+            android:lineSpacingExtra="6dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Description test"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

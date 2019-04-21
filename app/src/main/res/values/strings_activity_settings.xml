@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  Theme  -->
+    <string-array name="pref_general_theme_list_titles">
+        <item>@string/light_theme_name</item>
+        <item>@string/dark_theme_name</item>
+        <item>@string/daytime_theme_name</item>
+    </string-array>
+
+    <string-array name="pref_general_theme_list_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>daytime</item>
+    </string-array>
+
+    <!--  Network  -->
+    <string-array name="pref_network_policy_list_titles">
+        <item>@string/network_only_wifi</item>
+        <item>@string/network_always</item>
+    </string-array>
+
+    <string-array name="pref_network_policy_list_values">
+        <item>only_wifi</item>
+        <item>always</item>
+    </string-array>
+
+
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark theme color-->
+    <color name="colorPrimary">#212121</color>
+    <color name="colorPrimaryDark">#212121</color>
+    <color name="colorBackground">#141414</color>
+
+    <color name="textColorPrimary">#ffffff</color>
+    <color name="textColorSecondary">#b2ffffff</color>
+
+    <color name="dialogBackgroundColor">@color/colorPrimary</color>
+
+    <color name="mediaDetailHeader">@color/colorPrimary</color>
+    <color name="mediaDetailBackground">@color/colorBackground</color>
+</resources>

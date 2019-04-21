@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:constantSize="true"
+    android:enterFadeDuration="@integer/episode_expand_collapse_duration"
+    android:exitFadeDuration="@integer/episode_expand_collapse_duration">
+
+    <item android:state_activated="true" android:drawable="@color/mediaDetailHeader" />
+    <item android:drawable="@color/mediaDetailBackground" />
+</selector>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_header_theme">
+
+        <ListPreference
+            android:key="general_theme"
+            android:defaultValue="daytime"
+            android:entries="@array/pref_general_theme_list_titles"
+            android:entryValues="@array/pref_general_theme_list_values"
+            android:positiveButtonText="@null"
+            android:summary="%s"
+            android:title="@string/pref_title_general_theme"  />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="@string/pref_header_network">
+
+        <ListPreference
+            android:key="stream_network_policy"
+            android:defaultValue="only_wifi"
+            android:entries="@array/pref_network_policy_list_titles"
+            android:entryValues="@array/pref_network_policy_list_values"
+            android:positiveButtonText="@null"
+            android:summary="%s"
+            android:title="@string/pref_title_stream_policy"  />
+
+        <ListPreference
+            android:key="download_network_policy"
+            android:defaultValue="only_wifi"
+            android:entries="@array/pref_network_policy_list_titles"
+            android:entryValues="@array/pref_network_policy_list_values"
+            android:positiveButtonText="@null"
+            android:summary="%s"
+            android:title="@string/pref_title_download_policy"  />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

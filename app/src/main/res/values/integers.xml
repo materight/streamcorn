@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="episode_expand_collapse_duration">120</integer>
+    <integer name="description_expand_collapse_duration">300</integer>
+</resources>
