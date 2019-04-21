@@ -13,11 +13,11 @@ public class TmdbTvSeriesList {
     @Expose
     private List<TmdbTvSeries> results = new ArrayList<>();
 
-    public TmdbTvSeries getFirst(){
-            return results.get(0);
+    public TmdbTvSeries getFirst() {
+        return results.get(0);
     }
 
-    public int size(){
+    public int size() {
         return results.size();
     }
 }

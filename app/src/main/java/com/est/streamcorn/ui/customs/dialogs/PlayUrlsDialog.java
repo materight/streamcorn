@@ -2,11 +2,7 @@ package com.est.streamcorn.ui.customs.dialogs;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.est.streamcorn.R;
-import com.est.streamcorn.network.UrlResolver;
 import com.est.streamcorn.ui.activities.PlayerActivity;
 import com.est.streamcorn.utils.Utils;
 
@@ -27,7 +23,7 @@ public class PlayUrlsDialog extends UrlsDialog {
         setUpSharedElementTransitions(dialogBackgroundColor, colorAccent);
     }
 
-    protected void processVideoUrl(String url, String title){
+    protected void processVideoUrl(String url, String title) {
         Intent intent = new Intent(this, PlayerActivity.class);
         intent.putExtra("url", url);
         startActivity(intent);

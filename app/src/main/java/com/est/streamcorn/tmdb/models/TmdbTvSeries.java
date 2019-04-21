@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Matteo on 18/01/2018.
  */
 
-public class TmdbTvSeries  extends TmdbMedia{
+public class TmdbTvSeries extends TmdbMedia {
 
     @Expose
     @SerializedName("first_air_date")
@@ -28,14 +28,14 @@ public class TmdbTvSeries  extends TmdbMedia{
     @SerializedName("seasons")
     private List<TmdbSeason> seasons;
 
-    public int getFirstAirYear(){
-        if(firstAirDate == null || firstAirDate.getYear() == 0)
+    public int getFirstAirYear() {
+        if (firstAirDate == null || firstAirDate.getYear() == 0)
             return 0;
         return firstAirDate.getYear() + 1900;
     }
 
     public int getLastAirYear() {
-        if(lastAirDate == null || lastAirDate.getYear() == 0)
+        if (lastAirDate == null || lastAirDate.getYear() == 0)
             return 0;
         return lastAirDate.getYear() + 1900;
     }

@@ -4,37 +4,33 @@ import com.est.streamcorn.tmdb.models.TmdbMovie;
 
 import java.util.ArrayList;
 
-/**
- * Created by Matteo on 30/01/2018.
- */
-
-public class Movie implements StreamUrlContainer{
+public class Movie implements StreamUrlContainer {
     private ArrayList<StreamUrl> urls;
     private String overview;
 
-    public Movie(){
+    public Movie() {
         urls = new ArrayList<>();
         overview = "";
     }
 
-    public void addUrl(StreamUrl streamUrl){
+    public void addStreamUrl(StreamUrl streamUrl) {
         urls.add(streamUrl);
     }
 
-    public StreamUrl getUrl(int index){
+    public StreamUrl getStreamUrl(int index) {
         return urls.get(index);
     }
 
-    public ArrayList<StreamUrl> getUrls(){
+    public ArrayList<StreamUrl> getUrls() {
         return urls;
     }
 
-    public void setTmdbData(TmdbMovie tmdbMovie){
-        if(overview.isEmpty())
+    public void setTmdbData(TmdbMovie tmdbMovie) {
+        if (overview.isEmpty())
             overview = tmdbMovie.getOverview();
     }
 
-    public String getOverview(){
+    public String getOverview() {
         return overview;
     }
 

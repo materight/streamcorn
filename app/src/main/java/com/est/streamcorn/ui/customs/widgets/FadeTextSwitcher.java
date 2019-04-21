@@ -29,7 +29,7 @@ public class FadeTextSwitcher extends TextSwitcher {
         setFactory(new TextViewFactory(context, attrs));
     }
 
-    public FadeTextSwitcher(Context context, AttributeSet attrs, final int defStyle){
+    public FadeTextSwitcher(Context context, AttributeSet attrs, final int defStyle) {
         this(context, attrs);
     }
 
@@ -37,7 +37,7 @@ public class FadeTextSwitcher extends TextSwitcher {
         private final Context context;
         private final AttributeSet attrs;
 
-        TextViewFactory(Context context){
+        TextViewFactory(Context context) {
             this.context = context;
             attrs = null;
         }
@@ -49,7 +49,7 @@ public class FadeTextSwitcher extends TextSwitcher {
 
         @Override
         public View makeView() {
-            if(attrs != null)
+            if (attrs != null)
                 return new TextView(context, attrs, attrs.getStyleAttribute());
             else
                 return new TextView(context);

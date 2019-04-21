@@ -21,8 +21,8 @@ import android.graphics.ColorFilter;
 import android.graphics.Outline;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.ColorInt;
 import android.util.Property;
+import androidx.annotation.ColorInt;
 
 /**
  * A drawable that can morph size, shape (via it's corner radius) and color.  Specifically this is

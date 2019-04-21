@@ -1,6 +1,5 @@
 package com.est.streamcorn.models;
 
-import com.est.streamcorn.models.Media;
 import com.est.streamcorn.tmdb.models.TmdbMedia;
 import com.est.streamcorn.tmdb.models.TmdbMovie;
 import com.est.streamcorn.tmdb.models.TmdbTvSeries;
@@ -17,14 +16,14 @@ public class MediaContainer {
     @Media.MediaType
     private int type;
 
-    public MediaContainer(Media media, Movie movie, TmdbMovie tmdbMovie){
+    public MediaContainer(Media media, Movie movie, TmdbMovie tmdbMovie) {
         this.media = media;
         this.streamUrlContainer = movie;
         this.tmdbMedia = tmdbMovie;
         this.type = Media.MOVIE;
     }
 
-    public MediaContainer(Media media, TvSeries tvSeries, TmdbTvSeries tmdbTvSeries){
+    public MediaContainer(Media media, TvSeries tvSeries, TmdbTvSeries tmdbTvSeries) {
         this.media = media;
         this.streamUrlContainer = tvSeries;
         this.tmdbMedia = tmdbTvSeries;

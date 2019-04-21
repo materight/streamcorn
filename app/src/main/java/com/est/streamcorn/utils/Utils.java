@@ -5,11 +5,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import androidx.annotation.Nullable;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
 import android.util.TypedValue;
+import androidx.annotation.Nullable;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -23,33 +23,32 @@ public class Utils {
 
     private static final String TAG = "Utils";
 
-    public static Spanned getColoredString(String string, @Nullable Integer color){
-        if(color == null){
+    public static Spanned getColoredString(String string, @Nullable Integer color) {
+        if (color == null) {
             return Html.fromHtml(String.format(string, ""));
-        }
-        else{
+        } else {
             String htmlColor = String.format(Locale.US, "#%06X", (0xFFFFFF & Color.argb(0, Color.red(color), Color.green(color), Color.blue(color))));
             return Html.fromHtml(String.format(string, htmlColor));
         }
     }
 
-    public static int resolveAttr(Context context, int attrId){
+    public static int resolveAttr(Context context, int attrId) {
         TypedValue typedValue = new TypedValue();
         context.getTheme().resolveAttribute(attrId, typedValue, true);
         return typedValue.resourceId;
     }
 
-    public static String encodeQuery(String query){
+    public static String encodeQuery(String query) {
         try {
             return URLEncoder.encode(query, "utf-8");
-        }catch (UnsupportedEncodingException e){
+        } catch (UnsupportedEncodingException e) {
             Log.e(TAG, "Encoding query error, query: " + query);
             return "";
         }
     }
 
 
-    private static boolean resolveNetworkPolicy(final Context context, String policy){
+    private static boolean resolveNetworkPolicy(final Context context, String policy) {
         switch (policy) {
             case "always":
                 return true;
@@ -61,15 +60,15 @@ public class Utils {
         }
     }
 
-    public static boolean canStream(final Context context){
+    public static boolean canStream(final Context context) {
         return resolveNetworkPolicy(context, PreferenceUtils.getInstance(context).getStreamNetworkPolicy());
     }
 
-    public static boolean canDownload(final Context context){
+    public static boolean canDownload(final Context context) {
         return resolveNetworkPolicy(context, PreferenceUtils.getInstance(context).getDownloadNetworkPolicy());
     }
 
-    public static int getDownloadAllowedNetwork(final Context context){
+    public static int getDownloadAllowedNetwork(final Context context) {
         String policy = PreferenceUtils.getInstance(context).getDownloadNetworkPolicy();
         switch (policy) {
             case "always":

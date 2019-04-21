@@ -1,9 +1,8 @@
 package com.est.streamcorn.ui.customs.widgets;
 
 import android.content.Context;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import android.util.AttributeSet;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 public class CustomCollapsingToolbarLayout extends CollapsingToolbarLayout {
 

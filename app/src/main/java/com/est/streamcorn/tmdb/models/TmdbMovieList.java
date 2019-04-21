@@ -13,11 +13,11 @@ public class TmdbMovieList {
     @Expose
     private List<TmdbMovie> results = new ArrayList<>();
 
-    public TmdbMovie getFirst(){
-            return results.get(0);
+    public TmdbMovie getFirst() {
+        return results.get(0);
     }
 
-    public int size(){
+    public int size() {
         return results.size();
     }
 }

@@ -1,12 +1,12 @@
 package com.est.streamcorn.ui.customs;
 
 import android.content.Context;
-import com.google.android.material.appbar.AppBarLayout;
+import android.util.AttributeSet;
+import android.view.View;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.AttributeSet;
-import android.view.View;
+import com.google.android.material.appbar.AppBarLayout;
 
 /**
  * Created by Matteo on 12/02/2018.

@@ -2,19 +2,19 @@ package com.est.streamcorn.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.est.streamcorn.R;
-import com.est.streamcorn.network.channels.ChannelService;
+import com.est.streamcorn.network.channels.Channel;
 import com.est.streamcorn.ui.activities.MediaListActivity;
+import com.est.streamcorn.utils.Constants;
 import com.est.streamcorn.utils.Utils;
 
 import java.util.ArrayList;
@@ -28,26 +28,26 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
     private Context context;
     private LayoutInflater mInflater;
     private final RequestManager glide;
-    private ArrayList<ChannelService> channelServices = new ArrayList<>();
+    private ArrayList<Channel> channels = new ArrayList<>();
 
     public ChannelAdapter(Context context, RequestManager glide) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.glide = glide;
-        this.channelServices = new ArrayList<>();
+        this.channels = new ArrayList<>();
     }
 
-    public ChannelAdapter(Context context, RequestManager glide, ArrayList<ChannelService> channelServices) {
+    public ChannelAdapter(Context context, RequestManager glide, ArrayList<Channel> channels) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.glide = glide;
-        this.channelServices = channelServices;
+        this.channels = channels;
     }
 
-    public void addChannels(ArrayList<ChannelService> channelServices){
-        int newFirstMovie = this.channelServices.size();
-        this.channelServices.addAll(channelServices);
-        this.notifyItemRangeInserted(newFirstMovie,  channelServices.size() - 1);
+    public void addChannels(ArrayList<Channel> channels) {
+        int newFirstMovie = this.channels.size();
+        this.channels.addAll(channels);
+        this.notifyItemRangeInserted(newFirstMovie, channels.size() - 1);
     }
 
     // inflates the cell layout from xml when needed
@@ -60,9 +60,9 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
     // binds the data to the textview in each cell
     @Override
     public void onBindViewHolder(ChannelAdapter.ViewHolder holder, int position) {
-        ChannelService channelService = channelServices.get(position);
-        holder.title.setText(Utils.getColoredString(channelService.getParametricName(), null));
-        glide.load(channelService.getBannerDrawable())
+        Channel channel = channels.get(position);
+        holder.title.setText(Utils.getColoredString(channel.getProperties().getParametricName(), null));
+        glide.load(channel.getProperties().getBannerDrawable())
                 .apply(new RequestOptions()
                         .centerCrop()
                         .error(R.drawable.media_poster))
@@ -72,7 +72,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return channelServices.size();
+        return channels.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -92,13 +92,13 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         }
     }
 
-    ChannelService getItem(int id) {
-        return channelServices.get(id);
+    Channel getItem(int id) {
+        return channels.get(id);
     }
 
     private void onItemClick(View view, int position) {
         Intent intent = new Intent(context, MediaListActivity.class);
-        intent.putExtra("channel", channelServices.get(position).getChannelId());
+        intent.putExtra(Constants.CHANNEL_KEY, channels.get(position).getProperties().getDomain());
         context.startActivity(intent);
     }
 }

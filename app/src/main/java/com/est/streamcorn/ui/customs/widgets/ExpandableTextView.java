@@ -1,11 +1,10 @@
 package com.est.streamcorn.ui.customs.widgets;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.View;
-
+import androidx.annotation.Nullable;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import com.est.streamcorn.R;
 
 /**
@@ -38,10 +37,9 @@ public class ExpandableTextView extends at.blogc.android.views.ExpandableTextVie
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         if (mToggleButton != null) {
-            if(getLineCount() > getMaxLines()){
+            if (getLineCount() > getMaxLines()) {
                 mToggleButton.setVisibility(VISIBLE);
-            }
-            else {
+            } else {
                 mToggleButton.setVisibility(GONE);
             }
         }

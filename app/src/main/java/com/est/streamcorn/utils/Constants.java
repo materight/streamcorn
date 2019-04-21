@@ -1,10 +1,6 @@
 package com.est.streamcorn.utils;
 
-/**
- * Created by Matteo on 16/02/2018.
- */
-
-public class Constant {
+public class Constants {
     //Keys
     public static final String CHANNEL_KEY = "channel";
     public static final String MEDIA_KEY = "media";

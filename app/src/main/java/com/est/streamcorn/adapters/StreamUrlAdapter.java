@@ -1,11 +1,10 @@
 package com.est.streamcorn.adapters;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import androidx.recyclerview.widget.RecyclerView;
 import com.est.streamcorn.R;
 import com.est.streamcorn.adapters.base.OnItemClickListener;
 import com.est.streamcorn.models.StreamUrl;
@@ -30,7 +29,7 @@ public class StreamUrlAdapter extends RecyclerView.Adapter<StreamUrlAdapter.View
         this.urls = urls;
     }
 
-    public void setUrls(List<StreamUrl> urls){
+    public void setUrls(List<StreamUrl> urls) {
         this.urls.clear();
         this.urls.addAll(urls);
         notifyDataSetChanged();
@@ -48,7 +47,7 @@ public class StreamUrlAdapter extends RecyclerView.Adapter<StreamUrlAdapter.View
         holder.name.setText(url.getName());
     }
 
-    public void setOnItemClickListener(OnItemClickListener<StreamUrl> onItemClickListener){
+    public void setOnItemClickListener(OnItemClickListener<StreamUrl> onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 

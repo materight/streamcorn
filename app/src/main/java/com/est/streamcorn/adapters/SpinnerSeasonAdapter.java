@@ -1,14 +1,13 @@
 package com.est.streamcorn.adapters;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.est.streamcorn.R;
 import com.est.streamcorn.adapters.base.SparseArrayAdapter;
 import com.est.streamcorn.models.Season;

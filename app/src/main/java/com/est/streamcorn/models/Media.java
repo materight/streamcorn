@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
  * Created by Matteo on 30/12/2017.
  */
 
-public class Media implements Parcelable{
+public class Media implements Parcelable {
 
     private String title;
     private String imageUrl;
@@ -20,8 +20,10 @@ public class Media implements Parcelable{
     public static final int MOVIE = 0;
     public static final int TV_SERIES = 1;
     public static final int UNKNOWN = 2;
+
     @IntDef({MOVIE, TV_SERIES, UNKNOWN})
-    public @interface MediaType {}
+    public @interface MediaType {
+    }
 
     public Media(@Nullable String title, @Nullable String imageUrl, String url, @MediaType int type) {
         this.title = (title != null) ? title : "-";
@@ -51,11 +53,11 @@ public class Media implements Parcelable{
     }
 
     @MediaType
-    public int getType(){
+    public int getType() {
         return type;
     }
 
-    public void setType(@MediaType int type){
+    public void setType(@MediaType int type) {
         this.type = type;
     }
 
@@ -76,6 +78,7 @@ public class Media implements Parcelable{
         public Media createFromParcel(Parcel in) {
             return new Media(in);
         }
+
         public Media[] newArray(int size) {
             return new Media[size];
         }

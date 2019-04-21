@@ -10,23 +10,23 @@ public class Season {
 
     private SparseArray<Episode> episodes;
 
-    public Season(){
+    public Season() {
         episodes = new SparseArray<>();
     }
 
-    public void putEpisode(int number, Episode episode){
+    public void putEpisode(int number, Episode episode) {
         episodes.put(number, episode);
     }
 
-    public Episode getEpisode(int number){
+    public Episode getEpisode(int number) {
         return episodes.get(number);
     }
 
-    public SparseArray<Episode> getEpisodes(){
+    public SparseArray<Episode> getEpisodes() {
         return episodes;
     }
 
-    public boolean containsEpisode(int number){
+    public boolean containsEpisode(int number) {
         return episodes.get(number, null) != null;
     }
 }

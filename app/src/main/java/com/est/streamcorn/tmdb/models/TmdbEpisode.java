@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Matteo on 10/02/2018.
  */
 
-public class TmdbEpisode{
+public class TmdbEpisode {
     @Expose
     @SerializedName("episode_number")
     private int number;

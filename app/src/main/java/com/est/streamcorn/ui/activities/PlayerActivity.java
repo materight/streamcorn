@@ -6,36 +6,30 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.est.streamcorn.R;
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.PlaybackParameters;
-import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.*;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
+import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.util.Util;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-public class PlayerActivity extends BaseActivity{
+public class PlayerActivity extends BaseActivity {
 
     private static final String TAG = "PlayerActivity";
 
-    @BindView(R.id.player) SimpleExoPlayerView playerView;
-    @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.player)
+    PlayerView playerView;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     private String videoUrl;
     private SimpleExoPlayer player;
@@ -54,7 +48,7 @@ public class PlayerActivity extends BaseActivity{
         videoUrl = intent.getStringExtra("url");
     }
 
-    private void initializePlayer(String url){
+    private void initializePlayer(String url) {
 
         player = ExoPlayerFactory.newSimpleInstance(
                 PlayerActivity.this,
@@ -65,7 +59,7 @@ public class PlayerActivity extends BaseActivity{
         player.addListener(new Player.EventListener() {
             @Override
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-                if (playbackState == Player.STATE_BUFFERING){
+                if (playbackState == Player.STATE_BUFFERING) {
                     progressBar.setVisibility(View.VISIBLE);
                 } else {
                     progressBar.setVisibility(View.INVISIBLE);
@@ -73,28 +67,36 @@ public class PlayerActivity extends BaseActivity{
             }
 
             @Override
-            public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {}
+            public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+            }
 
             @Override
-            public void onLoadingChanged(boolean isLoading) {}
+            public void onLoadingChanged(boolean isLoading) {
+            }
 
             @Override
-            public void onRepeatModeChanged(int repeatMode) {}
+            public void onRepeatModeChanged(int repeatMode) {
+            }
 
             @Override
-            public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {}
+            public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
+            }
 
             @Override
-            public void onPlayerError(ExoPlaybackException error) {}
+            public void onPlayerError(ExoPlaybackException error) {
+            }
 
             @Override
-            public void onPositionDiscontinuity(int reason) {}
+            public void onPositionDiscontinuity(int reason) {
+            }
 
             @Override
-            public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {}
+            public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+            }
 
             @Override
-            public void onSeekProcessed() {}
+            public void onSeekProcessed() {
+            }
         });
 
         playerView.setPlayer(player);
@@ -104,7 +106,7 @@ public class PlayerActivity extends BaseActivity{
         setVideoSource(url);
     }
 
-    private void setVideoSource(String videoUrl){
+    private void setVideoSource(String videoUrl) {
         DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         HttpDataSource.Factory dataSourceFactory = new DefaultHttpDataSourceFactory(Util.getUserAgent(this, "StreamCorn"), bandwidthMeter);
         Uri uri = Uri.parse(videoUrl);

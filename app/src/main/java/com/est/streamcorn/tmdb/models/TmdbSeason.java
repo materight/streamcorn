@@ -27,7 +27,7 @@ public class TmdbSeason {
     @SerializedName("episodes")
     private List<TmdbEpisode> episodes;
 
-    public int getNumber(){
+    public int getNumber() {
         return number;
     }
 

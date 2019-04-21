@@ -10,15 +10,15 @@ public class Episode {
 
     private ArrayList<StreamUrl> urls;
 
-    public Episode(){
+    public Episode() {
         urls = new ArrayList<>();
     }
 
-    public void addUrl(StreamUrl streamUrl){
+    public void addUrl(StreamUrl streamUrl) {
         urls.add(streamUrl);
     }
 
-    public ArrayList<StreamUrl> getUrls(){
+    public ArrayList<StreamUrl> getUrls() {
         return urls;
     }
 }

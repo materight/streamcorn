@@ -20,14 +20,13 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import androidx.core.content.ContextCompat;
 import android.transition.ChangeBounds;
 import android.transition.TransitionValues;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-
+import androidx.core.content.ContextCompat;
 import com.est.streamcorn.R;
 import com.est.streamcorn.ui.customs.drawables.MorphDrawable;
 
@@ -68,8 +67,8 @@ public class MorphFabToDialog extends ChangeBounds {
         if (view.getWidth() <= 0 || view.getHeight() <= 0) {
             return;
         }
-        transitionValues.values.put(PROPERTY_COLOR,  ContextCompat.getColor(view.getContext(), fabColorResourceId));
-        transitionValues.values.put(PROPERTY_CORNER_RADIUS, view.getHeight()/2);
+        transitionValues.values.put(PROPERTY_COLOR, ContextCompat.getColor(view.getContext(), fabColorResourceId));
+        transitionValues.values.put(PROPERTY_CORNER_RADIUS, view.getHeight() / 2);
     }
 
     @Override

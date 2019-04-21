@@ -5,18 +5,17 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-
-import com.est.streamcorn.R;
-import com.est.streamcorn.utils.PreferenceUtils;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.est.streamcorn.R;
+import com.est.streamcorn.utils.PreferenceUtils;
 
 public class SettingsActivity extends BaseActivity {
 
     private static final String TAG = "SettingsActivity";
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class SettingsActivity extends BaseActivity {
             // Restart on theme change
             findPreference(PreferenceUtils.GENERAL_THEME).setOnPreferenceChangeListener((preference, newValue) -> {
                 int newTheme = PreferenceUtils.getNightModeInt((String) newValue);
-                if(currentTheme == newTheme)
+                if (currentTheme == newTheme)
                     return false;
 
                 AppCompatDelegate.setDefaultNightMode(newTheme);
@@ -57,7 +56,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
 
-    private void initTheme(){
+    private void initTheme() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

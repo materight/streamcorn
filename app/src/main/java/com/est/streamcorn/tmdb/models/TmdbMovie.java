@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by Matteo on 18/01/2018.
  */
 
-public class TmdbMovie extends TmdbMedia{
+public class TmdbMovie extends TmdbMedia {
 
     @Expose
     @SerializedName("release_date")
@@ -20,7 +20,7 @@ public class TmdbMovie extends TmdbMedia{
     private int duration;
 
     public int getReleaseYear() {
-        if(releaseDate == null || releaseDate.getYear() == 0)
+        if (releaseDate == null || releaseDate.getYear() == 0)
             return 0;
         return releaseDate.getYear() + 1900;
     }

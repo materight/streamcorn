@@ -1,13 +1,12 @@
 package com.est.streamcorn.adapters;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
+import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
@@ -40,13 +39,13 @@ public class MediaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         mediaList.add(null);
     }
 
-    public void clearMedia(){
+    public void clearMedia() {
         mediaList.clear();
         mediaList.add(null);
         notifyDataSetChanged();
     }
 
-    public void addMedia(ArrayList<Media> mediaList){
+    public void addMedia(ArrayList<Media> mediaList) {
         int lastItemPosition = this.mediaList.size() - 1;
         //delete progress
         this.mediaList.remove(lastItemPosition);
@@ -58,11 +57,11 @@ public class MediaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.notifyItemRangeInserted(newFirstItemPosition, mediaList.size());
     }
 
-    public void setProgressMessage(String message){
+    public void setProgressMessage(String message) {
         notifyItemChanged(mediaList.size() - 1, message);
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return mediaList.isEmpty();
     }
 
@@ -77,7 +76,7 @@ public class MediaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (viewType == VIEW_MEDIA) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_media, parent, false);
             viewHolder = new MediaViewHolder(view);
-            viewHolder.itemView.setOnClickListener(v ->{
+            viewHolder.itemView.setOnClickListener(v -> {
                 onItemClickListener.onItemClick(v, mediaList.get(viewHolder.getAdapterPosition()));
             });
         } else {
@@ -97,17 +96,16 @@ public class MediaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                             .error(R.drawable.media_poster))
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(((MediaViewHolder) holder).imageView);
-        } else if(holder instanceof ProgressViewHolder) {
+        } else if (holder instanceof ProgressViewHolder) {
             ((ProgressViewHolder) holder).setProgress();
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
-        if(holder instanceof ProgressViewHolder && payloads.size()>0 && payloads.get(0) instanceof String){
+        if (holder instanceof ProgressViewHolder && payloads.size() > 0 && payloads.get(0) instanceof String) {
             ((ProgressViewHolder) holder).setMessage((String) payloads.get(0));
-        }
-        else {
+        } else {
             onBindViewHolder(holder, position);
         }
     }
@@ -121,7 +119,7 @@ public class MediaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.onItemClickListener = onItemClickListener;
     }
 
-    static class MediaViewHolder extends RecyclerView.ViewHolder{
+    static class MediaViewHolder extends RecyclerView.ViewHolder {
         View itemView;
         TextView title;
         ImageView imageView;
@@ -144,13 +142,13 @@ public class MediaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             text = itemView.findViewById(R.id.text);
         }
 
-        void setMessage(String message){
+        void setMessage(String message) {
             text.setText(message);
             text.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.INVISIBLE);
         }
 
-        void setProgress(){
+        void setProgress() {
             text.setVisibility(View.INVISIBLE);
             progressBar.setVisibility(View.VISIBLE);
         }

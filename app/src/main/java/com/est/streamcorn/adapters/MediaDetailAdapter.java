@@ -1,9 +1,6 @@
 package com.est.streamcorn.adapters;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.recyclerview.widget.RecyclerView;
 import android.transition.AutoTransition;
 import android.transition.Transition;
 import android.transition.TransitionManager;
@@ -12,12 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
-
+import android.widget.*;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
@@ -32,6 +26,7 @@ import com.est.streamcorn.tmdb.models.TmdbTvSeries;
 import com.est.streamcorn.ui.customs.transitions.SlideInItemAnimator;
 import com.est.streamcorn.ui.customs.widgets.ExpandableDescription;
 import com.est.streamcorn.ui.customs.widgets.FadeTextSwitcher;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,75 +74,73 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         expandCollapse = new AutoTransition();
     }
 
-    public void setSeasons(SpinnerSeasonAdapter spinnerSeasonAdapter){
+    public void setSeasons(SpinnerSeasonAdapter spinnerSeasonAdapter) {
         this.spinnerSeasonAdapter = spinnerSeasonAdapter;
         notifyItemInserted(1);
     }
 
-    public int getSelectedSeason(){
+    public int getSelectedSeason() {
         return selectedSeason;
     }
 
-    public void swapEpisodes(SparseArray<Episode> newEpisodes){
+    public void swapEpisodes(SparseArray<Episode> newEpisodes) {
         final int previousSize = episodes.size();
         episodes = newEpisodes;
         final int newSize = episodes.size();
         episodesDetails.clear();
         expandedPosition = NO_POSITION;
-        if(previousSize == 0) {
+        if (previousSize == 0) {
             notifyItemRangeInserted(2, episodes.size());
-        }
-        else {
+        } else {
             final int offset = newSize - previousSize;
-            if(offset == 0)
+            if (offset == 0)
                 notifyItemRangeChanged(2, previousSize);
-            else if(offset > 0) {  //Added more elements than before
+            else if (offset > 0) {  //Added more elements than before
                 notifyItemRangeChanged(2, previousSize);
                 notifyItemRangeInserted(previousSize, offset);
-            }
-            else {  //Added less elements than before
+            } else {  //Added less elements than before
                 notifyItemRangeChanged(2, newSize);
                 notifyItemRangeRemoved(newSize, -offset);
             }
         }
     }
 
-    public void setEpisodesDetails(final List<TmdbEpisode> episodeList){
-        for (TmdbEpisode episode : episodeList){
+    public void setEpisodesDetails(final List<TmdbEpisode> episodeList) {
+        for (TmdbEpisode episode : episodeList) {
             episodesDetails.put(episode.getNumber(), episode);
             final int position = episodes.indexOfKey(episode.getNumber()) + 2;
             notifyItemChanged(position, episode);
         }
     }
 
-    static class DetailsContainer{
+    static class DetailsContainer {
         String text1;
         String text2;
         String overviewText;
 
-        DetailsContainer(final Context context){
+        DetailsContainer(final Context context) {
             text1 = "-";
             text2 = "-";
             overviewText = context.getString(R.string.empty_description);
         }
 
-        DetailsContainer(final Context context, final TmdbMovie  tmdbMovie){
+        DetailsContainer(final Context context, final TmdbMovie tmdbMovie) {
             this(context);
             if (tmdbMovie != null) {
                 final int year = tmdbMovie.getReleaseYear();
                 final int duration = tmdbMovie.getDuration();
                 final String overview = tmdbMovie.getOverview();
 
-                if(year != 0)
+                if (year != 0)
                     text1 = String.valueOf(year);
-                if(duration != 0)
+                if (duration != 0)
                     text2 = context.getString(R.string.media_duration, duration);
-                if(overview != null && !overview.isEmpty())
+                if (overview != null && !overview.isEmpty())
                     overviewText = overview;
             }
         }
 
-        DetailsContainer(final Context context, final TmdbTvSeries  tmdbTvSeries) {
+        DetailsContainer(final Context context, final TmdbTvSeries tmdbTvSeries) {
             this(context);
             if (tmdbTvSeries != null) {
                 final int firstAirYear = tmdbTvSeries.getFirstAirYear();
@@ -160,32 +153,30 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 else if (firstAirYear == lastAirYear) text1 = String.valueOf(firstAirYear);
                 else text1 = firstAirYear + " - " + lastAirYear;
 
-                if(seasonNumber != 0)
+                if (seasonNumber != 0)
                     text2 = context.getString(R.string.seasons_number, seasonNumber);
-                if(overview != null && !overview.isEmpty())
+                if (overview != null && !overview.isEmpty())
                     overviewText = overview;
             }
         }
     }
 
-    public void setHeaderDetails(@Nullable final TmdbMovie tmdbMovie){
+    public void setHeaderDetails(@Nullable final TmdbMovie tmdbMovie) {
         notifyItemChanged(0, new DetailsContainer(recyclerView.getContext(), tmdbMovie));
     }
 
-    public void setHeaderDetails(@Nullable final TmdbTvSeries tmdbTvSeries){
+    public void setHeaderDetails(@Nullable final TmdbTvSeries tmdbTvSeries) {
         notifyItemChanged(0, new DetailsContainer(recyclerView.getContext(), tmdbTvSeries));
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder;
-        if(viewType == HEADER_TYPE) {
+        if (viewType == HEADER_TYPE) {
             holder = new HeaderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_details_header, parent, false));
-        }
-        else if(viewType == SPINNER_TYPE){
+        } else if (viewType == SPINNER_TYPE) {
             holder = new SpinnerViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_details_spinner, parent, false));
-        }
-        else {
+        } else {
             holder = new EpisodeViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_details_episode, parent, false));
         }
         return holder;
@@ -200,11 +191,11 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             .error(R.drawable.media_poster))
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(((HeaderViewHolder) holder).posterImage);
-        } else if(holder instanceof EpisodeViewHolder){
+        } else if (holder instanceof EpisodeViewHolder) {
             ((EpisodeViewHolder) holder).number.setText(String.valueOf(episodes.keyAt(itemPosition - 2)));
             ((EpisodeViewHolder) holder).details.setVisibility(View.GONE);
             ((EpisodeViewHolder) holder).itemView.setActivated(false);
-            if(episodesDetails.size() != 0){
+            if (episodesDetails.size() != 0) {
                 setEpisodeDetail((EpisodeViewHolder) holder, episodesDetails.valueAt(itemPosition - 2), false);
             }
         }
@@ -212,32 +203,28 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
-        if(holder instanceof HeaderViewHolder){
-            if(!payloads.isEmpty() && payloads.get(0) instanceof DetailsContainer) {
+        if (holder instanceof HeaderViewHolder) {
+            if (!payloads.isEmpty() && payloads.get(0) instanceof DetailsContainer) {
                 DetailsContainer details = (DetailsContainer) payloads.get(0);
                 ((HeaderViewHolder) holder).headerText1.setText(details.text1);
                 ((HeaderViewHolder) holder).headerText2.setText(details.text2);
                 ((HeaderViewHolder) holder).descriptionTextView.setText(details.overviewText);
-            }
-            else {
+            } else {
                 onBindViewHolder(holder, position);
             }
-        }
-        else if(holder instanceof EpisodeViewHolder) {
-            if(payloads.contains(EXPAND) || payloads.contains(COLLAPSE)){
+        } else if (holder instanceof EpisodeViewHolder) {
+            if (payloads.contains(EXPAND) || payloads.contains(COLLAPSE)) {
                 setEpisodeExpanded((EpisodeViewHolder) holder, position == expandedPosition);
-            }
-            else if(!payloads.isEmpty() && payloads.get(0) instanceof TmdbEpisode){
+            } else if (!payloads.isEmpty() && payloads.get(0) instanceof TmdbEpisode) {
                 setEpisodeDetail((EpisodeViewHolder) holder, (TmdbEpisode) payloads.get(0), true);
-            }
-            else {
+            } else {
                 onBindViewHolder(holder, position);
             }
         }
     }
 
-    private void setEpisodeDetail(EpisodeViewHolder holder, TmdbEpisode tmdbEpisode, boolean animated){
-        if(tmdbEpisode != null) {
+    private void setEpisodeDetail(EpisodeViewHolder holder, TmdbEpisode tmdbEpisode, boolean animated) {
+        if (tmdbEpisode != null) {
             if (animated)
                 holder.title.setText(tmdbEpisode.getName());
             else
@@ -251,27 +238,27 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         holder.details.setVisibility((isExpanded) ? View.VISIBLE : View.GONE);
     }
 
-    public void setPlayClickListener(OnItemClickListener<ArrayList<StreamUrl>> onItemClickListener){
+    public void setPlayClickListener(OnItemClickListener<ArrayList<StreamUrl>> onItemClickListener) {
         playClickListener = onItemClickListener;
     }
 
-    public void setDownloadClickListener(OnItemClickListener<ArrayList<StreamUrl>> onItemClickListener){
+    public void setDownloadClickListener(OnItemClickListener<ArrayList<StreamUrl>> onItemClickListener) {
         downloadClickListener = onItemClickListener;
     }
 
-    public void setAddToLibraryClickListener(View.OnClickListener onClickListener){
+    public void setAddToLibraryClickListener(View.OnClickListener onClickListener) {
         addToLibraryClickListener = onClickListener;
     }
 
-    public void setSeasonSpinnerSelectedListener(AdapterView.OnItemSelectedListener onItemSelectedListener){
+    public void setSeasonSpinnerSelectedListener(AdapterView.OnItemSelectedListener onItemSelectedListener) {
         seasonSpinnerSelectedListener = onItemSelectedListener;
     }
 
     @Override
     public int getItemCount() {
-        if(media.getType() == Media.MOVIE)
+        if (media.getType() == Media.MOVIE)
             return 1;
-        else if(spinnerSeasonAdapter == null)
+        else if (spinnerSeasonAdapter == null)
             return 1;
         else
             return 2 + episodes.size();
@@ -279,15 +266,15 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if(position == 0)
+        if (position == 0)
             return HEADER_TYPE;
-        else if(position == 1)
+        else if (position == 1)
             return SPINNER_TYPE;
         else
             return EPISODE_TYPE;
     }
 
-    class HeaderViewHolder extends RecyclerView.ViewHolder{
+    class HeaderViewHolder extends RecyclerView.ViewHolder {
         ImageButton addToLibraryButton;
         TextView headerTitle;
         FadeTextSwitcher headerText1;
@@ -296,7 +283,7 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ExpandableDescription descriptionTextView;
         FloatingActionButton playButton;
 
-        HeaderViewHolder(View itemView){
+        HeaderViewHolder(View itemView) {
             super(itemView);
             headerTitle = itemView.findViewById(R.id.title);
             headerText1 = itemView.findViewById(R.id.text1);
@@ -308,36 +295,33 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             addToLibraryButton.setOnClickListener(addToLibraryClickListener);
 
-            if(media.getType() == Media.MOVIE) {
+            if (media.getType() == Media.MOVIE) {
                 descriptionTextView.setMaxLines(Integer.MAX_VALUE);
-                playButton.setOnClickListener(v -> {
-                    playClickListener.onItemClick(v, null);
-                });
+                playButton.setOnClickListener(v -> playClickListener.onItemClick(v, null));
             } else {
                 playButton.setVisibility(View.INVISIBLE);
             }
         }
     }
 
-    class SpinnerViewHolder extends RecyclerView.ViewHolder{
+    class SpinnerViewHolder extends RecyclerView.ViewHolder {
         Spinner spinner;
 
-        SpinnerViewHolder(View itemView){
+        SpinnerViewHolder(View itemView) {
             super(itemView);
             spinner = itemView.findViewById(R.id.season_selector);
 
             spinner.setAdapter(spinnerSeasonAdapter);
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                  @Override
-                  public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                      selectedSeason = (int) id;
-                      seasonSpinnerSelectedListener.onItemSelected(parent,view, position, id);
-                  }
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    selectedSeason = (int) id;
+                    seasonSpinnerSelectedListener.onItemSelected(parent, view, position, id);
+                }
 
-                  @Override
-                  public void onNothingSelected(AdapterView<?> parent) {}
-              }
-            );
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) { }
+          });
         }
     }
 
@@ -366,22 +350,21 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             this.itemView.setOnClickListener(v -> {
                 final int position = getAdapterPosition();
-                if(position == NO_POSITION) return;
+                if (position == NO_POSITION) return;
 
                 TransitionManager.beginDelayedTransition(recyclerView, expandCollapse);
                 episodeAnimator.setAnimateMoves(false);
 
-                //Collapse any currently expanded items
-                if(expandedPosition != NO_POSITION){
+                //  Collapse any currently expanded items
+                if (expandedPosition != NO_POSITION) {
                     notifyItemChanged(expandedPosition, COLLAPSE);
                 }
 
-                //Expand clicked item
-                if(expandedPosition != position){
+                //  Expand clicked item
+                if (expandedPosition != position) {
                     expandedPosition = position;
                     notifyItemChanged(position, EXPAND);
-                }
-                else {
+                } else {
                     expandedPosition = NO_POSITION;
                 }
             });
@@ -399,7 +382,10 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         expandCollapse.addListener(new Transition.TransitionListener() {
             @Override
             public void onTransitionStart(android.transition.Transition transition) {
-                MediaDetailAdapter.this.recyclerView.setOnTouchListener((v, event) -> true);
+                MediaDetailAdapter.this.recyclerView.setOnTouchListener((v, event) -> {
+                    v.performClick();
+                    return true;
+                });
             }
 
             @Override
@@ -409,13 +395,16 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
 
             @Override
-            public void onTransitionCancel(android.transition.Transition transition) {}
+            public void onTransitionCancel(android.transition.Transition transition) {
+            }
 
             @Override
-            public void onTransitionPause(android.transition.Transition transition) {}
+            public void onTransitionPause(android.transition.Transition transition) {
+            }
 
             @Override
-            public void onTransitionResume(android.transition.Transition transition) {}
+            public void onTransitionResume(android.transition.Transition transition) {
+            }
         });
     }
 

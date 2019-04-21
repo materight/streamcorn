@@ -3,11 +3,6 @@ package com.est.streamcorn.ui.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -15,38 +10,47 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.est.streamcorn.R;
 import com.est.streamcorn.adapters.MediaDetailAdapter;
 import com.est.streamcorn.adapters.SpinnerSeasonAdapter;
-import com.est.streamcorn.tmdb.models.TmdbMovie;
-import com.est.streamcorn.tmdb.models.TmdbTvSeries;
-import com.est.streamcorn.network.channels.Channel;
-import com.est.streamcorn.network.channels.ChannelService;
 import com.est.streamcorn.models.Media;
 import com.est.streamcorn.models.StreamUrl;
+import com.est.streamcorn.network.ChannelService;
+import com.est.streamcorn.network.channels.Channel;
 import com.est.streamcorn.tmdb.TmdbClient;
+import com.est.streamcorn.tmdb.models.TmdbMovie;
+import com.est.streamcorn.tmdb.models.TmdbTvSeries;
 import com.est.streamcorn.ui.customs.dialogs.MorphDialog;
 import com.est.streamcorn.ui.customs.widgets.CustomCollapsingToolbarLayout;
-import com.est.streamcorn.utils.Constant;
+import com.est.streamcorn.utils.Constants;
+import io.reactivex.disposables.CompositeDisposable;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import io.reactivex.disposables.CompositeDisposable;
+public class MediaDetailActivity extends BaseActivity {
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @BindView(R.id.collapsing_toolbar)
+    CustomCollapsingToolbarLayout collapsingToolbarLayout;
 
-public class MediaDetailActivity extends BaseActivity{
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.toolbar_title) TextView toolbarTitle;
-    @BindView(R.id.collapsing_toolbar) CustomCollapsingToolbarLayout collapsingToolbarLayout;
-
-    @BindView(R.id.trailer_button) AppCompatButton trailerButton;
-    @BindView(R.id.trailer_image) ImageView trailerImage;
-    @BindView(R.id.container) RecyclerView containerRecyclerView;
+    @BindView(R.id.trailer_button)
+    AppCompatButton trailerButton;
+    @BindView(R.id.trailer_image)
+    ImageView trailerImage;
+    @BindView(R.id.container)
+    RecyclerView containerRecyclerView;
 
     private static final String TAG = "MediaDetailActivity";
     private static final String TAG_FRAGMENT = "fragment";
@@ -55,7 +59,7 @@ public class MediaDetailActivity extends BaseActivity{
     private int tmdbId = -1;
     private boolean urlsDownloaded = false;
 
-    protected ChannelService channelService;
+    protected Channel channel;
     private TmdbClient tmdbClient;
 
     CompositeDisposable compositeDisposable;
@@ -68,10 +72,10 @@ public class MediaDetailActivity extends BaseActivity{
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        media = intent.getParcelableExtra(Constant.MEDIA_KEY);
+        media = intent.getParcelableExtra(Constants.MEDIA_KEY);
 
-        final @Channel int channelId = intent.getIntExtra(Constant.CHANNEL_KEY, ChannelService.INVALID);
-        channelService = ChannelService.getInstance(channelId);
+        String channelId = intent.getStringExtra(Constants.CHANNEL_KEY);
+        channel = ChannelService.getChannelInstance(channelId, MediaDetailActivity.this);
         tmdbClient = new TmdbClient(this);
 
         compositeDisposable = new CompositeDisposable();
@@ -86,20 +90,20 @@ public class MediaDetailActivity extends BaseActivity{
 
         });
 
-        if(media.getType() == Media.MOVIE)
+        if (media.getType() == Media.MOVIE)
             downloadMovieData();
-        else if(media.getType() == Media.TV_SERIES)
+        else if (media.getType() == Media.TV_SERIES)
             downloadTvSeriesData();
     }
 
-    private void downloadMovieData(){
+    private void downloadMovieData() {
         //Get TMDB details
         compositeDisposable.add(tmdbClient.getMovieDetail(media.getEscapedTitle()).subscribe(
                 response -> {
                     tmdbId = response.getId();
                     mediaDetailAdapter.setHeaderDetails(response);
                     setTrailerImage(response.getBackdropPath());
-                    if(response.getVideos() != null && response.getVideos().size() > 0)
+                    if (response.getVideos() != null && response.getVideos().size() > 0)
                         setTrailerVideo(response.getVideos().getFirst().getKey());
                     else
                         setTrailerVideo(null);
@@ -111,7 +115,7 @@ public class MediaDetailActivity extends BaseActivity{
         ));
 
         //Get movies links
-        compositeDisposable.add(channelService.getMovie(media.getUrl()).subscribe(
+        compositeDisposable.add(channel.getMovie(media.getUrl()).subscribe(
                 response -> {
                     mediaDetailAdapter.setPlayClickListener((view, item) -> {
                         showPlayUrlsList(view, response.getUrls());
@@ -123,16 +127,16 @@ public class MediaDetailActivity extends BaseActivity{
         ));
     }
 
-    private void downloadTvSeriesData(){
+    private void downloadTvSeriesData() {
         //Get TMDB details
         compositeDisposable.add(tmdbClient.getTvSeriesDetail(media.getEscapedTitle()).subscribe(
                 response -> {
                     tmdbId = response.getId();
-                    if(urlsDownloaded)
+                    if (urlsDownloaded)
                         downloadSeasonDetails();
                     mediaDetailAdapter.setHeaderDetails(response);
                     setTrailerImage(response.getBackdropPath());
-                    if(response.getVideos() != null && response.getVideos().size() > 0)
+                    if (response.getVideos() != null && response.getVideos().size() > 0)
                         setTrailerVideo(response.getVideos().getFirst().getKey());
                     else
                         setTrailerVideo(null);
@@ -144,7 +148,7 @@ public class MediaDetailActivity extends BaseActivity{
         ));
 
         //Get episodes links
-        compositeDisposable.add(channelService.getTvSeries(media.getUrl()).subscribe(
+        compositeDisposable.add(channel.getTvSeries(media.getUrl()).subscribe(
                 response -> {
                     urlsDownloaded = true;
 
@@ -158,7 +162,8 @@ public class MediaDetailActivity extends BaseActivity{
                         }
 
                         @Override
-                        public void onNothingSelected(AdapterView<?> parent) {}
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
                     });
                     mediaDetailAdapter.setSeasons(new SpinnerSeasonAdapter(this, response.getSeasons()));
 
@@ -169,8 +174,8 @@ public class MediaDetailActivity extends BaseActivity{
         ));
     }
 
-    private void downloadSeasonDetails(final int seasonNumber){
-        if(tmdbId != -1 && seasonNumber != Spinner.INVALID_ROW_ID){
+    private void downloadSeasonDetails(final int seasonNumber) {
+        if (tmdbId != -1 && seasonNumber != Spinner.INVALID_ROW_ID) {
             compositeDisposable.add(tmdbClient.getSeasonDetails(tmdbId, seasonNumber).subscribe(
                     response -> mediaDetailAdapter.setEpisodesDetails(response.getEpisodes()),
                     error -> {
@@ -181,11 +186,11 @@ public class MediaDetailActivity extends BaseActivity{
         }
     }
 
-    private void downloadSeasonDetails(){
+    private void downloadSeasonDetails() {
         downloadSeasonDetails(mediaDetailAdapter.getSelectedSeason());
     }
 
-    private void showPlayUrlsList(View fabView, ArrayList<StreamUrl> urls){
+    private void showPlayUrlsList(View fabView, ArrayList<StreamUrl> urls) {
         MorphDialog.PlayDialog(this)
                 .title(getString(R.string.play_dialog_title))
                 .streamUrls(urls)
@@ -193,7 +198,7 @@ public class MediaDetailActivity extends BaseActivity{
                 .show();
     }
 
-    private void showDownloadUrlsList(View fabView, ArrayList<StreamUrl> urls){
+    private void showDownloadUrlsList(View fabView, ArrayList<StreamUrl> urls) {
         MorphDialog.DownloadDialog(this)
                 .title(getString(R.string.download_dialog_title))
                 .streamUrls(urls)
@@ -201,7 +206,7 @@ public class MediaDetailActivity extends BaseActivity{
                 .show();
     }
 
-    private void initTheme(){
+    private void initTheme() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -214,18 +219,17 @@ public class MediaDetailActivity extends BaseActivity{
         final int actionBarHeight = getResources().getDimensionPixelSize(tv.resourceId);
         collapsingToolbarLayout.setScrimVisibleHeightTrigger(actionBarHeight + 100);
         collapsingToolbarLayout.setListener(showing -> {
-            if(showing){
+            if (showing) {
                 toolbarTitle.setVisibility(View.VISIBLE);
                 toolbarTitle.animate().alpha(1).setDuration(250);
-            }
-            else{
+            } else {
                 toolbarTitle.setVisibility(View.INVISIBLE);
                 toolbarTitle.animate().alpha(0).setDuration(250);
             }
         });
     }
 
-    private void setTrailerImage(@Nullable String url){
+    private void setTrailerImage(@Nullable String url) {
         Glide.with(MediaDetailActivity.this)
                 .load(url)
                 .apply(new RequestOptions()
@@ -234,13 +238,13 @@ public class MediaDetailActivity extends BaseActivity{
                 .into(trailerImage);
     }
 
-    private void setTrailerVideo(@Nullable String youtubeKey){
-        if(youtubeKey == null || youtubeKey.isEmpty())
+    private void setTrailerVideo(@Nullable String youtubeKey) {
+        if (youtubeKey == null || youtubeKey.isEmpty())
             return;
         trailerButton.setVisibility(View.VISIBLE);
         trailerButton.setOnClickListener(v -> {
             Intent youtubeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + youtubeKey));
-            youtubeIntent.putExtra("force_fullscreen",true);
+            youtubeIntent.putExtra("force_fullscreen", true);
             startActivity(youtubeIntent);
         });
     }
@@ -250,26 +254,6 @@ public class MediaDetailActivity extends BaseActivity{
         compositeDisposable.dispose();
         super.onDestroy();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

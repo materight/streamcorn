@@ -8,39 +8,39 @@ import java.util.ArrayList;
  * Created by Matteo on 30/01/2018.
  */
 
-public class TvSeries implements StreamUrlContainer{
+public class TvSeries implements StreamUrlContainer {
 
     private SparseArray<Season> seasons;
 
-    public TvSeries(){
+    public TvSeries() {
         seasons = new SparseArray<>();
     }
 
-    public void putSeason(int number, Season season){
+    public void putSeason(int number, Season season) {
         seasons.put(number, season);
     }
 
-    public Season valueAt(int index){
+    public Season valueAt(int index) {
         return seasons.valueAt(index);
     }
 
-    public int keyAt(int index){
+    public int keyAt(int index) {
         return seasons.keyAt(index);
     }
 
-    public Season getSeason(int key){
+    public Season getSeason(int key) {
         return seasons.get(key);
     }
 
-    public SparseArray<Season> getSeasons(){
+    public SparseArray<Season> getSeasons() {
         return seasons;
     }
 
-    public boolean containsSeason(int number){
+    public boolean containsSeason(int number) {
         return seasons.get(number, null) != null;
     }
 
-    public void putStreamUrls(int seasonNumber, int episodeNumber, ArrayList<StreamUrl> urls){
+    public void putStreamUrls(int seasonNumber, int episodeNumber, ArrayList<StreamUrl> urls) {
         Season season;
         if (containsSeason(seasonNumber)) {
             season = getSeason(seasonNumber);
@@ -50,15 +50,14 @@ public class TvSeries implements StreamUrlContainer{
         }
 
         Episode episode;
-        if(season.containsEpisode(episodeNumber)){
+        if (season.containsEpisode(episodeNumber)) {
             episode = season.getEpisode(episodeNumber);
-        }
-        else {
+        } else {
             episode = new Episode();
             season.putEpisode(episodeNumber, episode);
         }
         for (StreamUrl url : urls) {
-           episode.addUrl(url);
+            episode.addUrl(url);
         }
     }
 

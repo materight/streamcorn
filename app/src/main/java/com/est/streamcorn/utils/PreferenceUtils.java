@@ -14,8 +14,8 @@ public class PreferenceUtils {
 
     public static final String GENERAL_THEME = "general_theme";
 
-    public static final String STREAM_NETWORK_POLICY = "stream_network_policy";
-    public static final String DOWNLOAD_NETWORK_POLICY = "download_network_policy";
+    private static final String STREAM_NETWORK_POLICY = "stream_network_policy";
+    private static final String DOWNLOAD_NETWORK_POLICY = "download_network_policy";
 
     private static PreferenceUtils sInstance;
     private final SharedPreferences mPreferences;
@@ -31,11 +31,11 @@ public class PreferenceUtils {
         return sInstance;
     }
 
-    public final int getNightMode(){
+    public final int getNightMode() {
         return getNightModeInt(mPreferences.getString(GENERAL_THEME, "daytime"));
     }
 
-    public static int getNightModeInt(String nightMode){
+    public static int getNightModeInt(String nightMode) {
         switch (nightMode) {
             case "dark":
                 return AppCompatDelegate.MODE_NIGHT_YES;
@@ -46,11 +46,11 @@ public class PreferenceUtils {
         }
     }
 
-    public final String getStreamNetworkPolicy(){
+    public final String getStreamNetworkPolicy() {
         return mPreferences.getString(STREAM_NETWORK_POLICY, "only_wifi");
     }
 
-    public final String getDownloadNetworkPolicy(){
+    public final String getDownloadNetworkPolicy() {
         return mPreferences.getString(DOWNLOAD_NETWORK_POLICY, "only_wifi");
     }
 

@@ -1,11 +1,11 @@
 package com.est.streamcorn.ui.activities;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import android.util.Log;
-import android.view.MenuItem;
 
 /**
  * Created by Matteo on 04/02/2018.
@@ -23,8 +23,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-    protected void updateTheme(){
-        if(previousTheme != AppCompatDelegate.getDefaultNightMode()) {
+    protected void updateTheme() {
+        if (previousTheme != AppCompatDelegate.getDefaultNightMode()) {
             Log.d(TAG, "updateTheme()");
             recreate();
             getWindow().getDecorView().setSystemUiVisibility(0);
@@ -39,7 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;

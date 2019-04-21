@@ -1,18 +1,17 @@
 package com.est.streamcorn.ui.fragments.main;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.bumptech.glide.Glide;
 import com.est.streamcorn.R;
 import com.est.streamcorn.adapters.ChannelAdapter;
-import com.est.streamcorn.network.channels.ChannelService;
+import com.est.streamcorn.network.channels.Channel;
 import com.est.streamcorn.network.channels.Cineblog01;
 import com.est.streamcorn.network.channels.FilmSenzaLimiti;
 
@@ -22,10 +21,9 @@ public class ChannelFragment extends Fragment {
 
     private static final String TAG = "ChannelFragment";
 
-    protected RecyclerView mRecyclerView;
-    protected ChannelAdapter mAdapter;
-    protected RecyclerView.LayoutManager mLayoutManager;
-    protected ArrayList<ChannelService> channelServiceList;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<Channel> channelList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,34 +36,34 @@ public class ChannelFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main_channel, container, false);
         rootView.setTag(TAG);
 
-        mRecyclerView = rootView.findViewById(R.id.channels_list);
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView = rootView.findViewById(R.id.channels_list);
+        layoutManager = new LinearLayoutManager(getActivity());
 
         setRecyclerViewLayoutManager();
 
-        mAdapter = new ChannelAdapter(this.getContext(), Glide.with(this), channelServiceList);
-        mRecyclerView.setAdapter(mAdapter);
+        ChannelAdapter adapter = new ChannelAdapter(this.getContext(), Glide.with(this), channelList);
+        recyclerView.setAdapter(adapter);
 
         return rootView;
     }
 
 
-    public void setRecyclerViewLayoutManager() {
+    private void setRecyclerViewLayoutManager() {
         int scrollPosition = 0;
 
-        if (mRecyclerView.getLayoutManager() != null) {
-            scrollPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+        if (recyclerView.getLayoutManager() != null) {
+            scrollPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
         }
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(getActivity());
 
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.scrollToPosition(scrollPosition);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.scrollToPosition(scrollPosition);
     }
 
     private void initDataset() {
-        channelServiceList = new ArrayList<>();
-        channelServiceList.add(new Cineblog01());
-        channelServiceList.add(new FilmSenzaLimiti());
+        channelList = new ArrayList<>();
+        channelList.add(new Cineblog01());
+        channelList.add(new FilmSenzaLimiti());
     }
 }

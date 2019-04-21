@@ -4,35 +4,35 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.tabs.TabLayout;
-import androidx.core.view.MenuItemCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.est.streamcorn.R;
-import com.est.streamcorn.adapters.MediaListPagerAdapter;
-import com.est.streamcorn.network.channels.Channel;
-import com.est.streamcorn.network.channels.ChannelService;
-import com.est.streamcorn.utils.Constant;
-import com.est.streamcorn.utils.Utils;
-
+import android.widget.Toast;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.est.streamcorn.R;
+import com.est.streamcorn.adapters.MediaListPagerAdapter;
+import com.est.streamcorn.network.ChannelService;
+import com.est.streamcorn.network.channels.Channel;
+import com.est.streamcorn.utils.Constants;
+import com.est.streamcorn.utils.Utils;
+import com.google.android.material.tabs.TabLayout;
 
-public class MediaListActivity extends BaseActivity{
+public class MediaListActivity extends BaseActivity {
 
     private static final String TAG = "MediaListActivity";
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.tab_layout) TabLayout tabLayout;
-    @BindView(R.id.view_pager) ViewPager viewPager;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
 
-    private ChannelService channelService;
+    private Channel channel;
     private MediaListPagerAdapter mediaListPagerAdapter;
 
     @Override
@@ -42,19 +42,20 @@ public class MediaListActivity extends BaseActivity{
         ButterKnife.bind(this);
 
         final Intent intent = getIntent();
-        final @Channel int channelId = intent.getIntExtra(Constant.CHANNEL_KEY, ChannelService.INVALID);
-        channelService = ChannelService.getInstance(channelId);
+        final String channelId = intent.getStringExtra(Constants.CHANNEL_KEY);
+        channel = ChannelService.getChannelInstance(channelId, MediaListActivity.this);
 
         initTheme();
 
-        if(channelService.hasMovie() && channelService.hasTvSeries()) {
+        if (channel == null) {
+            Toast.makeText(MediaListActivity.this, R.string.channel_unknown, Toast.LENGTH_SHORT).show();
+        } else if (channel.getProperties().hasMovies() && channel.getProperties().hasTvSeries()) {
             tabLayout.addTab(tabLayout.newTab().setText(getText(R.string.title_movies)));
             tabLayout.addTab(tabLayout.newTab().setText(getText(R.string.title_tv_series)));
-        }
-        else {
+        } else {
             tabLayout.setVisibility(View.GONE);
         }
-        mediaListPagerAdapter = new MediaListPagerAdapter(super.getSupportFragmentManager(), channelService);
+        mediaListPagerAdapter = new MediaListPagerAdapter(super.getSupportFragmentManager(), channel);
         viewPager.setAdapter(mediaListPagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -64,10 +65,12 @@ public class MediaListActivity extends BaseActivity{
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
         });
     }
 
@@ -77,11 +80,11 @@ public class MediaListActivity extends BaseActivity{
         search(handleSearchIntent(intent));
     }
 
-    private String handleSearchIntent(Intent intent){
+    private String handleSearchIntent(Intent intent) {
         return Intent.ACTION_SEARCH.equals(intent.getAction()) ? intent.getStringExtra(SearchManager.QUERY) : "";
     }
 
-    private void search(String searchQuery){
+    private void search(String searchQuery) {
         mediaListPagerAdapter.setSearchQuery(searchQuery);
     }
 
@@ -114,17 +117,18 @@ public class MediaListActivity extends BaseActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.search: return true;
+        switch (item.getItemId()) {
+            case R.id.search:
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void initTheme(){
-        setSupportActionBar(toolbar);
-        int accent = getResources().getColor(R.color.colorAccent);
-        getSupportActionBar().setTitle(Utils.getColoredString(channelService.getParametricName(), accent));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    private void initTheme() {
+        this.setSupportActionBar(toolbar);
+        int accent = getResources().getColor(R.color.colorAccent, this.getTheme());
+        this.getSupportActionBar().setTitle(Utils.getColoredString(channel.getProperties().getParametricName(), accent));
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 }

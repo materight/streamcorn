@@ -1,11 +1,6 @@
 package com.est.streamcorn.tmdb;
 
-import com.est.streamcorn.tmdb.models.TmdbMovie;
-import com.est.streamcorn.tmdb.models.TmdbMovieList;
-import com.est.streamcorn.tmdb.models.TmdbSeason;
-import com.est.streamcorn.tmdb.models.TmdbTvSeries;
-import com.est.streamcorn.tmdb.models.TmdbTvSeriesList;
-
+import com.est.streamcorn.tmdb.models.*;
 import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

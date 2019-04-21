@@ -3,7 +3,6 @@ package com.est.streamcorn.ui.customs.widgets;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-
 import com.est.streamcorn.R;
 
 public class AspectRatioImageView extends androidx.appcompat.widget.AppCompatImageView {

@@ -11,7 +11,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-
 import com.est.streamcorn.ui.customs.drawables.MorphDrawable;
 
 public class MorphTransition extends ChangeBounds {

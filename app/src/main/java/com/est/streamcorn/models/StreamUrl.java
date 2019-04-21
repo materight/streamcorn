@@ -6,13 +6,13 @@ import java.io.Serializable;
  * Created by Matteo on 30/12/2017.
  */
 
-public class StreamUrl implements Serializable{
+public class StreamUrl implements Serializable {
 
     private String name;
     private String url;
     private boolean isFile;
 
-    public StreamUrl(String name, String url, boolean isFile){
+    public StreamUrl(String name, String url, boolean isFile) {
         this.name = name;
         this.url = url;
         this.isFile = isFile;
