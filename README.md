@@ -1,2 +1,2 @@
-# stramcorn
+# StreamCorn
 StreamCorn app
