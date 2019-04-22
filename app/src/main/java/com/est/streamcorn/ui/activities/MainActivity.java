@@ -64,7 +64,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             return true;
         });
         return true;
-
     }
 
     private void navigate(int itemId) {
@@ -81,7 +80,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 setTitle(R.string.app_name);
                 navFragment = new ChannelFragment();
                 break;
-            case R.id.navigation_download:
+            case R.id.navigation_downloads:
                 //  TODO
                 prevSelectedId = itemId;
                 setTitle(R.string.app_name);

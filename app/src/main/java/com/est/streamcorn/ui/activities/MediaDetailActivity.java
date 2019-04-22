@@ -97,7 +97,7 @@ public class MediaDetailActivity extends BaseActivity {
     }
 
     private void downloadMovieData() {
-        //Get TMDB details
+        //  Get TMDB details
         compositeDisposable.add(tmdbClient.getMovieDetail(media.getEscapedTitle()).subscribe(
                 response -> {
                     tmdbId = response.getId();
@@ -114,7 +114,7 @@ public class MediaDetailActivity extends BaseActivity {
                 }
         ));
 
-        //Get movies links
+        //  Get streaming links
         compositeDisposable.add(channel.getMovie(media.getUrl()).subscribe(
                 response -> {
                     mediaDetailAdapter.setPlayClickListener((view, item) -> {
@@ -128,7 +128,7 @@ public class MediaDetailActivity extends BaseActivity {
     }
 
     private void downloadTvSeriesData() {
-        //Get TMDB details
+        //  Get TMDB details
         compositeDisposable.add(tmdbClient.getTvSeriesDetail(media.getEscapedTitle()).subscribe(
                 response -> {
                     tmdbId = response.getId();
@@ -147,7 +147,7 @@ public class MediaDetailActivity extends BaseActivity {
                 }
         ));
 
-        //Get episodes links
+        //  Get episodes links
         compositeDisposable.add(channel.getTvSeries(media.getUrl()).subscribe(
                 response -> {
                     urlsDownloaded = true;

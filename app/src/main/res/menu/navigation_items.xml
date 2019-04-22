@@ -3,16 +3,16 @@
 
     <item android:id="@+id/navigation_channels"
         android:checked="true"
-        android:icon="@drawable/ic_navigation_channels"
+        android:icon="@drawable/navigation_items_icon_channels"
         android:title="@string/title_channels"/>
 
     <item android:id="@+id/navigation_library"
         android:checked="false"
-        android:icon="@drawable/ic_navigation_library"
+        android:icon="@drawable/navigation_items_icon_library"
         android:title="@string/title_library"/>
 
-    <item android:id="@+id/navigation_download"
+    <item android:id="@+id/navigation_downloads"
         android:checked="false"
-        android:icon="@drawable/ic_navigation_download"
-        android:title="@string/title_download"/>
+        android:icon="@drawable/navigation_items_icon_downloads"
+        android:title="@string/title_downloads"/>
 </menu>
