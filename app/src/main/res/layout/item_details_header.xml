@@ -50,9 +50,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:tint="?android:attr/textColorPrimary"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                app:srcCompat="@drawable/ic_library_add"/>
+                android:tint="@color/toggleable_foreground"
+                app:srcCompat="@drawable/library_icon_toggleable"/>
 
     </FrameLayout>
 

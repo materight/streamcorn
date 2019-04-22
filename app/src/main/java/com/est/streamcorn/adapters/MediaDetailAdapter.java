@@ -20,6 +20,7 @@ import com.est.streamcorn.R;
 import com.est.streamcorn.adapters.base.OnItemClickListener;
 import com.est.streamcorn.scrapers.models.Episode;
 import com.est.streamcorn.scrapers.models.Media;
+import com.est.streamcorn.scrapers.models.MediaType;
 import com.est.streamcorn.scrapers.models.StreamUrl;
 import com.est.streamcorn.tmdb.models.TmdbEpisode;
 import com.est.streamcorn.tmdb.models.TmdbMovie;
@@ -257,7 +258,7 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        if (media.getType() == Media.MOVIE)
+        if (media.getType() == MediaType.MOVIE)
             return 1;
         else if (spinnerSeasonAdapter == null)
             return 1;
@@ -296,7 +297,7 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             addToLibraryButton.setOnClickListener(addToLibraryClickListener);
 
-            if (media.getType() == Media.MOVIE) {
+            if (media.getType() == MediaType.MOVIE) {
                 descriptionTextView.setMaxLines(Integer.MAX_VALUE);
                 playButton.setOnClickListener(v -> playClickListener.onItemClick(v, null));
             } else {
@@ -321,8 +322,9 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
 
                 @Override
-                public void onNothingSelected(AdapterView<?> parent) { }
-          });
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
         }
     }
 

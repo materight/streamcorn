@@ -20,9 +20,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.est.streamcorn.R;
 import com.est.streamcorn.adapters.MediaDetailAdapter;
 import com.est.streamcorn.adapters.SpinnerSeasonAdapter;
+import com.est.streamcorn.persistence.LibraryDatabase;
 import com.est.streamcorn.scrapers.ChannelService;
 import com.est.streamcorn.scrapers.channels.Channel;
 import com.est.streamcorn.scrapers.models.Media;
+import com.est.streamcorn.scrapers.models.MediaType;
 import com.est.streamcorn.scrapers.models.StreamUrl;
 import com.est.streamcorn.tmdb.TmdbClient;
 import com.est.streamcorn.tmdb.models.TmdbMovie;
@@ -83,14 +85,34 @@ public class MediaDetailActivity extends BaseActivity {
 
         initTheme();
 
-        mediaDetailAdapter.setAddToLibraryClickListener(v -> {
-            v.setVisibility(View.INVISIBLE);
-            Toast.makeText(MediaDetailActivity.this, R.string.library_added, Toast.LENGTH_SHORT).show();
+        //  Set ClickListener for "add to library"
+        mediaDetailAdapter.setAddToLibraryClickListener(view -> {
+            //  Insert the item in the database
+            com.est.streamcorn.persistence.models.Media libraryMedia = new com.est.streamcorn.persistence.models.Media(
+                    media.getUrl(),
+                    media.getTitle(),
+                    media.getImageUrl(),
+                    channelId,
+                    media.getType()
+            );
+            libraryMedia.url = media.getUrl();
+            compositeDisposable.add(LibraryDatabase.getLibraryDatabase(MediaDetailActivity.this).mediaDao()
+                    .insert(libraryMedia)
+                    .subscribe(() -> {
+                        view.setActivated(true);
+                        Toast.makeText(MediaDetailActivity.this, R.string.library_added, Toast.LENGTH_SHORT).show();
+                    }));
         });
 
-        if (media.getType() == Media.MOVIE) {
+        compositeDisposable.add(LibraryDatabase.getLibraryDatabase(MediaDetailActivity.this).mediaDao()
+                .contains(media.getUrl())
+                .subscribe((exist, exception) -> {
+                    Toast.makeText(MediaDetailActivity.this, "Film esiste già", Toast.LENGTH_SHORT).show();
+                }));
+
+        if (media.getType() == MediaType.MOVIE) {
             downloadMovieData();
-        } else if (media.getType() == Media.TV_SERIES) {
+        } else if (media.getType() == MediaType.TV_SERIES) {
             downloadTvSeriesData();
         }
     }

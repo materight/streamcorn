@@ -13,21 +13,21 @@ public class MediaContainer {
     private StreamUrlContainer streamUrlContainer;
     private TmdbMedia tmdbMedia;
 
-    @Media.MediaType
+    @MediaType
     private int type;
 
     public MediaContainer(Media media, Movie movie, TmdbMovie tmdbMovie) {
         this.media = media;
         this.streamUrlContainer = movie;
         this.tmdbMedia = tmdbMovie;
-        this.type = Media.MOVIE;
+        this.type = MediaType.MOVIE;
     }
 
     public MediaContainer(Media media, TvSeries tvSeries, TmdbTvSeries tmdbTvSeries) {
         this.media = media;
         this.streamUrlContainer = tvSeries;
         this.tmdbMedia = tmdbTvSeries;
-        this.type = Media.TV_SERIES;
+        this.type = MediaType.TV_SERIES;
     }
 
     public Media getMedia() {

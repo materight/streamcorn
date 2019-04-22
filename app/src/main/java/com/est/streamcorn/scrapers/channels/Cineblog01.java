@@ -1,11 +1,11 @@
 package com.est.streamcorn.scrapers.channels;
 
 import com.est.streamcorn.R;
+import com.est.streamcorn.scrapers.ChannelService;
 import com.est.streamcorn.scrapers.models.Media;
 import com.est.streamcorn.scrapers.models.Movie;
 import com.est.streamcorn.scrapers.models.StreamUrl;
 import com.est.streamcorn.scrapers.models.TvSeries;
-import com.est.streamcorn.scrapers.ChannelService;
 import com.est.streamcorn.scrapers.utils.InfoExtractor;
 import com.est.streamcorn.utils.Utils;
 import org.jsoup.nodes.Document;

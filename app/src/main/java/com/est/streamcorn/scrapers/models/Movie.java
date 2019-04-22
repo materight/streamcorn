@@ -5,12 +5,13 @@ import com.est.streamcorn.tmdb.models.TmdbMovie;
 import java.util.ArrayList;
 
 public class Movie implements StreamUrlContainer {
+    
     private ArrayList<StreamUrl> urls;
     private String overview;
 
     public Movie() {
-        urls = new ArrayList<>();
-        overview = "";
+        this.urls = new ArrayList<>();
+        this.overview = "";
     }
 
     public void addStreamUrl(StreamUrl streamUrl) {

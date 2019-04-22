@@ -4,18 +4,14 @@ import android.util.SparseArray;
 
 import java.util.ArrayList;
 
-/**
- * Created by Matteo on 30/01/2018.
- */
-
 public class TvSeries implements StreamUrlContainer {
 
     private SparseArray<Season> seasons;
 
     public TvSeries() {
-        seasons = new SparseArray<>();
+        this.seasons = new SparseArray<>();
     }
-
+    
     public void putSeason(int number, Season season) {
         seasons.put(number, season);
     }

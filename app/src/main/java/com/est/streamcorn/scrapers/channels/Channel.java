@@ -1,6 +1,7 @@
 package com.est.streamcorn.scrapers.channels;
 
 import com.est.streamcorn.scrapers.models.Media;
+import com.est.streamcorn.scrapers.models.MediaType;
 import com.est.streamcorn.scrapers.models.Movie;
 import com.est.streamcorn.scrapers.models.TvSeries;
 import com.est.streamcorn.scrapers.utils.NetworkUtils;
@@ -45,7 +46,7 @@ public abstract class Channel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<Movie> getMovie(String url) {
+    public Single<Movie> getMovie(final String url) {
         return NetworkUtils.downloadPage(url)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
@@ -53,20 +54,20 @@ public abstract class Channel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<TvSeries> getTvSeries(String url) {
+    public Single<TvSeries> getTvSeries(final String url) {
         return NetworkUtils.downloadPage(url)
                 .observeOn(Schedulers.computation())
                 .map(this::parseTvSeriesDetail)
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single getMedia(String url, @Media.MediaType int mediaType) {
+    public Single getMedia(final String url, @MediaType int mediaType) {
         switch (mediaType) {
-            case Media.MOVIE:
+            case MediaType.MOVIE:
                 return getMovie(url);
-            case Media.TV_SERIES:
+            case MediaType.TV_SERIES:
                 return getTvSeries(url);
-            case Media.UNKNOWN:
+            case MediaType.UNKNOWN:
             default:
                 //  Nel caso il tipo di media aperto nel channel sia sconosciuto, cerco di capire che tipo è
                 return NetworkUtils.downloadPage(url)
