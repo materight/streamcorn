@@ -19,9 +19,13 @@ public class NetworkUtils {
 
     public static Single<Document> downloadPageHeadless(final String url, final int delay, final Context context) {
         return Single.create((SingleEmitter<Document> emitter) -> {
-            emitter.setCancellable(new HeadlessRequest(url, USER_AGENT, delay, context, emitter::onSuccess, emitter::onError));
-        }).subscribeOn(AndroidSchedulers.mainThread()) //  La WebView deve essere eseguita nel mainThread essendo un componente grafico
-                .unsubscribeOn(AndroidSchedulers.mainThread());
+            try {
+                emitter.setDisposable(new HeadlessRequest(url, USER_AGENT, delay, context, emitter::onSuccess, emitter::onError));
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
+        }).unsubscribeOn(AndroidSchedulers.mainThread()) //  La WebView deve essere eseguita nel mainThread essendo un componente grafico
+                .subscribeOn(AndroidSchedulers.mainThread());
     }
 
     public static Single<Document> downloadPageHeadless(final String url, final Context context) {

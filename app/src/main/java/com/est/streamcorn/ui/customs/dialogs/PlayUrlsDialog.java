@@ -1,9 +1,10 @@
 package com.est.streamcorn.ui.customs.dialogs;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import com.est.streamcorn.R;
-import com.est.streamcorn.ui.activities.PlayerActivity;
 import com.est.streamcorn.utils.Utils;
 
 /**
@@ -24,8 +25,13 @@ public class PlayUrlsDialog extends UrlsDialog {
     }
 
     protected void processVideoUrl(String url, String title) {
-        Intent intent = new Intent(this, PlayerActivity.class);
-        intent.putExtra("url", url);
+        Log.d(TAG, "Starting VLC with url: " + url);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setClassName("org.videolan.vlc", "org.videolan.vlc.gui.video.VideoPlayerActivity");
+        intent.setDataAndType(Uri.parse(url), "video/*");
         startActivity(intent);
+        /*Intent intent = new Intent(this, PlayerActivity.class);
+        intent.putExtra("url", url);
+        startActivity(intent);*/
     }
 }

@@ -1,20 +1,24 @@
 package com.est.streamcorn.scrapers.utils;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.webkit.*;
 import androidx.core.util.Consumer;
-import io.reactivex.functions.Cancellable;
+import io.reactivex.disposables.Disposable;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-public class HeadlessRequest implements Cancellable {
+public class HeadlessRequest implements Disposable {
+
+    private static final String TAG = "HeadlessRequest";
 
     private Consumer<Document> onSuccess;
     private Consumer<Throwable> onError;
     private HeadlessWebView webView;
 
     public HeadlessRequest(String url, String userAgent, int delay, Context context, Consumer<Document> onSuccess, Consumer<Throwable> onError) {
+        Log.d(TAG, "Creating on thread " + Thread.currentThread().getId());
         this.onSuccess = onSuccess;
         this.onError = onError;
         this.webView = new HeadlessWebView(userAgent, delay, context);
@@ -30,8 +34,12 @@ public class HeadlessRequest implements Cancellable {
 
     private class HeadlessWebView extends WebView {
 
+        private boolean isDisposed;
+
         private HeadlessWebView(String userAgent, final int delay, Context context) {
             super(context);
+
+            this.isDisposed = false;
 
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.removeAllCookies(null);
@@ -68,6 +76,14 @@ public class HeadlessRequest implements Cancellable {
                     onError.accept(new Exception(error.getDescription().toString()));
                 }
             });
+
+            this.setWebChromeClient(new WebChromeClient() {
+                @Override
+                public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+                    Log.d(TAG, "From WebView: " + consoleMessage.message());
+                    return true;
+                }
+            });
         }
 
         private void destroyWebView() {
@@ -77,13 +93,20 @@ public class HeadlessRequest implements Cancellable {
             this.removeAllViews();
             this.pauseTimers();
             this.destroy();
+            this.isDisposed = true;
         }
 
     }
 
     @Override
-    public void cancel() {
+    public void dispose() {
+        Log.d(TAG, "Disposing on thread " + Thread.currentThread().getId());
         this.webView.stopLoading();
         this.webView.destroyWebView();
+    }
+
+    @Override
+    public boolean isDisposed() {
+        return this.webView.isDisposed;
     }
 }

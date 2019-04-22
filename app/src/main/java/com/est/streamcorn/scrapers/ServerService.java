@@ -1,6 +1,7 @@
 package com.est.streamcorn.scrapers;
 
 import android.content.Context;
+import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringDef;
 import com.est.streamcorn.scrapers.servers.*;
@@ -38,6 +39,7 @@ public class ServerService {
             case ServerType.SWZZ:
                 return new Swzz();
             case ServerType.VCRYPT:
+                Log.d("ServerService", "IS VCRYPT");
                 return new Vcrypt();
             case ServerType.OPENLOAD:
                 return new Openload();
@@ -64,7 +66,7 @@ public class ServerService {
         } else {
             return server.resolve(url, context)
                     .observeOn(Schedulers.computation())
-                    .flatMap(resolvedUrl -> resolveRecursive(url, context));
+                    .flatMap(resolvedUrl -> resolveRecursive(resolvedUrl, context));
         }
     }
 
