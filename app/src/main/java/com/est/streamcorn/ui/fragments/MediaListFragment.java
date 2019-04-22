@@ -12,14 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.est.streamcorn.R;
 import com.est.streamcorn.adapters.MediaAdapter;
-import com.est.streamcorn.scrapers.models.Media;
 import com.est.streamcorn.scrapers.ChannelService;
 import com.est.streamcorn.scrapers.channels.Channel;
+import com.est.streamcorn.scrapers.models.Media;
 import com.est.streamcorn.ui.activities.MediaDetailActivity;
 import com.est.streamcorn.ui.customs.EndlessRecyclerViewScrollListener;
 import com.est.streamcorn.utils.Constants;
@@ -42,7 +43,9 @@ public class MediaListFragment extends Fragment {
     public @interface ListType {
     }
 
-    @BindView(R.id.movies_list)
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.medias_list)
     RecyclerView recyclerView;
 
     private boolean isVisible = false, isStarted = false, isFirstLoad = true;
@@ -88,6 +91,15 @@ public class MediaListFragment extends Fragment {
             }
         });
 
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            Log.d(TAG, "Refreshing " + (listType == 0 ? "movies" : "tv series") + " list");
+            this.isFirstLoad = true;
+            mediaAdapter.clearMedia();
+            loadFirst();
+            swipeRefreshLayout.setRefreshing(false);
+        });
+
         gridLayoutManager = new GridLayoutManager(getActivity(), COLUMNS_NUMBER);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -115,8 +127,7 @@ public class MediaListFragment extends Fragment {
         recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                if (!isFirstLoad)
-                    loadMore(page);
+                if (!isFirstLoad) loadMore(page);
             }
         });
     }
@@ -136,7 +147,6 @@ public class MediaListFragment extends Fragment {
             Log.e(TAG, "onError: ");
             error.printStackTrace();
             mediaAdapter.setProgressMessage((mediaAdapter.getItemCount() > 1) ? "" : getString(R.string.no_search_results));
-
         };
 
         compositeDisposable.add(channelLoadPage(page, onSuccess, onError));
@@ -145,12 +155,12 @@ public class MediaListFragment extends Fragment {
     private Disposable channelLoadPage(int page, Consumer<ArrayList<Media>> onSuccess, Consumer<? super Throwable> onError) {
         switch (listType) {
             case MOVIE_LIST:
-                if (searchQuery.isEmpty())
+                if (searchQuery == null || searchQuery.isEmpty())
                     return channel.getMovieList(page).subscribe(onSuccess, onError);
                 else
                     return channel.searchMovie(searchQuery, page).subscribe(onSuccess, onError);
             case TV_SERIES_LIST:
-                if (searchQuery.isEmpty())
+                if (searchQuery == null || searchQuery.isEmpty())
                     return channel.getTvSeriesList(page).subscribe(onSuccess, onError);
                 else
                     return channel.searchTvSeries(searchQuery, page).subscribe(onSuccess, onError);
@@ -161,6 +171,7 @@ public class MediaListFragment extends Fragment {
     public void setSearchQuery(String searchQuery) {
         Log.d(TAG, "Searching " + searchQuery + " in " + (listType == 0 ? "movies" : "tv series") + " list");
         this.searchQuery = searchQuery;
+        this.isFirstLoad = true;
         mediaAdapter.clearMedia();
         loadFirst();
     }

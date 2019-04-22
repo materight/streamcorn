@@ -34,6 +34,9 @@ public class HeadlessRequest implements Disposable {
 
     private class HeadlessWebView extends WebView {
 
+        //  Estensioni dei file che non devono essere caricati dalla webview
+        private final String[] INGORED_EXTENSIONS = {"css", "ttf", "woff", "png", "jpg", "jpeg"};
+
         private boolean isDisposed;
 
         private HeadlessWebView(String userAgent, final int delay, Context context) {
@@ -52,7 +55,6 @@ public class HeadlessRequest implements Disposable {
             settings.setJavaScriptEnabled(true);
             settings.setBlockNetworkImage(true);
             settings.setDomStorageEnabled(true);
-            settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
             settings.setLoadsImagesAutomatically(false);
             settings.setGeolocationEnabled(false);
             settings.setSupportZoom(false);
@@ -60,6 +62,7 @@ public class HeadlessRequest implements Disposable {
 
             this.addJavascriptInterface(new JavaScriptInterface(), "JSInterface");
             this.setWebViewClient(new WebViewClient() {
+
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     view.evaluateJavascript("javascript:" +
@@ -72,41 +75,56 @@ public class HeadlessRequest implements Disposable {
                 }
 
                 @Override
+                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                    // TODO: Ignore css, images, font
+                    String url = request.getUrl().toString();
+                    Log.d(TAG, "Loading resource: " + url);
+                    for (String extension : INGORED_EXTENSIONS) {
+                        if (url.endsWith("." + extension)) {
+                            Log.d(TAG, "Ignored");
+                            return false;
+                        }
+                    }
+                    Log.d(TAG, "Downloaded");
+                    return true;
+                }
+
+                @Override
                 public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                     onError.accept(new Exception(error.getDescription().toString()));
                 }
             });
 
             this.setWebChromeClient(new WebChromeClient() {
+
                 @Override
                 public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-                    Log.d(TAG, "From WebView: " + consoleMessage.message());
+                    //Log.d(TAG, "Message from WebView: " + consoleMessage.message());
                     return true;
                 }
             });
         }
 
         private void destroyWebView() {
-            this.clearCache(true);
+            this.removeAllViews();
+            this.clearCache(false);
             this.loadUrl("about:blank");
             this.onPause();
             this.removeAllViews();
-            this.pauseTimers();
             this.destroy();
             this.isDisposed = true;
         }
-
     }
 
     @Override
     public void dispose() {
         Log.d(TAG, "Disposing on thread " + Thread.currentThread().getId());
-        this.webView.stopLoading();
         this.webView.destroyWebView();
+        this.webView = null;
     }
 
     @Override
     public boolean isDisposed() {
-        return this.webView.isDisposed;
+        return (this.webView == null || this.webView.isDisposed);
     }
 }
