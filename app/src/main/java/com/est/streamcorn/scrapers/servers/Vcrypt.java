@@ -12,7 +12,7 @@ public class Vcrypt extends Server {
 
     @Override
     public Single<String> resolve(String url, Context context) {
-        if (url.contains("fastshield")) url = url.replace("fastshield", "opencryptz1");
+        if (url.contains("shield")) url = url.replace("shield", "opencryptz1");
         final String finalUrl = url;
 
         Log.d(TAG, "Resolving: " + url);
