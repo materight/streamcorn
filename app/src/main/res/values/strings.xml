@@ -29,6 +29,8 @@
     <string name="trailer">Trailer</string>
     <string name="play_dialog_title">Play from…</string>
     <string name="download_dialog_title">Download from…</string>
+    <string name="library_added">Added to library</string>
+    <string name="library_removed">Removed from library</string>
     <string name="media_duration">%1$d minutes</string>
     <string name="seasons_number">Seasons: %1$d</string>
     <string name="season_item">Season %1$d</string>

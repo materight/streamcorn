@@ -6,10 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
@@ -23,10 +20,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.est.streamcorn.R;
 import com.est.streamcorn.adapters.MediaDetailAdapter;
 import com.est.streamcorn.adapters.SpinnerSeasonAdapter;
-import com.est.streamcorn.scrapers.models.Media;
-import com.est.streamcorn.scrapers.models.StreamUrl;
 import com.est.streamcorn.scrapers.ChannelService;
 import com.est.streamcorn.scrapers.channels.Channel;
+import com.est.streamcorn.scrapers.models.Media;
+import com.est.streamcorn.scrapers.models.StreamUrl;
 import com.est.streamcorn.tmdb.TmdbClient;
 import com.est.streamcorn.tmdb.models.TmdbMovie;
 import com.est.streamcorn.tmdb.models.TmdbTvSeries;
@@ -62,8 +59,8 @@ public class MediaDetailActivity extends BaseActivity {
     protected Channel channel;
     private TmdbClient tmdbClient;
 
-    CompositeDisposable compositeDisposable;
-    MediaDetailAdapter mediaDetailAdapter;
+    private CompositeDisposable compositeDisposable;
+    private MediaDetailAdapter mediaDetailAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,13 +84,15 @@ public class MediaDetailActivity extends BaseActivity {
         initTheme();
 
         mediaDetailAdapter.setAddToLibraryClickListener(v -> {
-
+            v.setVisibility(View.INVISIBLE);
+            Toast.makeText(MediaDetailActivity.this, R.string.library_added, Toast.LENGTH_SHORT).show();
         });
 
-        if (media.getType() == Media.MOVIE)
+        if (media.getType() == Media.MOVIE) {
             downloadMovieData();
-        else if (media.getType() == Media.TV_SERIES)
+        } else if (media.getType() == Media.TV_SERIES) {
             downloadTvSeriesData();
+        }
     }
 
     private void downloadMovieData() {
