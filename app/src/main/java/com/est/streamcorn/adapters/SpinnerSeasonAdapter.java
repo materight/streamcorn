@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.est.streamcorn.R;
 import com.est.streamcorn.adapters.base.SparseArrayAdapter;
-import com.est.streamcorn.models.Season;
+import com.est.streamcorn.scrapers.models.Season;
 
 /**
  * Created by Matteo on 01/02/2018.

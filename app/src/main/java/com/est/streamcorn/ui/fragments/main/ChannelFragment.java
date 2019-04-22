@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.est.streamcorn.R;
 import com.est.streamcorn.adapters.ChannelAdapter;
-import com.est.streamcorn.network.channels.Channel;
-import com.est.streamcorn.network.channels.Cineblog01;
-import com.est.streamcorn.network.channels.FilmSenzaLimiti;
+import com.est.streamcorn.scrapers.channels.Channel;
+import com.est.streamcorn.scrapers.channels.Cineblog01;
+import com.est.streamcorn.scrapers.channels.FilmSenzaLimiti;
 
 import java.util.ArrayList;
 

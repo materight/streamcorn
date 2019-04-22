@@ -12,7 +12,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.est.streamcorn.R;
 import com.est.streamcorn.adapters.base.OnItemClickListener;
-import com.est.streamcorn.models.Media;
+import com.est.streamcorn.scrapers.models.Media;
 
 import java.util.ArrayList;
 import java.util.List;

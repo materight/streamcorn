@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.est.streamcorn.R;
 import com.est.streamcorn.adapters.base.OnItemClickListener;
-import com.est.streamcorn.models.StreamUrl;
+import com.est.streamcorn.scrapers.models.StreamUrl;
 
 import java.util.ArrayList;
 import java.util.List;

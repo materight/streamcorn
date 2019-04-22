@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.View;
 import androidx.core.app.ActivityOptionsCompat;
 import com.est.streamcorn.R;
-import com.est.streamcorn.models.StreamUrl;
+import com.est.streamcorn.scrapers.models.StreamUrl;
 
 import java.util.ArrayList;
 

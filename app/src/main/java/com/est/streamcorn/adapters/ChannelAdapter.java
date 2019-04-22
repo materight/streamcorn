@@ -12,7 +12,7 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.est.streamcorn.R;
-import com.est.streamcorn.network.channels.Channel;
+import com.est.streamcorn.scrapers.channels.Channel;
 import com.est.streamcorn.ui.activities.MediaListActivity;
 import com.est.streamcorn.utils.Constants;
 import com.est.streamcorn.utils.Utils;

@@ -3,7 +3,7 @@ package com.est.streamcorn.adapters;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.est.streamcorn.adapters.base.FragmentStatePagerAdapter;
-import com.est.streamcorn.network.channels.Channel;
+import com.est.streamcorn.scrapers.channels.Channel;
 import com.est.streamcorn.ui.fragments.MediaListFragment;
 
 public class MediaListPagerAdapter extends FragmentStatePagerAdapter {
