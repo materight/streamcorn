@@ -6,9 +6,6 @@ import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 
-/**
- * Created by Matteo on 06/02/2018.
- */
 
 public class PreferenceUtils {
 
@@ -17,22 +14,22 @@ public class PreferenceUtils {
     private static final String STREAM_NETWORK_POLICY = "stream_network_policy";
     private static final String DOWNLOAD_NETWORK_POLICY = "download_network_policy";
 
-    private static PreferenceUtils sInstance;
-    private final SharedPreferences mPreferences;
+    private static PreferenceUtils instance;
+    private final SharedPreferences sharedPreferences;
 
     private PreferenceUtils(@NonNull final Context context) {
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     public static PreferenceUtils getInstance(@NonNull final Context context) {
-        if (sInstance == null) {
-            sInstance = new PreferenceUtils(context.getApplicationContext());
+        if (instance == null) {
+            instance = new PreferenceUtils(context.getApplicationContext());
         }
-        return sInstance;
+        return instance;
     }
 
     public final int getNightMode() {
-        return getNightModeInt(mPreferences.getString(GENERAL_THEME, "daytime"));
+        return getNightModeInt(sharedPreferences.getString(GENERAL_THEME, "daytime"));
     }
 
     public static int getNightModeInt(String nightMode) {
@@ -47,11 +44,11 @@ public class PreferenceUtils {
     }
 
     public final String getStreamNetworkPolicy() {
-        return mPreferences.getString(STREAM_NETWORK_POLICY, "only_wifi");
+        return sharedPreferences.getString(STREAM_NETWORK_POLICY, "only_wifi");
     }
 
     public final String getDownloadNetworkPolicy() {
-        return mPreferences.getString(DOWNLOAD_NETWORK_POLICY, "only_wifi");
+        return sharedPreferences.getString(DOWNLOAD_NETWORK_POLICY, "only_wifi");
     }
 
 }

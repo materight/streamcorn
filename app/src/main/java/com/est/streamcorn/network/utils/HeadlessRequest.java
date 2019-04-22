@@ -54,13 +54,18 @@ public class HeadlessRequest implements Cancellable {
             this.setWebViewClient(new WebViewClient() {
                 @Override
                 public void onPageFinished(WebView view, String url) {
-                    webView.evaluateJavascript("javascript:" +
+                    view.evaluateJavascript("javascript:" +
                                     "setTimeout(function(){ " +
                                     "window.JSInterface.showHTML(" +
                                     "'<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>'" +
                                     ");" +
                                     " }," + delay + ");"
                             , null);
+                }
+
+                @Override
+                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                    onError.accept(new Exception(error.getDescription().toString()));
                 }
             });
         }
@@ -70,7 +75,6 @@ public class HeadlessRequest implements Cancellable {
             this.loadUrl("about:blank");
             this.onPause();
             this.removeAllViews();
-            this.destroyDrawingCache();
             this.pauseTimers();
             this.destroy();
         }

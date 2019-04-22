@@ -3,6 +3,7 @@ package com.est.streamcorn.tmdb.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**

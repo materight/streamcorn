@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     Window window = getWindow();
                     window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                    window.setStatusBarColor(getResources().getColor(R.color.transparent));
+                    window.setStatusBarColor(getResources().getColor(R.color.transparent, getTheme()));
                     isTransparent = true;
                 }
             }
@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     Window window = getWindow();
                     window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                    window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+                    window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark, getTheme()));
                     isTransparent = false;
                 }
             }
@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         actionBarDrawerToggle.syncState();
         actionBarDrawerToggle.setDrawerSlideAnimationEnabled(false);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        getSupportActionBar().setTitle(Utils.getColoredString("Stream<font color=\"%s\">Corn</font>", getResources().getColor(R.color.colorAccent)));
+        getSupportActionBar().setTitle(Utils.getColoredString("Stream<font color=\"%s\">Corn</font>", getResources().getColor(R.color.colorAccent, getTheme())));
     }
 
     @Override

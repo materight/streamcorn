@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/pref_header_theme">
+    <androidx.preference.PreferenceCategory android:title="@string/pref_header_theme">
 
-        <ListPreference
+        <androidx.preference.ListPreference
             android:key="general_theme"
             android:defaultValue="daytime"
             android:entries="@array/pref_general_theme_list_titles"
@@ -12,12 +12,12 @@
             android:summary="%s"
             android:title="@string/pref_title_general_theme"  />
 
-    </PreferenceCategory>
+    </androidx.preference.PreferenceCategory>
 
 
-    <PreferenceCategory android:title="@string/pref_header_network">
+    <androidx.preference.PreferenceCategory android:title="@string/pref_header_network">
 
-        <ListPreference
+        <androidx.preference.ListPreference
             android:key="stream_network_policy"
             android:defaultValue="only_wifi"
             android:entries="@array/pref_network_policy_list_titles"
@@ -26,7 +26,7 @@
             android:summary="%s"
             android:title="@string/pref_title_stream_policy"  />
 
-        <ListPreference
+        <androidx.preference.ListPreference
             android:key="download_network_policy"
             android:defaultValue="only_wifi"
             android:entries="@array/pref_network_policy_list_titles"
@@ -35,6 +35,6 @@
             android:summary="%s"
             android:title="@string/pref_title_download_policy"  />
 
-    </PreferenceCategory>
+    </androidx.preference.PreferenceCategory>
 
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>
