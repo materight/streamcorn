@@ -1,30 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:id="@+id/group_menu" android:checkableBehavior="single">
-        <item
-            android:id="@+id/navigation_channels"
-            android:checked="true"
-            android:icon="@drawable/ic_navigation_channels"
-            android:title="@string/title_channels" />
+    <item android:id="@+id/navigation_channels"
+        android:checked="true"
+        android:icon="@drawable/ic_navigation_channels"
+        android:title="@string/title_channels"/>
 
-        <item
-            android:id="@+id/navigation_library"
-            android:checked="false"
-            android:icon="@drawable/ic_navigation_movie"
-            android:title="@string/title_library" />
+    <item android:id="@+id/navigation_library"
+        android:checked="false"
+        android:icon="@drawable/ic_navigation_library"
+        android:title="@string/title_library"/>
 
-        <item
-            android:id="@+id/navigation_favorites"
-            android:checked="false"
-            android:icon="@drawable/ic_navigation_tv_series"
-            android:title="@string/title_favorites" />
-    </group>
-    <group android:id="@+id/group_settings">
-        <item
-            android:id="@+id/navigation_settings"
-            android:checked="false"
-            android:icon="@drawable/ic_settings"
-            android:title="@string/title_settings" />
-    </group>
+    <item android:id="@+id/navigation_download"
+        android:checked="false"
+        android:icon="@drawable/ic_navigation_download"
+        android:title="@string/title_download"/>
 </menu>

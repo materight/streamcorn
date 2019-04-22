@@ -10,7 +10,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        //Set the theme
+        //  Set the theme
         AppCompatDelegate.setDefaultNightMode(PreferenceUtils.getInstance(this).getNightMode());
     }
 }

@@ -8,11 +8,7 @@ import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
 
-/**
- * Created by Matteo on 12/02/2018.
- */
-
-//Workaround AppBarLayout.Behavior for https://issuetracker.google.com/66996774
+//  Workaround AppBarLayout.Behavior for https://issuetracker.google.com/66996774
 public class FixAppBarLayoutBehavior extends AppBarLayout.Behavior {
 
     private static final int TOP_CHILD_FLING_THRESHOLD = 3;

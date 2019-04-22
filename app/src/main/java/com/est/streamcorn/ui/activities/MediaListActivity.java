@@ -100,7 +100,7 @@ public class MediaListActivity extends BaseActivity {
         searchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                //Reload default media when closing searchview
+                //  Reload default media when closing searchview
                 search("");
                 return true;
             }
@@ -110,18 +110,7 @@ public class MediaListActivity extends BaseActivity {
                 return true;
             }
         });
-
-
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.search:
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void initTheme() {

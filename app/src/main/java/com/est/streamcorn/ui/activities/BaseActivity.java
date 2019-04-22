@@ -7,10 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-/**
- * Created by Matteo on 04/02/2018.
- */
-
 public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String TAG = "BaseActivity";

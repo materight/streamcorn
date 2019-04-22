@@ -42,7 +42,7 @@ public class TmdbMedia {
     }
 
     public String getBackdropPath() {
-        return "http://image.tmdb.org/t/p/w780" + backdropPath;
+        return "https://image.tmdb.org/t/p/w780" + backdropPath;
     }
 
     public TmdbVideoList getVideos() {

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,20 +20,19 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:animateLayoutChanges="true" />
+            android:animateLayoutChanges="true" >
+        </FrameLayout>
 
     </LinearLayout>
 
-    <com.google.android.material.navigation.NavigationView
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        android:backgroundTint="?attr/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         app:itemIconTint="@color/navigation_items_foreground"
         app:itemTextColor="@color/navigation_items_foreground"
-        app:itemBackground="@drawable/navigation_items_background"
+        app:itemBackground="@color/colorPrimary"
         app:menu="@menu/navigation_items" />
 
-</androidx.drawerlayout.widget.DrawerLayout>
+</RelativeLayout>

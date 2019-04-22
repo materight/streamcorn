@@ -3,10 +3,6 @@ package com.est.streamcorn.adapters.base;
 import android.util.SparseArray;
 import android.widget.BaseAdapter;
 
-/**
- * Created by Matteo on 01/02/2018.
- */
-
 public abstract class SparseArrayAdapter<E> extends BaseAdapter {
 
     private SparseArray<E> mData;
