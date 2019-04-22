@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:tint="@color/toggleable_foreground"
+                app:tint="@color/toggleable_foreground"
                 app:srcCompat="@drawable/library_icon_toggleable"/>
 
     </FrameLayout>

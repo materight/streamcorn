@@ -2,10 +2,7 @@ package com.est.streamcorn.scrapers.channels;
 
 import com.est.streamcorn.R;
 import com.est.streamcorn.scrapers.ChannelService;
-import com.est.streamcorn.scrapers.models.Media;
-import com.est.streamcorn.scrapers.models.Movie;
-import com.est.streamcorn.scrapers.models.StreamUrl;
-import com.est.streamcorn.scrapers.models.TvSeries;
+import com.est.streamcorn.scrapers.models.*;
 import com.est.streamcorn.scrapers.utils.InfoExtractor;
 import com.est.streamcorn.utils.Utils;
 import org.jsoup.nodes.Document;
@@ -36,12 +33,12 @@ public class Cineblog01 extends Channel {
 
     @Override
     protected ArrayList<Media> parseMovieList(Document document) throws Exception {
-        return parseMediaList(document, Media.MOVIE);
+        return parseMediaList(document, MediaType.MOVIE);
     }
 
     @Override
     protected ArrayList<Media> parseTvSeriesList(Document document) throws Exception {
-        return parseMediaList(document, Media.TV_SERIES);
+        return parseMediaList(document, MediaType.TV_SERIES);
     }
 
     @Override
@@ -123,7 +120,7 @@ public class Cineblog01 extends Channel {
                 if (!imageUrl.startsWith("http"))    //  Aggiungo http:// all'url
                     imageUrl = getProperties().getBaseUrl() + imageUrl;
             }
-            if (url != null && !(type == Media.TV_SERIES && (url.equals(getProperties().getBaseUrl() + "serietv/aggiornamento-quotidiano-serie-tv/") || url.equals(getProperties().getBaseUrl() + "serietv/richieste-serie-tv/")))) {
+            if (url != null && !(type == MediaType.TV_SERIES && (url.equals(getProperties().getBaseUrl() + "serietv/aggiornamento-quotidiano-serie-tv/") || url.equals(getProperties().getBaseUrl() + "serietv/richieste-serie-tv/")))) {
                 movieList.add(new Media(title, imageUrl, url, type));
             }
         }

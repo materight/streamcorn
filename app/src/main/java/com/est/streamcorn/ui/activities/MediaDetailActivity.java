@@ -32,7 +32,10 @@ import com.est.streamcorn.tmdb.models.TmdbTvSeries;
 import com.est.streamcorn.ui.customs.dialogs.MorphDialog;
 import com.est.streamcorn.ui.customs.widgets.CustomCollapsingToolbarLayout;
 import com.est.streamcorn.utils.Constants;
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 import java.util.ArrayList;
 
@@ -85,30 +88,47 @@ public class MediaDetailActivity extends BaseActivity {
 
         initTheme();
 
+        //  Carico se il Media attuale è già salvato nella libreria
+        compositeDisposable.add(LibraryDatabase.getLibraryDatabase(MediaDetailActivity.this).mediaDao()
+                .contains(media.getUrl())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(exist -> {
+                    mediaDetailAdapter.setAddToLibrarySelected(exist);
+                }));
+
         //  Set ClickListener for "add to library"
         mediaDetailAdapter.setAddToLibraryClickListener(view -> {
-            //  Insert the item in the database
-            com.est.streamcorn.persistence.models.Media libraryMedia = new com.est.streamcorn.persistence.models.Media(
-                    media.getUrl(),
-                    media.getTitle(),
-                    media.getImageUrl(),
-                    channelId,
-                    media.getType()
-            );
-            libraryMedia.url = media.getUrl();
-            compositeDisposable.add(LibraryDatabase.getLibraryDatabase(MediaDetailActivity.this).mediaDao()
-                    .insert(libraryMedia)
+            Completable operation;
+            int toastMessage;
+            final boolean isSelected = view.isSelected();
+            if (!isSelected) {
+                //  Aggiungo alla libreria
+                com.est.streamcorn.persistence.models.Media libraryMedia = new com.est.streamcorn.persistence.models.Media(media.getUrl(), media.getTitle(), media.getImageUrl(), channelId, media.getType());
+                operation = LibraryDatabase.getLibraryDatabase(MediaDetailActivity.this).mediaDao().insert(libraryMedia);
+                toastMessage = R.string.library_added;
+            } else {
+                //  Rimuovo dalla libreria
+                operation = Completable.defer(() ->
+                        //  Workaraound per non eseguire il metodo nel mainthread
+                        LibraryDatabase.getLibraryDatabase(MediaDetailActivity.this).mediaDao()
+                                .delete(media.getUrl())
+                                .subscribeOn(Schedulers.io())
+                );
+                toastMessage = R.string.library_removed;
+            }
+            compositeDisposable.add(operation
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(() -> {
-                        view.setActivated(true);
+                        view.setSelected(!isSelected);
+                        Toast.makeText(MediaDetailActivity.this, toastMessage, Toast.LENGTH_SHORT).show();
+                    }, throwable -> {
                         Toast.makeText(MediaDetailActivity.this, R.string.library_added, Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "Error on editing library: ", throwable);
                     }));
         });
 
-        compositeDisposable.add(LibraryDatabase.getLibraryDatabase(MediaDetailActivity.this).mediaDao()
-                .contains(media.getUrl())
-                .subscribe((exist, exception) -> {
-                    Toast.makeText(MediaDetailActivity.this, "Film esiste già", Toast.LENGTH_SHORT).show();
-                }));
 
         if (media.getType() == MediaType.MOVIE) {
             downloadMovieData();
@@ -119,8 +139,8 @@ public class MediaDetailActivity extends BaseActivity {
 
     private void downloadMovieData() {
         //  Get TMDB details
-        compositeDisposable.add(tmdbClient.getMovieDetail(media.getEscapedTitle()).subscribe(
-                response -> {
+        compositeDisposable.add(tmdbClient.getMovieDetail(media.getEscapedTitle())
+                .subscribe(response -> {
                     tmdbId = response.getId();
                     mediaDetailAdapter.setHeaderDetails(response);
                     setTrailerImage(response.getBackdropPath());
@@ -128,30 +148,26 @@ public class MediaDetailActivity extends BaseActivity {
                         setTrailerVideo(response.getVideos().getFirst().getKey());
                     else
                         setTrailerVideo(null);
-                }, error -> {
+                }, throwable -> {
                     mediaDetailAdapter.setHeaderDetails((TmdbMovie) null);
-                    Log.e(TAG, "Error getting details: ");
-                    error.printStackTrace();
-                }
-        ));
+                    Log.e(TAG, "Error getting details: ", throwable);
+                }));
 
         //  Get streaming links
-        compositeDisposable.add(channel.getMovie(media.getUrl()).subscribe(
-                response -> {
+        compositeDisposable.add(channel.getMovie(media.getUrl())
+                .subscribe(response -> {
                     mediaDetailAdapter.setPlayClickListener((view, item) -> {
                         showPlayUrlsList(view, response.getUrls());
                     });
-                }, error -> {
-                    Log.e(TAG, "Error getMovie");
-                    error.printStackTrace();
-                }
-        ));
+                }, throwable -> {
+                    Log.e(TAG, "Error getMovie", throwable);
+                }));
     }
 
     private void downloadTvSeriesData() {
         //  Get TMDB details
-        compositeDisposable.add(tmdbClient.getTvSeriesDetail(media.getEscapedTitle()).subscribe(
-                response -> {
+        compositeDisposable.add(tmdbClient.getTvSeriesDetail(media.getEscapedTitle())
+                .subscribe(response -> {
                     tmdbId = response.getId();
                     if (urlsDownloaded)
                         downloadSeasonDetails();
@@ -161,16 +177,14 @@ public class MediaDetailActivity extends BaseActivity {
                         setTrailerVideo(response.getVideos().getFirst().getKey());
                     else
                         setTrailerVideo(null);
-                }, error -> {
+                }, throwable -> {
                     mediaDetailAdapter.setHeaderDetails((TmdbTvSeries) null);
-                    Log.e(TAG, "Error getting details: ");
-                    error.printStackTrace();
-                }
-        ));
+                    Log.e(TAG, "Error getting details: ", throwable);
+                }));
 
         //  Get episodes links
-        compositeDisposable.add(channel.getTvSeries(media.getUrl()).subscribe(
-                response -> {
+        compositeDisposable.add(channel.getTvSeries(media.getUrl())
+                .subscribe(response -> {
                     urlsDownloaded = true;
 
                     mediaDetailAdapter.setPlayClickListener(this::showPlayUrlsList);
@@ -188,11 +202,9 @@ public class MediaDetailActivity extends BaseActivity {
                     });
                     mediaDetailAdapter.setSeasons(new SpinnerSeasonAdapter(this, response.getSeasons()));
 
-                }, error -> {
-                    Log.e(TAG, "Error getMovie");
-                    error.printStackTrace();
-                }
-        ));
+                }, throwable -> {
+                    Log.e(TAG, "Error getMovie: ", throwable);
+                }));
     }
 
     private void downloadSeasonDetails(final int seasonNumber) {
@@ -251,7 +263,6 @@ public class MediaDetailActivity extends BaseActivity {
     }
 
     private void setTrailerImage(@Nullable String url) {
-        Log.d(TAG, "Trailer image from : " + url);
         Glide.with(MediaDetailActivity.this)
                 .load(url)
                 .apply(new RequestOptions()

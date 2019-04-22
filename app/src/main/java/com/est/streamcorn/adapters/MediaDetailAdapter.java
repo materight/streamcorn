@@ -204,13 +204,15 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
         if (holder instanceof HeaderViewHolder) {
             if (!payloads.isEmpty() && payloads.get(0) instanceof DetailsContainer) {
                 DetailsContainer details = (DetailsContainer) payloads.get(0);
                 ((HeaderViewHolder) holder).headerText1.setText(details.text1);
                 ((HeaderViewHolder) holder).headerText2.setText(details.text2);
                 ((HeaderViewHolder) holder).descriptionTextView.setText(details.overviewText);
+            } else if (!payloads.isEmpty() && payloads.get(0) instanceof Boolean) {
+                ((HeaderViewHolder) holder).addToLibraryButton.setSelected((Boolean) payloads.get(0));
             } else {
                 onBindViewHolder(holder, position);
             }
@@ -250,6 +252,10 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public void setAddToLibraryClickListener(View.OnClickListener onClickListener) {
         addToLibraryClickListener = onClickListener;
+    }
+
+    public void setAddToLibrarySelected(Boolean selected) {
+        notifyItemChanged(0, selected);
     }
 
     public void setSeasonSpinnerSelectedListener(AdapterView.OnItemSelectedListener onItemSelectedListener) {

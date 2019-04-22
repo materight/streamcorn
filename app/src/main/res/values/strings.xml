@@ -31,6 +31,7 @@
     <string name="download_dialog_title">Download from…</string>
     <string name="library_added">Added to library</string>
     <string name="library_removed">Removed from library</string>
+    <string name="library_error">An error occured with the library</string>
     <string name="media_duration">%1$d minutes</string>
     <string name="seasons_number">Seasons: %1$d</string>
     <string name="season_item">Season %1$d</string>
@@ -55,7 +56,6 @@
     <string name="pref_title_download_policy">Download network preferences</string>
     <string name="network_always">Every network</string>
     <string name="network_only_wifi">Only on Wi-Fi</string>
-
 
 
 </resources>
