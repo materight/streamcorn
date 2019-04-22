@@ -80,8 +80,8 @@ public class MediaDetailActivity extends BaseActivity {
 
         compositeDisposable = new CompositeDisposable();
 
-        mediaDetailAdapter = new MediaDetailAdapter(media, Glide.with(this));
-        containerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mediaDetailAdapter = new MediaDetailAdapter(media, Glide.with(MediaDetailActivity.this));
+        containerRecyclerView.setLayoutManager(new LinearLayoutManager(MediaDetailActivity.this));
         containerRecyclerView.setAdapter(mediaDetailAdapter);
 
         initTheme();
@@ -230,6 +230,7 @@ public class MediaDetailActivity extends BaseActivity {
     }
 
     private void setTrailerImage(@Nullable String url) {
+        Log.d(TAG, "Trailer image from : " + url);
         Glide.with(MediaDetailActivity.this)
                 .load(url)
                 .apply(new RequestOptions()
@@ -243,7 +244,7 @@ public class MediaDetailActivity extends BaseActivity {
             return;
         trailerButton.setVisibility(View.VISIBLE);
         trailerButton.setOnClickListener(v -> {
-            Intent youtubeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + youtubeKey));
+            Intent youtubeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=" + youtubeKey));
             youtubeIntent.putExtra("force_fullscreen", true);
             startActivity(youtubeIntent);
         });
