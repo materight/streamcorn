@@ -18,8 +18,14 @@ public interface MediaDao {
     @Query("SELECT * FROM Media WHERE type == " + MediaType.MOVIE)
     Single<List<Media>> getAllMovies();
 
+    @Query("SELECT * FROM Media WHERE title LIKE '%' || :title || '%' AND type == " + MediaType.MOVIE)
+    Single<List<Media>> getMoviesByTitle(String title);
+
     @Query("SELECT * FROM Media WHERE type == " + MediaType.TV_SERIES)
     Single<List<Media>> getAllTvSeries();
+
+    @Query("SELECT * FROM Media WHERE title LIKE '%' || :title || '%' AND type == " + MediaType.TV_SERIES)
+    Single<List<Media>> getTvSeriesByTitle(String title);
 
     @Insert
     Completable insert(Media media);

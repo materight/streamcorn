@@ -19,7 +19,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.est.streamcorn.R;
 import com.est.streamcorn.adapters.base.OnItemClickListener;
 import com.est.streamcorn.scrapers.models.Episode;
-import com.est.streamcorn.scrapers.models.Media;
+import com.est.streamcorn.scrapers.models.MediaInterface;
 import com.est.streamcorn.scrapers.models.MediaType;
 import com.est.streamcorn.scrapers.models.StreamUrl;
 import com.est.streamcorn.tmdb.models.TmdbEpisode;
@@ -33,10 +33,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Matteo on 18/02/2018.
- */
-
 public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "MediaDetailAdapter";
@@ -49,7 +45,7 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private static final int EXPAND = 1;
     private static final int COLLAPSE = 2;
 
-    private Media media;
+    private MediaInterface media;
     private SpinnerSeasonAdapter spinnerSeasonAdapter;
     private SparseArray<Episode> episodes;
     private SparseArray<TmdbEpisode> episodesDetails;
@@ -67,7 +63,7 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private int selectedSeason = 0;
     private int expandedPosition = NO_POSITION;
 
-    public MediaDetailAdapter(Media media, RequestManager glide) {
+    public MediaDetailAdapter(MediaInterface media, RequestManager glide) {
         this.media = media;
         this.glide = glide;
         episodes = new SparseArray<>();

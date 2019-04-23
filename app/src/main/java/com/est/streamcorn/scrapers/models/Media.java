@@ -4,13 +4,16 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.Nullable;
 
-public class Media implements Parcelable {
+public class Media extends MediaInterface implements Parcelable {
 
+    private String url;
     private String title;
     private String imageUrl;
-    private String url;
     @MediaType
     private int type;
+
+    public Media() {
+    }
 
     public Media(@Nullable String title, @Nullable String imageUrl, String url, @MediaType int type) {
         this.title = (title != null) ? title : "-";

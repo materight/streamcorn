@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -21,6 +20,7 @@ import com.est.streamcorn.adapters.MediaAdapter;
 import com.est.streamcorn.scrapers.ChannelService;
 import com.est.streamcorn.scrapers.channels.Channel;
 import com.est.streamcorn.scrapers.models.Media;
+import com.est.streamcorn.scrapers.models.MediaType;
 import com.est.streamcorn.ui.activities.MediaDetailActivity;
 import com.est.streamcorn.ui.customs.EndlessRecyclerViewScrollListener;
 import com.est.streamcorn.utils.Constants;
@@ -34,14 +34,8 @@ public class MediaListFragment extends Fragment {
 
     private final static String TAG = "MediaListFragment";
 
+    //  TODO: auto columns:number based on screen width
     private static final int COLUMNS_NUMBER = 3;
-
-    public static final int MOVIE_LIST = 0;
-    public static final int TV_SERIES_LIST = 1;
-
-    @IntDef({MOVIE_LIST, TV_SERIES_LIST})
-    public @interface ListType {
-    }
 
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -50,17 +44,17 @@ public class MediaListFragment extends Fragment {
 
     private boolean isVisible = false, isStarted = false, isFirstLoad = true;
 
-    private MediaAdapter mediaAdapter;
+    private MediaAdapter<Media> mediaAdapter;
     private GridLayoutManager gridLayoutManager;
 
     private CompositeDisposable compositeDisposable;
     private Channel channel;
-    @ListType
+    @MediaType
     private int listType;
 
     private String searchQuery = "";
 
-    public static MediaListFragment newInstance(String channelId, @ListType int listType) {
+    public static MediaListFragment newInstance(String channelId, @MediaType int listType) {
         MediaListFragment fragment = new MediaListFragment();
         Bundle args = new Bundle();
         args.putInt(Constants.LIST_TYPE_KEY, listType);
@@ -80,7 +74,7 @@ public class MediaListFragment extends Fragment {
 
         compositeDisposable = new CompositeDisposable();
 
-        mediaAdapter = new MediaAdapter(Glide.with(this));
+        mediaAdapter = new MediaAdapter<>(Glide.with(this));
         mediaAdapter.setOnItemClickListener((view, item) -> {
             Context context = getActivity();
             if (context != null) {
@@ -154,12 +148,12 @@ public class MediaListFragment extends Fragment {
 
     private Disposable channelLoadPage(int page, Consumer<ArrayList<Media>> onSuccess, Consumer<? super Throwable> onError) {
         switch (listType) {
-            case MOVIE_LIST:
+            case MediaType.MOVIE:
                 if (searchQuery == null || searchQuery.isEmpty())
                     return channel.getMovieList(page).subscribe(onSuccess, onError);
                 else
                     return channel.searchMovie(searchQuery, page).subscribe(onSuccess, onError);
-            case TV_SERIES_LIST:
+            case MediaType.TV_SERIES:
                 if (searchQuery == null || searchQuery.isEmpty())
                     return channel.getTvSeriesList(page).subscribe(onSuccess, onError);
                 else

@@ -6,30 +6,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.est.streamcorn.R;
 import com.est.streamcorn.adapters.base.OnItemClickListener;
-import com.est.streamcorn.scrapers.models.Media;
+import com.est.streamcorn.scrapers.models.MediaInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Matteo on 30/12/2017.
- */
-
-
-public class MediaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MediaAdapter<T extends MediaInterface> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static final int VIEW_MEDIA = 1;
     public static final int VIEW_PROGRESS = 0;
 
-    private List<Media> mediaList;
+    private List<T> mediaList;
 
-    private OnItemClickListener<Media> onItemClickListener;
+    private OnItemClickListener<T> onItemClickListener;
 
     private RequestManager glide;
 
@@ -45,16 +41,21 @@ public class MediaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    public void addMedia(ArrayList<Media> mediaList) {
+    public void addMedia(List<T> mediaList) {
+        addMedia(mediaList, true);
+    }
+
+    public void addMedia(List<T> mediaList, boolean stillLoading) {
         int lastItemPosition = this.mediaList.size() - 1;
-        //delete progress
+        //  Delete progress
         this.mediaList.remove(lastItemPosition);
         this.notifyItemRemoved(lastItemPosition);
 
-        int newFirstItemPosition = lastItemPosition + 1;
         this.mediaList.addAll(mediaList);
-        this.mediaList.add(null);
-        this.notifyItemRangeInserted(newFirstItemPosition, mediaList.size());
+        if (stillLoading) {
+            this.mediaList.add(null);
+        }
+        this.notifyItemRangeInserted(lastItemPosition, mediaList.size());
     }
 
     public void setProgressMessage(String message) {
@@ -70,8 +71,9 @@ public class MediaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return mediaList.get(position) != null ? VIEW_MEDIA : VIEW_PROGRESS;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
         if (viewType == VIEW_MEDIA) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_media, parent, false);
@@ -87,9 +89,9 @@ public class MediaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MediaViewHolder) {
-            Media media = mediaList.get(position);
+            T media = mediaList.get(position);
             ((MediaViewHolder) holder).title.setText(media.getTitle());
             glide.load(media.getImageUrl())
                     .apply(new RequestOptions()
@@ -102,7 +104,7 @@ public class MediaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
         if (holder instanceof ProgressViewHolder && payloads.size() > 0 && payloads.get(0) instanceof String) {
             ((ProgressViewHolder) holder).setMessage((String) payloads.get(0));
         } else {
@@ -115,7 +117,7 @@ public class MediaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return mediaList.size();
     }
 
-    public void setOnItemClickListener(OnItemClickListener<Media> onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 

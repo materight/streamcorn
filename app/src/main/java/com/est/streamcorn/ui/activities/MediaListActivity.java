@@ -77,7 +77,7 @@ public class MediaListActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        search(handleSearchIntent(intent));
+        this.search(this.handleSearchIntent(intent));
     }
 
     private String handleSearchIntent(Intent intent) {

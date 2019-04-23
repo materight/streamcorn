@@ -24,6 +24,7 @@ import com.est.streamcorn.persistence.LibraryDatabase;
 import com.est.streamcorn.scrapers.ChannelService;
 import com.est.streamcorn.scrapers.channels.Channel;
 import com.est.streamcorn.scrapers.models.Media;
+import com.est.streamcorn.scrapers.models.MediaInterface;
 import com.est.streamcorn.scrapers.models.MediaType;
 import com.est.streamcorn.scrapers.models.StreamUrl;
 import com.est.streamcorn.tmdb.TmdbClient;
@@ -57,7 +58,7 @@ public class MediaDetailActivity extends BaseActivity {
     private static final String TAG = "MediaDetailActivity";
     private static final String TAG_FRAGMENT = "fragment";
 
-    private Media media;
+    private MediaInterface media;
     private int tmdbId = -1;
     private boolean urlsDownloaded = false;
 

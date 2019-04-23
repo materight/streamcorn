@@ -4,10 +4,6 @@ import com.est.streamcorn.tmdb.models.TmdbMedia;
 import com.est.streamcorn.tmdb.models.TmdbMovie;
 import com.est.streamcorn.tmdb.models.TmdbTvSeries;
 
-/**
- * Created by Matteo on 14/03/2018.
- */
-
 public class MediaContainer {
     private Media media;
     private StreamUrlContainer streamUrlContainer;

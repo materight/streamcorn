@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.est.streamcorn.adapters.base.FragmentStatePagerAdapter;
 import com.est.streamcorn.scrapers.channels.Channel;
+import com.est.streamcorn.scrapers.models.MediaType;
 import com.est.streamcorn.ui.fragments.MediaListFragment;
 
 public class MediaListPagerAdapter extends FragmentStatePagerAdapter {
@@ -23,17 +24,17 @@ public class MediaListPagerAdapter extends FragmentStatePagerAdapter {
         if (fragmentCount == 2) {
             switch (position) {
                 case 0:
-                    return MediaListFragment.newInstance(channel.getProperties().getDomain(), MediaListFragment.MOVIE_LIST);
+                    return MediaListFragment.newInstance(channel.getProperties().getDomain(), MediaType.MOVIE);
                 case 1:
-                    return MediaListFragment.newInstance(channel.getProperties().getDomain(), MediaListFragment.TV_SERIES_LIST);
+                    return MediaListFragment.newInstance(channel.getProperties().getDomain(), MediaType.TV_SERIES);
                 default:
                     return null;
             }
         } else if (position == 0) {
             if (channel.getProperties().hasMovies())
-                return MediaListFragment.newInstance(channel.getProperties().getDomain(), MediaListFragment.MOVIE_LIST);
+                return MediaListFragment.newInstance(channel.getProperties().getDomain(), MediaType.MOVIE);
             else
-                return MediaListFragment.newInstance(channel.getProperties().getDomain(), MediaListFragment.TV_SERIES_LIST);
+                return MediaListFragment.newInstance(channel.getProperties().getDomain(), MediaType.TV_SERIES);
         }
         return null;
     }

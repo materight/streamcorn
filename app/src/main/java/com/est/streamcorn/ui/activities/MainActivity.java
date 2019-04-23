@@ -14,6 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.est.streamcorn.R;
 import com.est.streamcorn.ui.fragments.main.ChannelFragment;
+import com.est.streamcorn.ui.fragments.main.LibraryFragment;
 import com.est.streamcorn.utils.Utils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -71,19 +72,18 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         switch (itemId) {
             case R.id.navigation_channels:
                 prevSelectedId = itemId;
-                setTitle(R.string.app_name);
+                toolbar.setElevation(4);
                 navFragment = new ChannelFragment();
                 break;
             case R.id.navigation_library:
-                //  TODO
                 prevSelectedId = itemId;
-                setTitle(R.string.app_name);
-                navFragment = new ChannelFragment();
+                toolbar.setElevation(0);
+                navFragment = new LibraryFragment();
                 break;
             case R.id.navigation_downloads:
                 //  TODO
                 prevSelectedId = itemId;
-                setTitle(R.string.app_name);
+                toolbar.setElevation(4);
                 navFragment = new ChannelFragment();
                 break;
         }
@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             try {
                 transaction.replace(R.id.frame_layout, navFragment).commit();
             } catch (IllegalStateException e) {
-                Log.e(TAG, "Error replacing Fragment " + e);
+                Log.e(TAG, "Error replacing fragment ", e);
             }
         }
     }
