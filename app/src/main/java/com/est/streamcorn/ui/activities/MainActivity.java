@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         switch (itemId) {
             case R.id.navigation_channels:
                 prevSelectedId = itemId;
-                toolbar.setElevation(4);
+                toolbar.setElevation(Utils.convertDpToPx(MainActivity.this, 4));
                 navFragment = new ChannelFragment();
                 break;
             case R.id.navigation_library:
@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             case R.id.navigation_downloads:
                 //  TODO
                 prevSelectedId = itemId;
-                toolbar.setElevation(4);
+                toolbar.setElevation(Utils.convertDpToPx(MainActivity.this, 4));
                 navFragment = new ChannelFragment();
                 break;
         }

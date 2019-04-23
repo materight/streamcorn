@@ -15,10 +15,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Locale;
 
-/**
- * Created by Matteo on 28/01/2018.
- */
-
 public class Utils {
 
     private static final String TAG = "Utils";
@@ -30,6 +26,10 @@ public class Utils {
             String htmlColor = String.format(Locale.US, "#%06X", (0xFFFFFF & Color.argb(0, Color.red(color), Color.green(color), Color.blue(color))));
             return Html.fromHtml(String.format(string, htmlColor));
         }
+    }
+
+    public static float convertDpToPx(Context context, float dp) {
+        return dp * context.getResources().getDisplayMetrics().density;
     }
 
     public static int resolveAttr(Context context, int attrId) {
@@ -46,7 +46,6 @@ public class Utils {
             return "";
         }
     }
-
 
     private static boolean resolveNetworkPolicy(final Context context, String policy) {
         switch (policy) {

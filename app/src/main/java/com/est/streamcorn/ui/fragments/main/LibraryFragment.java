@@ -32,7 +32,6 @@ public class LibraryFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflateView = inflater.inflate(R.layout.fragment_main_library, container, false);
-        inflateView.setTag(TAG);
         ButterKnife.bind(this, inflateView);
 
         tabLayout.addTab(tabLayout.newTab().setText(getText(R.string.title_movies)));
