@@ -156,6 +156,7 @@ public class MediaDetailActivity extends BaseActivity {
         //  Get streaming links
         compositeDisposable.add(channel.getMovie(media.getUrl())
                 .subscribe(response -> {
+                    mediaDetailAdapter.setUrlsLoaded();
                     mediaDetailAdapter.setPlayClickListener((view, item) -> {
                         showPlayUrlsList(view, response.getUrls());
                     });

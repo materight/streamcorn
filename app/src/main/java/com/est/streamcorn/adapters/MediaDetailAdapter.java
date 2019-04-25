@@ -203,12 +203,19 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
         if (holder instanceof HeaderViewHolder) {
             if (!payloads.isEmpty() && payloads.get(0) instanceof DetailsContainer) {
+                //  Initializing details text
                 DetailsContainer details = (DetailsContainer) payloads.get(0);
                 ((HeaderViewHolder) holder).headerText1.setText(details.text1);
                 ((HeaderViewHolder) holder).headerText2.setText(details.text2);
                 ((HeaderViewHolder) holder).descriptionTextView.setText(details.overviewText);
             } else if (!payloads.isEmpty() && payloads.get(0) instanceof Boolean) {
+                //  Library loaded
                 ((HeaderViewHolder) holder).addToLibraryButton.setSelected((Boolean) payloads.get(0));
+                ((HeaderViewHolder) holder).addToLibraryButton.setClickable(true);
+            } else if (!payloads.isEmpty() && payloads.get(0) instanceof String) {
+                //  Urls loaded
+                ((HeaderViewHolder) holder).playButton.setClickable(true);
+                ((HeaderViewHolder) holder).playButtonProgress.animate().alpha(0.0f).setDuration(300);
             } else {
                 onBindViewHolder(holder, position);
             }
@@ -250,8 +257,12 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         addToLibraryClickListener = onClickListener;
     }
 
-    public void setAddToLibrarySelected(Boolean selected) {
-        notifyItemChanged(0, selected);
+    public void setAddToLibrarySelected(Boolean isInLibrary) {
+        notifyItemChanged(0, isInLibrary);
+    }
+
+    public void setUrlsLoaded() {
+        notifyItemChanged(0, "URLS_LOADED");
     }
 
     public void setSeasonSpinnerSelectedListener(AdapterView.OnItemSelectedListener onItemSelectedListener) {
@@ -286,6 +297,7 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ImageView posterImage;
         ExpandableDescription descriptionTextView;
         FloatingActionButton playButton;
+        ProgressBar playButtonProgress;
 
         HeaderViewHolder(View itemView) {
             super(itemView);
@@ -296,14 +308,21 @@ public class MediaDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             posterImage = itemView.findViewById(R.id.poster_image);
             descriptionTextView = itemView.findViewById(R.id.description);
             playButton = itemView.findViewById(R.id.play_button);
+            playButtonProgress = itemView.findViewById(R.id.play_button_progress);
+
+            addToLibraryButton.setClickable(false);
+            playButton.setClickable(false);
 
             addToLibraryButton.setOnClickListener(addToLibraryClickListener);
 
             if (media.getType() == MediaType.MOVIE) {
                 descriptionTextView.setMaxLines(Integer.MAX_VALUE);
-                playButton.setOnClickListener(v -> playClickListener.onItemClick(v, null));
+                playButton.setOnClickListener(v -> {
+                    if (playClickListener != null) playClickListener.onItemClick(v, null);
+                });
             } else {
                 playButton.setVisibility(View.INVISIBLE);
+                playButtonProgress.setVisibility(View.INVISIBLE);
             }
         }
     }

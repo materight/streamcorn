@@ -7,10 +7,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
-/**
- * Created by Matteo on 12/02/2018.
- */
-
 public class FadeTextSwitcher extends TextSwitcher {
 
     public FadeTextSwitcher(Context context) {

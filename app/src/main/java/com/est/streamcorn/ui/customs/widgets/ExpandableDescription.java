@@ -10,13 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.est.streamcorn.R;
 
-/**
- * Created by Matteo on 12/02/2018.
- */
-
 public class ExpandableDescription extends ConstraintLayout {
 
-    private static final String TAG = "ExpandableView";
+    private static final String TAG = "ExpandableDescription";
 
     private LinearLayout mContainer;
     private ExpandableTextView textView;
