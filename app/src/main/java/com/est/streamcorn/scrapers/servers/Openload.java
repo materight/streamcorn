@@ -14,7 +14,7 @@ public class Openload extends Server {
 
     private static final String TAG = "Openload";
 
-    private static final Pattern GET_OPENLOAD_URL = Pattern.compile("https?:\\/\\/(?:openload\\.(?:co|io)|oload\\.tv)\\/(?:f|embed)\\/([\\w\\-]+)");
+    private static final Pattern GET_OPENLOAD_URL = Pattern.compile("https?://(?:openload\\.(?:co|io)|oload\\.tv)/(?:f|embed)/([\\w\\-]+)");
 
     @Override
     public Single<String> resolve(String url, Context context) {

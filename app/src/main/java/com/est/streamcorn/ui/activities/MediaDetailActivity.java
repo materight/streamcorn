@@ -23,7 +23,6 @@ import com.est.streamcorn.adapters.SpinnerSeasonAdapter;
 import com.est.streamcorn.persistence.LibraryDatabase;
 import com.est.streamcorn.scrapers.ChannelService;
 import com.est.streamcorn.scrapers.channels.Channel;
-import com.est.streamcorn.scrapers.models.Media;
 import com.est.streamcorn.scrapers.models.MediaInterface;
 import com.est.streamcorn.scrapers.models.MediaType;
 import com.est.streamcorn.scrapers.models.StreamUrl;
@@ -212,10 +211,7 @@ public class MediaDetailActivity extends BaseActivity {
         if (tmdbId != -1 && seasonNumber != Spinner.INVALID_ROW_ID) {
             compositeDisposable.add(tmdbClient.getSeasonDetails(tmdbId, seasonNumber).subscribe(
                     response -> mediaDetailAdapter.setEpisodesDetails(response.getEpisodes()),
-                    error -> {
-                        Log.e(TAG, "Error episodes details:");
-                        error.printStackTrace();
-                    }
+                    throwable -> Log.e(TAG, "Error episodes details:", throwable)
             ));
         }
     }
@@ -226,17 +222,17 @@ public class MediaDetailActivity extends BaseActivity {
 
     private void showPlayUrlsList(View fabView, ArrayList<StreamUrl> urls) {
         MorphDialog.PlayDialog(this)
-                .title(getString(R.string.play_dialog_title))
+                .title(media.getTitle())
                 .streamUrls(urls)
-                .withMorphAnimation(fabView)
+                .withMorphAnimationFrom(fabView)
                 .show();
     }
 
     private void showDownloadUrlsList(View fabView, ArrayList<StreamUrl> urls) {
         MorphDialog.DownloadDialog(this)
-                .title(getString(R.string.download_dialog_title))
+                .title(media.getTitle())
                 .streamUrls(urls)
-                .withMorphAnimation(fabView)
+                .withMorphAnimationFrom(fabView)
                 .show();
     }
 

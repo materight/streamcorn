@@ -24,9 +24,8 @@ import com.est.streamcorn.scrapers.models.MediaType;
 import com.est.streamcorn.ui.activities.MediaDetailActivity;
 import com.est.streamcorn.ui.customs.EndlessRecyclerViewScrollListener;
 import com.est.streamcorn.utils.Constants;
+import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 import java.util.ArrayList;
 
@@ -126,38 +125,32 @@ public class MediaListFragment extends Fragment {
         });
     }
 
-    private void loadMore(int page) {
+    private void loadMore(final int page) {
         Log.d(TAG, "Loading page " + page + " of " + (listType == 0 ? "movies" : "tv series") + " list");
-
-        final Consumer<ArrayList<Media>> onSuccess = response -> {
+        compositeDisposable.add(channelLoadPage(page).subscribe(response -> {
             if (response != null && response.size() > 0) {
                 mediaAdapter.addMedia(response);
             } else {
                 mediaAdapter.setProgressMessage((mediaAdapter.getItemCount() > 1) ? "" : getString(R.string.no_search_results));
             }
-        };
-
-        final Consumer<? super Throwable> onError = error -> {
-            Log.e(TAG, "onError: ");
-            error.printStackTrace();
+        }, throwable -> {
+            Log.e(TAG, "Error loading page " + page + " of " + (listType == 0 ? "movies" : "tv series") + " list", throwable);
             mediaAdapter.setProgressMessage((mediaAdapter.getItemCount() > 1) ? "" : getString(R.string.no_search_results));
-        };
-
-        compositeDisposable.add(channelLoadPage(page, onSuccess, onError));
+        }));
     }
 
-    private Disposable channelLoadPage(int page, Consumer<ArrayList<Media>> onSuccess, Consumer<? super Throwable> onError) {
+    private Single<ArrayList<Media>> channelLoadPage(int page) {
         switch (listType) {
             case MediaType.MOVIE:
                 if (searchQuery == null || searchQuery.isEmpty())
-                    return channel.getMovieList(page).subscribe(onSuccess, onError);
+                    return channel.getMovieList(page);
                 else
-                    return channel.searchMovie(searchQuery, page).subscribe(onSuccess, onError);
+                    return channel.searchMovie(searchQuery, page);
             case MediaType.TV_SERIES:
                 if (searchQuery == null || searchQuery.isEmpty())
-                    return channel.getTvSeriesList(page).subscribe(onSuccess, onError);
+                    return channel.getTvSeriesList(page);
                 else
-                    return channel.searchTvSeries(searchQuery, page).subscribe(onSuccess, onError);
+                    return channel.searchTvSeries(searchQuery, page);
         }
         return null;
     }

@@ -1,74 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.est.streamcorn">
+          package="com.est.streamcorn">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
-        android:name=".App"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+            android:name=".App"
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ui.activities.MainActivity"
-            android:label="@string/app_name">
+                android:name=".ui.activities.MainActivity"
+                android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".ui.activities.MediaDetailActivity"
-            android:theme="@style/AppTheme.TransparentStatusBar" />
+                android:name=".ui.activities.MediaDetailActivity"
+                android:theme="@style/AppTheme.TransparentStatusBar"/>
 
         <activity
-            android:name=".ui.activities.MediaListActivity"
-            android:launchMode="singleTop">
+                android:name=".ui.activities.MediaListActivity"
+                android:launchMode="singleTop">
 
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
 
             <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+                    android:name="android.app.searchable"
+                    android:resource="@xml/searchable"/>
         </activity>
 
         <activity
-            android:name=".ui.activities.PlayerActivity"
-            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/PlayerTheme" />
+                android:name=".ui.activities.PlayerActivity"
+                android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+                android:screenOrientation="sensorLandscape"
+                android:theme="@style/PlayerTheme"/>
 
         <activity
-            android:name=".ui.customs.dialogs.DownloadUrlsDialog"
-            android:parentActivityName=".ui.activities.MediaDetailActivity"
-            android:theme="@style/AppTheme.Dialog">
+                android:name=".ui.customs.dialogs.DownloadUrlsDialog"
+                android:parentActivityName=".ui.activities.MediaDetailActivity"
+                android:theme="@style/AppTheme.Dialog">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MediaDetailActivity" />
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".ui.activities.MediaDetailActivity"/>
         </activity>
 
         <activity
-            android:name=".ui.customs.dialogs.PlayUrlsDialog"
-            android:parentActivityName=".ui.activities.MediaDetailActivity"
-            android:theme="@style/AppTheme.Dialog">
+                android:name=".ui.customs.dialogs.PlayUrlsDialog"
+                android:parentActivityName=".ui.activities.MediaDetailActivity"
+                android:theme="@style/AppTheme.Dialog">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MediaDetailActivity" />
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".ui.activities.MediaDetailActivity"/>
         </activity>
 
         <activity
-            android:name=".ui.activities.SettingsActivity"
-            android:label="@string/title_settings"
-            android:theme="@style/AppTheme.Settings">
+                android:name=".ui.activities.SettingsActivity"
+                android:label="@string/title_settings"
+                android:theme="@style/AppTheme.Settings">
         </activity>
 
     </application>

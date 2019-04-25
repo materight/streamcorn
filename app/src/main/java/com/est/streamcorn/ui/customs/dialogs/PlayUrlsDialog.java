@@ -7,10 +7,6 @@ import android.util.Log;
 import com.est.streamcorn.R;
 import com.est.streamcorn.utils.Utils;
 
-/**
- * Created by Matteo on 02/02/2018.
- */
-
 public class PlayUrlsDialog extends UrlsDialog {
 
     private static final String TAG = "PlayUrlsDialog";
@@ -19,16 +15,18 @@ public class PlayUrlsDialog extends UrlsDialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        titleTextView.setText(getString(R.string.play_dialog_title));
         int dialogBackgroundColor = Utils.resolveAttr(this, R.attr.dialogBackgroundColor);
         int colorAccent = Utils.resolveAttr(this, R.attr.colorAccent);
         setUpSharedElementTransitions(dialogBackgroundColor, colorAccent);
     }
 
-    protected void processVideoUrl(String url, String title) {
+    protected void processVideoUrl(String title, String url) {
         Log.d(TAG, "Starting VLC with url: " + url);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setClassName("org.videolan.vlc", "org.videolan.vlc.gui.video.VideoPlayerActivity");
         intent.setDataAndType(Uri.parse(url), "video/*");
+        intent.putExtra("title", title);
         startActivity(intent);
         /*Intent intent = new Intent(this, PlayerActivity.class);
         intent.putExtra("url", url);

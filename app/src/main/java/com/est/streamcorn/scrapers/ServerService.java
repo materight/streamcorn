@@ -58,6 +58,7 @@ public class ServerService {
      * Metodo ricorsivo, cerca di risolvere gli url fino a quando non ottiene l'url di un video
      */
     private static Single<String> resolveRecursive(String url, Context context) {
+        url = RegexpUtils.httpToHttps(url);
         Server server = getServerInstance(url, context);
         if (server == null) {
             return Single.error(new UnsupportedOperationException("Server for " + url + " not supported"));

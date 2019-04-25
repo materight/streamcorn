@@ -133,7 +133,7 @@ public class LibraryListFragment extends Fragment {
                     if (mediaList.size() > 0) {
                         mediaAdapter.addMedia(mediaList, false);
                     } else {
-                        mediaAdapter.setProgressMessage(getString(R.string.no_search_results));
+                        mediaAdapter.setProgressMessage(getString(R.string.no_items));
                     }
                 }, throwable -> {
                     Log.e(TAG, "Library loading error: ", throwable);

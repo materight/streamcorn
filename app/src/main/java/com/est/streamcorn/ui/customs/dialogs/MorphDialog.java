@@ -10,10 +10,6 @@ import com.est.streamcorn.scrapers.models.StreamUrl;
 
 import java.util.ArrayList;
 
-/**
- * Created by Matteo on 03/02/2018.
- */
-
 public class MorphDialog {
 
     private static final String TAG = "MorphDialog";
@@ -62,7 +58,7 @@ public class MorphDialog {
         return this;
     }
 
-    public MorphDialog withMorphAnimation(View view) {
+    public MorphDialog withMorphAnimationFrom(View view) {
         this.animationView = view;
         return this;
     }
@@ -79,7 +75,6 @@ public class MorphDialog {
             default:
                 dialogClass = null;
         }
-        Log.d(TAG, "" + dialogClass);
         if (dialogClass != null) {
             Intent dialogIntent = new Intent(activity, dialogClass);
             dialogIntent.putExtra("list", urls);

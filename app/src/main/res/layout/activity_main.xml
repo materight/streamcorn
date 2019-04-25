@@ -37,11 +37,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimaryDark"
+            android:theme="@style/BottomNavigationView"
             app:labelVisibilityMode="labeled"
             app:itemHorizontalTranslationEnabled="false"
             app:itemIconTint="@color/toggleable_foreground"
             app:itemTextColor="@color/toggleable_foreground"
-            app:itemBackground="@color/colorPrimaryDark"
-            app:menu="@menu/navigation_items" android:layout_marginBottom="0dp"/>
+            app:menu="@menu/navigation_items"/>
 
 </RelativeLayout>

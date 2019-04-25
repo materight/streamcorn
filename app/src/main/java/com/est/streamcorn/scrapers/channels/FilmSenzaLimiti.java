@@ -1,8 +1,8 @@
 package com.est.streamcorn.scrapers.channels;
 
 import com.est.streamcorn.R;
-import com.est.streamcorn.scrapers.models.*;
 import com.est.streamcorn.scrapers.ChannelService;
+import com.est.streamcorn.scrapers.models.*;
 import com.est.streamcorn.scrapers.utils.InfoExtractor;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,7 +14,8 @@ import java.util.regex.Pattern;
 
 public class FilmSenzaLimiti extends Channel {
 
-    private static final ChannelProperties properties = new ChannelProperties(ChannelService.ChannelType.FILMSENZALIMITI,
+    private static final ChannelProperties properties = new ChannelProperties(
+            ChannelService.ChannelType.FILMSENZALIMITI,
             "<font color=\"%s\">Film</font>SenzaLimiti",
             R.drawable.channel_filmsenzalimiti,
             true,
@@ -61,12 +62,12 @@ public class FilmSenzaLimiti extends Channel {
         return movie;
     }
 
-    private static final Pattern TV_SERIES_URLS = Pattern.compile("(?:(\\d+)×(\\d+).*?)?<a href=\"([^\"]+)\".*?>([^<]+)<\\/a>");
+    private static final Pattern TV_SERIES_URLS = Pattern.compile("(?:(\\d+)×(\\d+).*?)?<a href=\"([^\"]+)\".*?>([^<]+)</a>");
 
     @Override
     protected TvSeries parseTvSeriesDetail(Document document) throws Exception {
         TvSeries tvSeries = new TvSeries();
-        Elements links = document.select(".pad p:contains(×), strong:containsSeason(ita)");
+        Elements links = document.select(".pad p:contains(×), strong:contains(ita)");
 
         String urlPrefix = "";  //To show HD, SUB...
         for (Element element : links) {

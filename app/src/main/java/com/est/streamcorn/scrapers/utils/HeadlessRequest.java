@@ -78,14 +78,12 @@ public class HeadlessRequest implements Disposable {
                 public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                     // TODO: Ignore css, images, font
                     String url = request.getUrl().toString();
-                    Log.d(TAG, "Loading resource: " + url);
                     for (String extension : INGORED_EXTENSIONS) {
                         if (url.endsWith("." + extension)) {
-                            Log.d(TAG, "Ignored");
+                            Log.d(TAG, "Resource " + url + " ignored");
                             return false;
                         }
                     }
-                    Log.d(TAG, "Downloaded");
                     return true;
                 }
 
@@ -99,7 +97,8 @@ public class HeadlessRequest implements Disposable {
 
                 @Override
                 public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-                    //Log.d(TAG, "Message from WebView: " + consoleMessage.message());
+                    //  Abilitare per mostrare i log della webview
+                    //  Log.d(TAG, "Message from WebView: " + consoleMessage.message());
                     return true;
                 }
             });

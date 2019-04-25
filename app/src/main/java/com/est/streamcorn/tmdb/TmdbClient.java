@@ -18,10 +18,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.util.Date;
 
-/**
- * Created by Matteo on 18/01/2018.
- */
-
 public class TmdbClient {
 
     private static final String TAG = "TmdbClient";

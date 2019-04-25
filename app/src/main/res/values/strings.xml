@@ -22,6 +22,7 @@
     <string name="channel_unknown">Error, unknown channel</string>
     <string name="channel_not_available">Sorry, the channel is currently not available</string>
     <string name="no_search_results">No results found</string>
+    <string name="no_items">No saved items</string>
     <string name="description">Description</string>
     <string name="empty_description">No description available</string>
     <string name="expand">Expand</string>

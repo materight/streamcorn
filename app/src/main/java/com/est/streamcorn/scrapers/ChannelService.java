@@ -11,8 +11,8 @@ public class ChannelService {
 
     @StringDef({ChannelType.CINEBLOG01, ChannelType.FILMSENZALIMITI})
     public @interface ChannelType {
-        String CINEBLOG01 = "cb01.pink";
-        String FILMSENZALIMITI = "filmsenzalimiti.black";
+        String CINEBLOG01 = "cb01.date";
+        String FILMSENZALIMITI = "filmsenzalimiti.beer";
     }
 
     @Nullable

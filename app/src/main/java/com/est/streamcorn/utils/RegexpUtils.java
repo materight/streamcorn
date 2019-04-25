@@ -1,5 +1,6 @@
 package com.est.streamcorn.utils;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.regex.Matcher;
@@ -14,6 +15,10 @@ public class RegexpUtils {
             return m.group(1);
         else
             return null;
+    }
+
+    public static String httpToHttps(@NonNull String url) {
+        return url.replaceFirst("^http://", "https://");
     }
 
 }

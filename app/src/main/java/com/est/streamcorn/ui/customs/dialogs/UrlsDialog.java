@@ -18,8 +18,8 @@ import butterknife.ButterKnife;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.est.streamcorn.R;
 import com.est.streamcorn.adapters.StreamUrlAdapter;
-import com.est.streamcorn.scrapers.models.StreamUrl;
 import com.est.streamcorn.scrapers.ServerService;
+import com.est.streamcorn.scrapers.models.StreamUrl;
 import com.est.streamcorn.ui.activities.BaseActivity;
 import com.est.streamcorn.ui.customs.transitions.MorphDialogToFab;
 import com.est.streamcorn.ui.customs.transitions.MorphFabToDialog;
@@ -39,6 +39,7 @@ public abstract class UrlsDialog extends BaseActivity {
 
     private static final String TAG = "UrlsDialog";
 
+    private String mediaTitle;
     private CompositeDisposable disposable;
     private MaterialDialog resolveDialog;
 
@@ -50,16 +51,15 @@ public abstract class UrlsDialog extends BaseActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        String title = intent.getStringExtra("title");
+        mediaTitle = intent.getStringExtra("title");
         ArrayList<StreamUrl> list = (ArrayList<StreamUrl>) intent.getSerializableExtra("list");
 
-        titleTextView.setText(title);
         StreamUrlAdapter adapter = new StreamUrlAdapter(list);
         urlsList.setLayoutManager(new LinearLayoutManager(this));
         urlsList.setAdapter(adapter);
 
-        final View.OnClickListener dismissListener = view -> dismiss();
-        root.setOnClickListener(dismissListener);
+        //  Click fuori dal dialog
+        root.setOnClickListener(view -> dismiss());
 
         disposable = new CompositeDisposable();
         resolveDialog = new MaterialDialog.Builder(this)
@@ -68,27 +68,24 @@ public abstract class UrlsDialog extends BaseActivity {
                 .progress(true, 0)
                 .cancelable(false)
                 .negativeText(android.R.string.cancel)
-                .cancelListener(dialogInterface -> {
-                    disposable.dispose();
-                }).build();
+                .cancelListener(dialog -> disposable.dispose())
+                .dismissListener(dialog -> disposable.dispose())
+                .build();
 
         adapter.setOnItemClickListener((view, item) -> {
             if (item.isFile()) {
-                processVideoUrl(item.getUrl(), "title");
+                processVideoUrl(mediaTitle, item.getUrl());
             } else {
-                //Show the dialog
+                //  Show the dialog
                 resolveDialog.show();
-                resolveDialog.setOnDismissListener(dialog -> {
-                });
 
-                //Resolve the url
+                //  Resolve the url
                 disposable.add(ServerService.resolve(item.getUrl(), UrlsDialog.this)
                         .subscribe(response -> {
-                            processVideoUrl(response, "title");
+                            processVideoUrl(mediaTitle, response);
                             resolveDialog.dismiss();
                         }, throwable -> {
-                            Log.e(TAG, "Error resolving url");
-                            throwable.printStackTrace();
+                            Log.e(TAG, "Error resolving url: ", throwable);
                             resolveDialog.dismiss();
                             int message = (throwable instanceof UnsupportedOperationException) ? R.string.server_not_supported : R.string.error_resolving_urls;
                             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
@@ -97,7 +94,7 @@ public abstract class UrlsDialog extends BaseActivity {
         });
     }
 
-    protected abstract void processVideoUrl(String url, String title);
+    protected abstract void processVideoUrl(String title, String url);
 
     protected void setUpSharedElementTransitions(int dialogColorResourceId, int fabColorResourceId) {
         ArcMotion arcMotion = new ArcMotion();

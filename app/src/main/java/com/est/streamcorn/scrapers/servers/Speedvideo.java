@@ -13,7 +13,7 @@ public class Speedvideo extends Server {
 
     private static final String TAG = "Speedvideo";
 
-    private static final Pattern GET_SPEEDVIDEO_URL = Pattern.compile("https?:\\/\\/speedvideo\\.net\\/(.*)\\/");
+    private static final Pattern GET_SPEEDVIDEO_URL = Pattern.compile("https?://speedvideo\\.net/(.*)/");
     private static final Pattern GET_SPEEDVIDEO_FILE_URL = Pattern.compile("linkfile =\"([^\"]+)\"");
 
     @Override

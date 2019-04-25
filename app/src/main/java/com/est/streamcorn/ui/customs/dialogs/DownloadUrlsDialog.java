@@ -9,10 +9,6 @@ import android.util.Log;
 import com.est.streamcorn.R;
 import com.est.streamcorn.utils.Utils;
 
-/**
- * Created by Matteo on 02/02/2018.
- */
-
 public class DownloadUrlsDialog extends UrlsDialog {
 
     private static final String TAG = "DownloadUrlsDialog";
@@ -21,15 +17,16 @@ public class DownloadUrlsDialog extends UrlsDialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        titleTextView.setText(getString(R.string.download_dialog_title));
         int dialogBackgroundColor = Utils.resolveAttr(this, R.attr.dialogBackgroundColor);
         int colorBackground = Utils.resolveAttr(this, android.R.attr.colorBackground);
         setUpSharedElementTransitions(dialogBackgroundColor, colorBackground);
     }
 
     @Override
-    protected void processVideoUrl(String videoUrl, String title) {
-        Log.d(TAG, "Downloading " + videoUrl);
-        Uri url = Uri.parse(videoUrl);
+    protected void processVideoUrl(String title, String mediaUrl) {
+        Log.d(TAG, "Downloading " + mediaUrl);
+        Uri url = Uri.parse(mediaUrl);
         DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         if (Utils.canDownload(this)) {
             DownloadManager.Request request = new DownloadManager.Request(url);

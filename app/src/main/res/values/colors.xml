@@ -2,6 +2,7 @@
 <resources>
     <color name="colorAccent">#ffff1f55</color>
     <color name="statusbarTransparent">@color/transparent_dark_40</color>
+    <color name="colorControlHighlightAccent">#40FF1F55</color>
 
     <!-- Light theme color-->
     <color name="colorPrimary">#ffffff</color>
