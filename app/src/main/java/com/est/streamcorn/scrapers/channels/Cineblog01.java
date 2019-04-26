@@ -81,7 +81,6 @@ public class Cineblog01 extends Channel {
                 urlPrefix = upperCase.contains("SUB") ? "SUB-ITA " : "ITA ";
                 urlPrefix += upperCase.contains("HD") ? "HD " : "";
                 urlPrefix += upperCase.contains("HQ") ? "HQ " : "";
-                Log.d(TAG, "urlPrefix: " + urlPrefix);
             } else if (element.is("p")) {   //  Season and episode number
                 Integer seasonNumber = null, episodeNumber = null;
                 Matcher m = TV_SERIES_NUMBER.matcher(element.html());
@@ -92,7 +91,6 @@ public class Cineblog01 extends Channel {
                 if (seasonNumber != null) {
                     ArrayList<StreamUrl> urls = new ArrayList<>();
                     Elements hrefs = element.select("a[href]");
-                    Log.d(TAG, seasonNumber + "x" + episodeNumber + ", prefix: " + urlPrefix);
                     for (Element a : hrefs) {
                         urls.add(new StreamUrl(urlPrefix + " " + a.html(), a.attr("href"), false));
                     }

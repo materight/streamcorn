@@ -18,7 +18,6 @@ public class HeadlessRequest implements Disposable {
     private HeadlessWebView webView;
 
     public HeadlessRequest(String url, String userAgent, int delay, Context context, Consumer<Document> onSuccess, Consumer<Throwable> onError) {
-        Log.d(TAG, "Creating on thread " + Thread.currentThread().getId());
         this.onSuccess = onSuccess;
         this.onError = onError;
         this.webView = new HeadlessWebView(userAgent, delay, context);
@@ -94,19 +93,20 @@ public class HeadlessRequest implements Disposable {
         }
 
         private void destroyWebView() {
-            this.removeAllViews();
-            this.clearCache(false);
-            this.loadUrl("about:blank");
-            this.onPause();
-            this.removeAllViews();
-            this.destroy();
-            this.isDisposed = true;
+            this.post(() -> {
+                this.removeAllViews();
+                this.clearCache(false);
+                this.loadUrl("about:blank");
+                this.onPause();
+                this.removeAllViews();
+                this.destroy();
+                this.isDisposed = true;
+            });
         }
     }
 
     @Override
     public void dispose() {
-        Log.d(TAG, "Disposing on thread " + Thread.currentThread().getId());
         this.webView.destroyWebView();
         this.webView = null;
     }

@@ -21,7 +21,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void updateTheme() {
         if (previousTheme != AppCompatDelegate.getDefaultNightMode()) {
-            Log.d(TAG, "updateTheme()");
             recreate();
             getWindow().getDecorView().setSystemUiVisibility(0);
         }

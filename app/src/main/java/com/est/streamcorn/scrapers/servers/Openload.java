@@ -1,7 +1,6 @@
 package com.est.streamcorn.scrapers.servers;
 
 import android.content.Context;
-import android.util.Log;
 import com.est.streamcorn.scrapers.utils.NetworkUtils;
 import com.est.streamcorn.utils.RegexpUtils;
 import io.reactivex.Single;
@@ -20,15 +19,11 @@ public class Openload extends Server {
     public Single<String> resolve(String url, Context context) {
         url = "https://openload.co/embed/" + RegexpUtils.getFirstMatch(GET_OPENLOAD_URL, url) + "/";
 
-        Log.d(TAG, "Resolving: " + url);
         return NetworkUtils.downloadPageHeadless(url, 500, context)
                 .observeOn(Schedulers.computation())
                 .map(document -> {
                     Element element = document.selectFirst("div[style*=\"display:none\"] p:last-of-type");
-                    String parsedUrl = "https://openload.co/stream/" + element.html() + "?mime=true";
-
-                    Log.d(TAG, "Resolved: " + parsedUrl);
-                    return parsedUrl;
+                    return "https://openload.co/stream/" + element.html() + "?mime=true";
                 });
     }
 

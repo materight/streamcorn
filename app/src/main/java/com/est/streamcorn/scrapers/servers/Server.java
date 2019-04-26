@@ -7,6 +7,7 @@ import io.reactivex.Single;
  * Base class per tutti i server
  */
 public abstract class Server {
+
     /**
      * Metodo per risolvere un url di un server
      *

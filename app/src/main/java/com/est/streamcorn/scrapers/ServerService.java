@@ -1,6 +1,7 @@
 package com.est.streamcorn.scrapers;
 
 import android.content.Context;
+import android.util.Log;
 import androidx.annotation.Nullable;
 import com.est.streamcorn.scrapers.servers.*;
 import com.est.streamcorn.utils.RegexpUtils;
@@ -35,8 +36,7 @@ public class ServerService {
     }
 
     @Nullable
-    private static Server getServerInstance(String url, Context context) {
-        String domain = getDomain(url);
+    private static Server getServerInstance(String domain) {
         if (domain == null) return null;
         switch (domain) {
             //  URL resolver
@@ -67,16 +67,26 @@ public class ServerService {
      * Metodo ricorsivo, cerca di risolvere gli url fino a quando non ottiene l'url di un video
      */
     private static Single<String> resolveRecursive(String url, Context context) {
+        final String domain = getDomain(url);
         url = RegexpUtils.httpToHttps(url);
-        Server server = getServerInstance(url, context);
+        Log.d(domain, "Resolving: " + url);
+
+        Server server = getServerInstance(domain);
         if (server == null) {
             return Single.error(new UnsupportedOperationException("Server for " + url + " not supported"));
         } else if (server.isVideo()) {
-            return server.resolve(url, context);
+            return server.resolve(url, context)
+                    .map(resolvedUrl -> {
+                        Log.d(domain, "Resolved: " + resolvedUrl);
+                        return resolvedUrl;
+                    });
         } else {
             return server.resolve(url, context)
                     .observeOn(Schedulers.computation())
-                    .flatMap(resolvedUrl -> resolveRecursive(resolvedUrl, context));
+                    .flatMap(resolvedUrl -> {
+                        Log.d(domain, "Resolved: " + resolvedUrl);
+                        return resolveRecursive(resolvedUrl, context);
+                    });
         }
     }
 
