@@ -57,26 +57,29 @@ public class FilmSenzaLimiti extends Channel {
     @Override
     protected Movie parseMovieDetail(Document document) throws Exception {
         Movie movie = new Movie();
-        Element element = document.selectFirst("iframe.embed-responsive-item[src]");
-        if (element != null) {
-            movie.addStreamUrl(new StreamUrl("Speedvideo", element.attr("src"), false));
+        Elements linkContainers = document.select("iframe.embed-responsive-item[src], #links a[href]");
+        for (Element element : linkContainers) {
+            if (element.is("iframe")) {
+                movie.addStreamUrl(new StreamUrl(element.text(), element.attr("src"), false));
+            } else if (element.is("a")) {
+                movie.addStreamUrl(new StreamUrl(element.text(), element.attr("href"), false));
+            }
         }
         return movie;
     }
 
-    private static final Pattern TV_SERIES_URLS = Pattern.compile("(?:(\\d+)×(\\d+).*?)?<a href=\"([^\"]+)\".*?>([^<]+)</a>");
+    private static final Pattern TV_SERIES_URLS = Pattern.compile("(?:(\\d+)×(\\d+).*?)?<a.*?href=\"([^\"]+)\".*?>([^<]+)</a>");
 
     @Override
     protected TvSeries parseTvSeriesDetail(Document document) throws Exception {
         TvSeries tvSeries = new TvSeries();
-        Elements links = document.select(".pad p:contains(×), strong:contains(ita)");
+        Elements seasonsBlockElements = document.select(".episode-info p:contains(×), .pad strong:contains(ita)");
 
-        String urlPrefix = "";  //To show HD, SUB...
-        for (Element element : links) {
+        String urlPrefix = "";
+        for (Element element : seasonsBlockElements) {
             if (element.is("strong")) {
-                urlPrefix = "";
                 String upperCase = element.html().toUpperCase();
-                urlPrefix += upperCase.contains("SUB") ? "SUB-ITA " : "ITA ";
+                urlPrefix = upperCase.contains("SUB") ? "SUB-ITA " : "ITA ";
                 urlPrefix += upperCase.contains("HD") ? "HD " : "";
             } else if (element.is("p")) {
                 Integer seasonNumber = null, episodeNumber = null;
@@ -91,7 +94,7 @@ public class FilmSenzaLimiti extends Channel {
                         seasonNumber = Integer.parseInt(m.group(1));
                         episodeNumber = Integer.parseInt(m.group(2));
                     }
-                    urls.add(new StreamUrl(urlPrefix + m.group(4), m.group(3), false));
+                    urls.add(new StreamUrl(urlPrefix + " " + m.group(4), m.group(3), false));
                 }
                 if (seasonNumber != null)
                     tvSeries.putStreamUrls(seasonNumber, episodeNumber, urls);
