@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
@@ -125,7 +128,7 @@ public class MediaDetailActivity extends BaseActivity {
                         Toast.makeText(MediaDetailActivity.this, toastMessage, Toast.LENGTH_SHORT).show();
                     }, throwable -> {
                         Toast.makeText(MediaDetailActivity.this, R.string.library_added, Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "Error on editing library: ", throwable);
+                        Log.e(TAG, "Error updating Room library: ", throwable);
                     }));
         });
 
@@ -150,7 +153,7 @@ public class MediaDetailActivity extends BaseActivity {
                         setTrailerVideo(null);
                 }, throwable -> {
                     mediaDetailAdapter.setHeaderDetails((TmdbMovie) null);
-                    Log.e(TAG, "Error getting details: ", throwable);
+                    Log.e(TAG, "Error while downloading movie details from TMDB, tmdbId: " + tmdbId, throwable);
                 }));
 
         //  Get streaming links
@@ -161,7 +164,7 @@ public class MediaDetailActivity extends BaseActivity {
                         showPlayUrlsList(view, response.getUrls());
                     });
                 }, throwable -> {
-                    Log.e(TAG, "Error getMovie", throwable);
+                    Log.e(TAG, "Error while scraping movie links from url: " + media.getUrl() + ", from channel: " + channel.getProperties().getDomain(), throwable);
                 }));
     }
 
@@ -180,7 +183,7 @@ public class MediaDetailActivity extends BaseActivity {
                         setTrailerVideo(null);
                 }, throwable -> {
                     mediaDetailAdapter.setHeaderDetails((TmdbTvSeries) null);
-                    Log.e(TAG, "Error getting details: ", throwable);
+                    Log.e(TAG, "Error while downloading tv series details from TMDB, tmdbId: " + tmdbId, throwable);
                 }));
 
         //  Get episodes links
@@ -204,16 +207,17 @@ public class MediaDetailActivity extends BaseActivity {
                     mediaDetailAdapter.setSeasons(new SpinnerSeasonAdapter(this, response.getSeasons()));
 
                 }, throwable -> {
-                    Log.e(TAG, "Error getMovie: ", throwable);
+                    Log.e(TAG, "Error while scraping episodes links from url: " + media.getUrl() + ", from channel: " + channel.getProperties().getDomain(), throwable);
                 }));
     }
 
     private void downloadSeasonDetails(final int seasonNumber) {
-        if (tmdbId != -1 && seasonNumber != Spinner.INVALID_ROW_ID) {
-            compositeDisposable.add(tmdbClient.getSeasonDetails(tmdbId, seasonNumber).subscribe(
-                    response -> mediaDetailAdapter.setEpisodesDetails(response.getEpisodes()),
-                    throwable -> Log.e(TAG, "Error episodes details:", throwable)
-            ));
+        if (tmdbId != -1) {
+            compositeDisposable.add(tmdbClient.getSeasonDetails(tmdbId, seasonNumber)
+                    .subscribe(
+                            response -> mediaDetailAdapter.setEpisodesDetails(response.getEpisodes()),
+                            throwable -> Log.e(TAG, "Error while downloading episodes details from TMDB, tmdbId: " + tmdbId + ", seasonNumber: " + seasonNumber, throwable)
+                    ));
         }
     }
 

@@ -1,9 +1,7 @@
 package com.est.streamcorn.scrapers;
 
 import android.content.Context;
-import android.util.Log;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringDef;
 import com.est.streamcorn.scrapers.servers.*;
 import com.est.streamcorn.utils.RegexpUtils;
 import io.reactivex.Single;
@@ -14,11 +12,16 @@ import java.util.regex.Pattern;
 
 public class ServerService {
 
-    @StringDef({ServerType.SWZZ, ServerType.VCRYPT, ServerType.OPENLOAD, ServerType.SPEEDVIDEO, ServerType.WSTREAM, ServerType.VERYSTREAM})
     public @interface ServerType {
+        //  URL resolver
         String SWZZ = "swzz.xyz";
         String VCRYPT = "vcrypt.net";
-        String OPENLOAD = "openload.co";
+        String RAPIDCRYPT = "rapidcrypt.net";
+        String FILMSENZALIMITI = "filmsenzalimiti.beer";
+
+        //  Video streaming
+        String OPENLOAD1 = "openload.co";
+        String OPENLOAD2 = "openloads.co";
         String SPEEDVIDEO = "speedvideo.net";
         String WSTREAM = "wstream.video";
         String VERYSTREAM = "verystream.com";
@@ -36,12 +39,18 @@ public class ServerService {
         String domain = getDomain(url);
         if (domain == null) return null;
         switch (domain) {
+            //  URL resolver
             case ServerType.SWZZ:
                 return new Swzz();
             case ServerType.VCRYPT:
-                Log.d("ServerService", "IS VCRYPT");
                 return new Vcrypt();
-            case ServerType.OPENLOAD:
+            case ServerType.RAPIDCRYPT:
+                return new Rapidcrypt();
+            case ServerType.FILMSENZALIMITI:
+                return new FilmSenzaLimiti();
+            //  Video streaming
+            case ServerType.OPENLOAD1:
+            case ServerType.OPENLOAD2:
                 return new Openload();
             case ServerType.SPEEDVIDEO:
                 return new Speedvideo();

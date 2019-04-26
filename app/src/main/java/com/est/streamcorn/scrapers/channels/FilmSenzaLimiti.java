@@ -1,5 +1,6 @@
 package com.est.streamcorn.scrapers.channels;
 
+import android.util.Log;
 import com.est.streamcorn.R;
 import com.est.streamcorn.scrapers.ChannelService;
 import com.est.streamcorn.scrapers.models.*;
@@ -14,6 +15,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FilmSenzaLimiti extends Channel {
+
+    private static final String TAG = "FilmSenzaLimiti";
 
     private static final ChannelProperties properties = new ChannelProperties(
             ChannelService.ChannelType.FILMSENZALIMITI,
@@ -60,7 +63,7 @@ public class FilmSenzaLimiti extends Channel {
         Elements linkContainers = document.select("iframe.embed-responsive-item[src], #links a[href]");
         for (Element element : linkContainers) {
             if (element.is("iframe")) {
-                movie.addStreamUrl(new StreamUrl(element.text(), element.attr("src"), false));
+                movie.addStreamUrl(new StreamUrl("Speedvideo", element.attr("src"), false));
             } else if (element.is("a")) {
                 movie.addStreamUrl(new StreamUrl(element.text(), element.attr("href"), false));
             }
@@ -73,20 +76,24 @@ public class FilmSenzaLimiti extends Channel {
     @Override
     protected TvSeries parseTvSeriesDetail(Document document) throws Exception {
         TvSeries tvSeries = new TvSeries();
-        Elements seasonsBlockElements = document.select(".episode-info p:contains(×), .pad strong:contains(ita)");
-
+        Elements seasonsBlockElements = document.select(".pad p:contains(×), .pad strong:contains(ita)");
+        //  Nuovo tipo di visualizzazione dei link
+        if (seasonsBlockElements.size() == 0) {
+            seasonsBlockElements = document.select(".accordion-item .episode-wrap ul, .accordion-item span:contains(ita)");
+        }
         String urlPrefix = "";
         for (Element element : seasonsBlockElements) {
-            if (element.is("strong")) {
+            if (element.is("strong, span")) {
                 String upperCase = element.html().toUpperCase();
                 urlPrefix = upperCase.contains("SUB") ? "SUB-ITA " : "ITA ";
                 urlPrefix += upperCase.contains("HD") ? "HD " : "";
-            } else if (element.is("p")) {
+            } else if (element.is(".pad p:contains(×)")) {
                 Integer seasonNumber = null, episodeNumber = null;
                 ArrayList<StreamUrl> urls = new ArrayList<>();
                 Matcher m = TV_SERIES_URLS.matcher(element.html());
                 while (m.find()) {
-                    if (m.group(1) != null && m.group(2) != null) {  //If there is a new episode number, save the urls of previous episode
+                    if (m.group(1) != null && m.group(2) != null) {
+                        //If there is a new episode number, save the urls of previous episode
                         if (seasonNumber != null) {
                             tvSeries.putStreamUrls(seasonNumber, episodeNumber, urls);
                             urls.clear();
@@ -96,8 +103,18 @@ public class FilmSenzaLimiti extends Channel {
                     }
                     urls.add(new StreamUrl(urlPrefix + " " + m.group(4), m.group(3), false));
                 }
-                if (seasonNumber != null)
+                if (seasonNumber != null) {
                     tvSeries.putStreamUrls(seasonNumber, episodeNumber, urls);
+                }
+            } else if (element.is(".accordion-item .episode-wrap ul")) {
+                //  Nuovo tipo di visualizzazione dei link
+                String[] parts = element.selectFirst(".season-no").text().split("x");
+                int seasonNumber = Integer.parseInt(parts[0].replaceAll("[^\\d.]", ""));
+                int episodeNumber = Integer.parseInt(parts[1].replaceAll("[^\\d.]", ""));
+                Element link = element.selectFirst("a.myBtn[data-link]");
+                ArrayList<StreamUrl> urls = new ArrayList<>();
+                urls.add(new StreamUrl(urlPrefix + " Speedvideo", link.attr("data-link"), false));
+                tvSeries.putStreamUrls(seasonNumber, episodeNumber, urls);
             }
         }
         return tvSeries;

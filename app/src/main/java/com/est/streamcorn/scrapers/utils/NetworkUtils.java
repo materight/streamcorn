@@ -17,6 +17,11 @@ public class NetworkUtils {
                 .subscribeOn(Schedulers.io());
     }
 
+    public static Single<Document> downloadPage(final String url, final String referrer) {
+        return Single.fromCallable(() -> Jsoup.connect(url).userAgent(USER_AGENT).referrer(referrer).get())
+                .subscribeOn(Schedulers.io());
+    }
+
     public static Single<Document> downloadPageHeadless(final String url, final int delay, final Context context) {
         return Single.create((SingleEmitter<Document> emitter) -> {
             try {
