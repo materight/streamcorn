@@ -3,7 +3,6 @@ package com.est.streamcorn.scrapers.servers;
 import android.content.Context;
 import android.util.Log;
 import com.est.streamcorn.scrapers.utils.NetworkUtils;
-import com.est.streamcorn.utils.RegexpUtils;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import org.jsoup.nodes.Element;

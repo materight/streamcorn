@@ -10,6 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.est.streamcorn.R;
 
+/**
+ * Specializzazione di ExpandableTextView con bottone "espandi"
+ */
+
 public class ExpandableDescription extends ConstraintLayout {
 
     private static final String TAG = "ExpandableDescription";
@@ -31,17 +35,13 @@ public class ExpandableDescription extends ConstraintLayout {
 
         CharSequence text = "";
 
-        int[] set = {
-                android.R.attr.text,
-        };
+        int[] set = {android.R.attr.text};
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, set, defStyleAttr, 0);
         for (int i = 0; i < a.getIndexCount(); i++) {
             int attr = a.getIndex(i);
-            switch (attr) {
-                case android.R.attr.text:
-                    text = a.getText(attr);
-                    break;
+            if (attr == android.R.attr.text) {
+                text = a.getText(attr);
             }
         }
         a.recycle();

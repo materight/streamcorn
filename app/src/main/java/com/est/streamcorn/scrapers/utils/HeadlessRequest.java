@@ -45,8 +45,8 @@ public class HeadlessRequest implements Disposable {
             this.isDisposed = false;
 
             CookieManager cookieManager = CookieManager.getInstance();
-            cookieManager.removeAllCookies(null);
-            cookieManager.flush();
+            //  cookieManager.removeAllCookies(null);
+            //  cookieManager.flush();
             cookieManager.setAcceptCookie(false);
 
             WebSettings settings = this.getSettings();
@@ -74,18 +74,7 @@ public class HeadlessRequest implements Disposable {
                             , null);
                 }
 
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                    // TODO: Ignore css, images, font
-                    String url = request.getUrl().toString();
-                    for (String extension : INGORED_EXTENSIONS) {
-                        if (url.endsWith("." + extension)) {
-                            Log.d(TAG, "Resource " + url + " ignored");
-                            return false;
-                        }
-                    }
-                    return true;
-                }
+                // TODO: Ignore css, images, font
 
                 @Override
                 public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {

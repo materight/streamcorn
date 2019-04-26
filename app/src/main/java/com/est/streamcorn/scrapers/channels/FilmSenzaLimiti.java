@@ -4,6 +4,7 @@ import com.est.streamcorn.R;
 import com.est.streamcorn.scrapers.ChannelService;
 import com.est.streamcorn.scrapers.models.*;
 import com.est.streamcorn.scrapers.utils.InfoExtractor;
+import com.est.streamcorn.utils.Utils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -21,10 +22,11 @@ public class FilmSenzaLimiti extends Channel {
             true,
             true,
             false,
-            page -> String.format("page/%d/?s=%%5BHD%%5D", page + 1),
+            page -> String.format("genere/film/page/%d/", page + 1),
             page -> String.format("genere/serie-tv/page/%d/", page + 1),
-            query -> page -> null,
-            query -> page -> null);
+            query -> page -> String.format("genere/film/page/%d/?s=%s", page + 1, Utils.encodeQuery(query)),
+            query -> page -> String.format("genere/serie-tv/page/%d/?s=%s", page + 1, Utils.encodeQuery(query))
+    );
 
     @Override
     public ChannelProperties getProperties() {

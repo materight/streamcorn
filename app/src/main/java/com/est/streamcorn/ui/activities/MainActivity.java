@@ -45,6 +45,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private void initViews() {
         setSupportActionBar(toolbar);
         navigationView.setOnNavigationItemSelectedListener(this);
+        navigationView.setOnNavigationItemReselectedListener(item -> { });
         getSupportActionBar().setTitle(Utils.getColoredString("Stream<font color=\"%s\">Corn</font>", getResources().getColor(R.color.colorAccent, getTheme())));
     }
 
@@ -54,6 +55,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         navigate(item.getItemId());
         return true;
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

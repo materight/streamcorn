@@ -1,5 +1,6 @@
 package com.est.streamcorn.scrapers.channels;
 
+import android.util.Log;
 import com.est.streamcorn.R;
 import com.est.streamcorn.scrapers.ChannelService;
 import com.est.streamcorn.scrapers.models.*;
@@ -14,6 +15,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Cineblog01 extends Channel {
+
+    private static final String TAG = "Cineblog01";
 
     private static final ChannelProperties properties = new ChannelProperties(ChannelService.ChannelType.CINEBLOG01,
             "Cineblog<font color=\"%s\">01</font>",
@@ -71,14 +74,14 @@ public class Cineblog01 extends Channel {
     protected TvSeries parseTvSeriesDetail(Document document) throws Exception {
         TvSeries tvSeries = new TvSeries();
         Elements seasonsBlockElements = document.select(".sp-body p:contains(×), div.sp-wrap div.sp-head");
-
+        String urlPrefix = "";
         for (Element element : seasonsBlockElements) {
-            String urlPrefix = "";
             if (element.is("div")) {   //  Link type (HD, SUB-ITA, ...)
                 String upperCase = element.html().toUpperCase();
-                urlPrefix += upperCase.contains("SUB") ? "SUB-ITA " : "ITA ";
+                urlPrefix = upperCase.contains("SUB") ? "SUB-ITA " : "ITA ";
                 urlPrefix += upperCase.contains("HD") ? "HD " : "";
                 urlPrefix += upperCase.contains("HQ") ? "HQ " : "";
+                Log.d(TAG, "urlPrefix: " + urlPrefix);
             } else if (element.is("p")) {   //  Season and episode number
                 Integer seasonNumber = null, episodeNumber = null;
                 Matcher m = TV_SERIES_NUMBER.matcher(element.html());
@@ -89,8 +92,9 @@ public class Cineblog01 extends Channel {
                 if (seasonNumber != null) {
                     ArrayList<StreamUrl> urls = new ArrayList<>();
                     Elements hrefs = element.select("a[href]");
+                    Log.d(TAG, seasonNumber + "x" + episodeNumber + ", prefix: " + urlPrefix);
                     for (Element a : hrefs) {
-                        urls.add(new StreamUrl(urlPrefix + a.html(), a.attr("href"), false));
+                        urls.add(new StreamUrl(urlPrefix + " " + a.html(), a.attr("href"), false));
                     }
                     tvSeries.putStreamUrls(seasonNumber, episodeNumber, urls);
                 }

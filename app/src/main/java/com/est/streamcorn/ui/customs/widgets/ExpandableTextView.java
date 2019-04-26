@@ -7,10 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import com.est.streamcorn.R;
 
-/**
- * Created by Matteo on 13/02/2018.
- */
-
 public class ExpandableTextView extends at.blogc.android.views.ExpandableTextView {
 
     private View mToggleButton;
