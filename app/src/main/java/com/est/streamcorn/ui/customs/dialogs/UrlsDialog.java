@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.transition.ArcMotion;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
@@ -40,7 +39,7 @@ public abstract class UrlsDialog extends BaseActivity {
     private static final String TAG = "UrlsDialog";
 
     private String mediaTitle;
-    private CompositeDisposable disposable;
+    private CompositeDisposable compositeDisposable;
     private MaterialDialog resolveDialog;
 
     @Override
@@ -59,17 +58,17 @@ public abstract class UrlsDialog extends BaseActivity {
         urlsList.setAdapter(adapter);
 
         //  Click fuori dal dialog
-        root.setOnClickListener(view -> dismiss());
+        root.setOnClickListener(view -> finishAfterTransition());
 
-        disposable = new CompositeDisposable();
+        compositeDisposable = new CompositeDisposable();
         resolveDialog = new MaterialDialog.Builder(this)
                 .title(R.string.please_wait)
                 .content(R.string.resolving_urls)
                 .progress(true, 0)
                 .cancelable(false)
                 .negativeText(android.R.string.cancel)
-                .cancelListener(dialog -> disposable.dispose())
-                .dismissListener(dialog -> disposable.dispose())
+                .cancelListener(dialog -> compositeDisposable.clear())
+                .dismissListener(dialog -> compositeDisposable.clear())
                 .build();
 
         adapter.setOnItemClickListener((view, item) -> {
@@ -80,7 +79,7 @@ public abstract class UrlsDialog extends BaseActivity {
                 resolveDialog.show();
 
                 //  Resolve the url
-                disposable.add(ServerService.resolve(item.getUrl(), UrlsDialog.this)
+                compositeDisposable.add(ServerService.resolve(item.getUrl(), UrlsDialog.this)
                         .subscribe(response -> {
                             processVideoUrl(mediaTitle, response);
                             resolveDialog.dismiss();
@@ -120,12 +119,21 @@ public abstract class UrlsDialog extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        dismiss();
-    }
-
-    public void dismiss() {
-        disposable.dispose();
         finishAfterTransition();
     }
+
+    @Override
+    protected void onStop() {
+        compositeDisposable.clear();
+        resolveDialog.dismiss();
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        compositeDisposable.dispose();
+        super.onDestroy();
+    }
+
 
 }
