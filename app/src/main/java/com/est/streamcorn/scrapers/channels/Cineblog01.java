@@ -21,6 +21,7 @@ public class Cineblog01 extends Channel {
     private static final ChannelProperties properties = new ChannelProperties(ChannelService.ChannelType.CINEBLOG01,
             "Cineblog<font color=\"%s\">01</font>",
             R.drawable.channel_cineblog01,
+            false,
             true,
             true,
             true,
@@ -104,7 +105,6 @@ public class Cineblog01 extends Channel {
     private ArrayList<Media> parseMediaList(Document document, int type) throws Exception {
         ArrayList<Media> movieList = new ArrayList<>();
         Elements elements = document.select("div.post");
-        if (elements == null) return movieList;
 
         for (Element element : elements) {
             Element titleContainer, imgContainer;

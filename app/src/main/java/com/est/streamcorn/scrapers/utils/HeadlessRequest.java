@@ -18,6 +18,7 @@ public class HeadlessRequest implements Disposable {
     private HeadlessWebView webView;
 
     public HeadlessRequest(String url, String userAgent, int delay, Context context, Consumer<Document> onSuccess, Consumer<Throwable> onError) {
+        Log.d(TAG, "Created HeadlessREquest");
         this.onSuccess = onSuccess;
         this.onError = onError;
         this.webView = new HeadlessWebView(userAgent, delay, context);
@@ -36,6 +37,9 @@ public class HeadlessRequest implements Disposable {
         //  Estensioni dei file che non devono essere caricati dalla webview
         private final String[] INGORED_EXTENSIONS = {"css", "ttf", "woff", "png", "jpg", "jpeg"};
 
+        //  Delay nel caso di portezione Cloudfare
+        private final int CLOUDFARE_DELAY = 5000;
+
         private boolean isDisposed;
 
         private HeadlessWebView(String userAgent, final int delay, Context context) {
@@ -43,14 +47,7 @@ public class HeadlessRequest implements Disposable {
 
             this.isDisposed = false;
 
-            CookieManager cookieManager = CookieManager.getInstance();
-            //  cookieManager.removeAllCookies(null);
-            //  cookieManager.flush();
-            cookieManager.setAcceptCookie(false);
-
             WebSettings settings = this.getSettings();
-
-            setLayerType(View.LAYER_TYPE_NONE, null);
             settings.setJavaScriptEnabled(true);
             settings.setBlockNetworkImage(true);
             settings.setDomStorageEnabled(true);
@@ -59,22 +56,40 @@ public class HeadlessRequest implements Disposable {
             settings.setSupportZoom(false);
             settings.setUserAgentString(userAgent);
 
+            this.setLayerType(View.LAYER_TYPE_NONE, null);
             this.addJavascriptInterface(new JavaScriptInterface(), "JSInterface");
             this.setWebViewClient(new WebViewClient() {
 
                 @Override
                 public void onPageFinished(WebView view, String url) {
-                    view.evaluateJavascript("javascript:" +
-                                    "setTimeout(function(){ " +
-                                    "window.JSInterface.showHTML(" +
-                                    "'<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>'" +
-                                    ");" +
-                                    " }," + delay + ");"
-                            , null);
+                    if (webView != null) {
+                        webView.evaluateJavascript("javascript: document.getElementsByClassName('cf-browser-verification').length;", value -> {
+                            if (Integer.parseInt(value) > 0) {
+                                Log.d(TAG, "CloudFlare detected! Waiting for redirect...");
+                            } else {
+                                webView.evaluateJavascript("javascript:" +
+                                        "setTimeout(function(){ " +
+                                        "   window.JSInterface.showHTML(" +
+                                        "       document.getElementsByTagName('html')[0].innerHTML" +
+                                        "   );" +
+                                        " },  " + delay + " );", null);
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                    if (request.isRedirect() && webView != null) {
+                        Log.d(TAG, "Redirecting to " + request.getUrl());
+                        webView.loadUrl(request.getUrl().toString());
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
 
                 // TODO: Ignore css, images, font
-
                 @Override
                 public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                     onError.accept(new Exception(error.getDescription().toString()));
@@ -86,7 +101,7 @@ public class HeadlessRequest implements Disposable {
                 @Override
                 public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
                     //  Abilitare per mostrare i log della webview
-                    //  Log.d(TAG, "Message from WebView: " + consoleMessage.message());
+                    //  Log.d(TAG, "ConsoleMessage from WebView: " + consoleMessage.message());
                     return true;
                 }
             });

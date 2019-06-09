@@ -2,7 +2,6 @@ package com.est.streamcorn.ui.customs.dialogs;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import androidx.core.app.ActivityOptionsCompat;
 import com.est.streamcorn.R;
@@ -64,7 +63,7 @@ public class MorphDialog {
     }
 
     public void show() {
-        Class<?> dialogClass;
+        Class<?> dialogClass = null;
         switch (type) {
             case PLAY_URLS:
                 dialogClass = PlayUrlsDialog.class;
@@ -72,20 +71,17 @@ public class MorphDialog {
             case DOWNLOAD_URLS:
                 dialogClass = DownloadUrlsDialog.class;
                 break;
-            default:
-                dialogClass = null;
         }
-        if (dialogClass != null) {
-            Intent dialogIntent = new Intent(activity, dialogClass);
-            dialogIntent.putExtra("list", urls);
-            dialogIntent.putExtra("title", title);
-            if (animationView != null) {
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, animationView, activity.getString(R.string.transition_dialog));
-                activity.startActivity(dialogIntent, options.toBundle());
-            } else {
-                activity.startActivity(dialogIntent);
-            }
+        Intent dialogIntent = new Intent(activity, dialogClass);
+        dialogIntent.putExtra("list", urls);
+        dialogIntent.putExtra("title", title);
+        if (animationView != null) {
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, animationView, activity.getString(R.string.transition_dialog));
+            activity.startActivity(dialogIntent, options.toBundle());
+        } else {
+            activity.startActivity(dialogIntent);
         }
+
     }
 
 

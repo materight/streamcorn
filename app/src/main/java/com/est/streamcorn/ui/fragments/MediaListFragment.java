@@ -69,7 +69,7 @@ public class MediaListFragment extends Fragment {
 
         Bundle args = getArguments();
         listType = args.getInt(Constants.LIST_TYPE_KEY);
-        channel = ChannelService.getChannelInstance(args.getString(Constants.CHANNEL_KEY), getActivity());
+        channel = ChannelService.getChannelInstance(args.getString(Constants.CHANNEL_KEY));
 
         compositeDisposable = new CompositeDisposable();
 
@@ -143,14 +143,14 @@ public class MediaListFragment extends Fragment {
         switch (listType) {
             case MediaType.MOVIE:
                 if (searchQuery == null || searchQuery.isEmpty())
-                    return channel.getMovieList(page);
+                    return channel.getMovieList(page, getActivity());
                 else
-                    return channel.searchMovie(searchQuery, page);
+                    return channel.searchMovie(searchQuery, page, getActivity());
             case MediaType.TV_SERIES:
                 if (searchQuery == null || searchQuery.isEmpty())
-                    return channel.getTvSeriesList(page);
+                    return channel.getTvSeriesList(page, getActivity());
                 else
-                    return channel.searchTvSeries(searchQuery, page);
+                    return channel.searchTvSeries(searchQuery, page, getActivity());
         }
         return null;
     }

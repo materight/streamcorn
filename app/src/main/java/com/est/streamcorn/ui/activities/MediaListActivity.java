@@ -43,7 +43,7 @@ public class MediaListActivity extends BaseActivity {
 
         final Intent intent = getIntent();
         final String channelId = intent.getStringExtra(Constants.CHANNEL_KEY);
-        channel = ChannelService.getChannelInstance(channelId, MediaListActivity.this);
+        channel = ChannelService.getChannelInstance(channelId);
 
         initTheme();
 

@@ -80,7 +80,7 @@ public class MediaDetailActivity extends BaseActivity {
         media = intent.getParcelableExtra(Constants.MEDIA_KEY);
 
         String channelId = intent.getStringExtra(Constants.CHANNEL_KEY);
-        channel = ChannelService.getChannelInstance(channelId, MediaDetailActivity.this);
+        channel = ChannelService.getChannelInstance(channelId);
         tmdbClient = new TmdbClient(this);
 
         compositeDisposable = new CompositeDisposable();
@@ -157,7 +157,7 @@ public class MediaDetailActivity extends BaseActivity {
                 }));
 
         //  Get streaming links
-        compositeDisposable.add(channel.getMovie(media.getUrl())
+        compositeDisposable.add(channel.getMovie(media.getUrl(), MediaDetailActivity.this)
                 .subscribe(response -> {
                     mediaDetailAdapter.setUrlsLoaded();
                     mediaDetailAdapter.setPlayClickListener((view, item) -> {
@@ -187,7 +187,7 @@ public class MediaDetailActivity extends BaseActivity {
                 }));
 
         //  Get episodes links
-        compositeDisposable.add(channel.getTvSeries(media.getUrl())
+        compositeDisposable.add(channel.getTvSeries(media.getUrl(), MediaDetailActivity.this)
                 .subscribe(response -> {
                     urlsDownloaded = true;
 

@@ -4,7 +4,6 @@ package com.est.streamcorn.scrapers.channels;
 import androidx.arch.core.util.Function;
 import com.est.streamcorn.scrapers.ChannelService;
 
-
 /**
  * Container per tutte le proprietà di un Channel
  */
@@ -14,6 +13,7 @@ public class ChannelProperties {
     String domain;
     private String parametricName;
     private int bannerDrawable;
+    private boolean needHeadlessRequest;
     private boolean hasMovies, hasTvSeries, isSearchable;
     private Function<Integer, String> getMovieListUrlFunction, getTvSeriesListUrlFunction;
     private Function<String, Function<Integer, String>> getMovieSearchUrlFunction, getTvSeriesSearchUrlFunction;
@@ -21,6 +21,7 @@ public class ChannelProperties {
     public ChannelProperties(@ChannelService.ChannelType String domain,
                              String parametricName,
                              int bannerDrawable,
+                             boolean needHeadlessRequest,
                              boolean hasMovies,
                              boolean hasTvSeries,
                              boolean isSearchable,
@@ -31,6 +32,7 @@ public class ChannelProperties {
         this.domain = domain;
         this.parametricName = parametricName;
         this.bannerDrawable = bannerDrawable;
+        this.needHeadlessRequest = needHeadlessRequest;
         this.hasMovies = hasMovies;
         this.hasTvSeries = hasTvSeries;
         this.isSearchable = isSearchable;
@@ -55,6 +57,10 @@ public class ChannelProperties {
 
     public int getBannerDrawable() {
         return bannerDrawable;
+    }
+
+    public boolean needHeadlessRequest() {
+        return needHeadlessRequest;
     }
 
     public boolean hasMovies() {

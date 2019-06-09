@@ -14,10 +14,7 @@
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
-                app:tabMode="scrollable"
-                app:tabContentStart="72dp"
-                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
+                style="@style/TabLayout"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

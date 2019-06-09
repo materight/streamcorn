@@ -22,6 +22,7 @@ public class FilmSenzaLimiti extends Channel {
             ChannelService.ChannelType.FILMSENZALIMITI,
             "<font color=\"%s\">Film</font>SenzaLimiti",
             R.drawable.channel_filmsenzalimiti,
+            false,
             true,
             true,
             false,

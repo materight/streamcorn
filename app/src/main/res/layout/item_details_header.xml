@@ -20,7 +20,7 @@
             android:layout_width="110dp"
             android:layout_height="0dp"
             android:layout_marginStart="15dp"
-            app:cardCornerRadius="6dp"
+            app:cardCornerRadius="@dimen/default_card_radius"
             app:cardElevation="6dp"
             app:layout_constraintDimensionRatio="1:1.443"
             app:layout_constraintStart_toStartOf="parent"

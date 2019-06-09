@@ -1,8 +1,8 @@
 <resources>
 
-    <style name="AppTheme" parent="BaseTheme" />
-    <style name="AppTheme.TransparentStatusBar" parent="BaseTheme.TransparentStatusBar" />
-    <style name="AppTheme.Dialog" parent="BaseTheme.Dialog" />
+    <style name="AppTheme" parent="BaseTheme"/>
+    <style name="AppTheme.TransparentStatusBar" parent="BaseTheme.TransparentStatusBar"/>
+    <style name="AppTheme.Dialog" parent="BaseTheme.Dialog"/>
     <style name="AppTheme.Settings">
         <item name="android:windowBackground">@color/colorPrimary</item>
         <item name="android:colorBackground">@color/colorPrimary</item>
@@ -21,7 +21,7 @@
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
 
         <item name="android:statusBarColor">@color/colorPrimary</item>
-        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
         <item name="android:colorBackground">@color/colorBackground</item>
 
         <item name="android:colorEdgeEffect">@color/colorAccent</item>
@@ -43,10 +43,9 @@
         <item name="dialogBackgroundColor">@color/dialogBackgroundColor</item>
     </style>
 
-    <style name="AlertDialogTheme" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
+    <style name="AlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:background">@color/dialogBackgroundColor</item>
     </style>
-
 
     <style name="PlayerTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/playerColorPrimary</item>
@@ -64,6 +63,17 @@
         <item name="android:lineSpacingExtra">0.0sp</item>
         <item name="cardBackgroundColor">@color/colorPrimary</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
+    </style>
+
+    <style name="TabLayout" parent="Widget.Design.TabLayout">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabSelectedTextColor">@color/colorAccent</item>
+        <item name="tabRippleColor">@color/colorControlHighlightAccent</item>
+        <item name="tabIndicatorHeight">4dp</item>
+        <item name="tabIndicator">@drawable/shape_tab_indicator</item>
+        <item name="tabTextAppearance">@android:style/TextAppearance.Widget.TabWidget</item>
     </style>
 
 </resources>

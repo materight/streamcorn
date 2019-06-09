@@ -19,6 +19,7 @@ public class ServerService {
         String VCRYPT = "vcrypt.net";
         String RAPIDCRYPT = "rapidcrypt.net";
         String FILMSENZALIMITI = "filmsenzalimiti.beer";
+        String ILGENIODELLOSTREAMING = "ilgeniodellostreaming.pw";
 
         //  Video streaming
         String OPENLOAD1 = "openload.co";
@@ -47,7 +48,9 @@ public class ServerService {
             case ServerType.RAPIDCRYPT:
                 return new Rapidcrypt();
             case ServerType.FILMSENZALIMITI:
-                return new FilmSenzaLimiti();
+                return new FilmSenzaLimitiServer();
+            case ServerType.ILGENIODELLOSTREAMING:
+                return new IlGenioDelloStreamingServer();
             //  Video streaming
             case ServerType.OPENLOAD1:
             case ServerType.OPENLOAD2:

@@ -74,8 +74,4 @@ public class StreamUrlAdapter extends RecyclerView.Adapter<StreamUrlAdapter.View
     StreamUrl getItem(int id) {
         return urls.get(id);
     }
-
-    private void onItemClick(View view, int position) {
-
-    }
 }

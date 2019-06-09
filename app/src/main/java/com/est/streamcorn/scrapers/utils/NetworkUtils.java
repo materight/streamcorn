@@ -22,6 +22,11 @@ public class NetworkUtils {
                 .subscribeOn(Schedulers.io());
     }
 
+    public static Single<String> downloadJSON(final String url) {
+        return Single.fromCallable(() -> Jsoup.connect(url).ignoreContentType(true).execute().body()).subscribeOn(Schedulers.io());
+    }
+
+
     public static Single<Document> downloadPageHeadless(final String url, final int delay, final Context context) {
         return Single.create((SingleEmitter<Document> emitter) -> {
             try {

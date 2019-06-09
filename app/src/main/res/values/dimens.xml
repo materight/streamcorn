@@ -9,7 +9,7 @@
 
     <!-- Media card dimens -->
     <dimen name="default_card_elevation">2.0dp</dimen>
-    <dimen name="default_card_radius">2.0dp</dimen>
+    <dimen name="default_card_radius">6.0dp</dimen>
 
     <dimen name="channel_card_radius">6.0dp</dimen>
     <dimen name="movie_card_text_padding">8.0dp</dimen>
