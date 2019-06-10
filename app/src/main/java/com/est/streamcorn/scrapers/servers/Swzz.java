@@ -14,10 +14,10 @@ public class Swzz extends Server {
     @Override
     public Single<String> resolve(String url, Context context) {
         if (!url.contains("embed")) url += "embed/552x352/";
-
         return NetworkUtils.downloadPageHeadless(url, context)
                 .observeOn(Schedulers.computation())
                 .map(document -> {
+                    Log.e(TAG, "PAGE DOWNLOADED");
                     Element element = document.selectFirst("a[href].btn-wrapper.link");
                     String parsedUrl = element.attr("href");
                     if (!parsedUrl.startsWith("http"))

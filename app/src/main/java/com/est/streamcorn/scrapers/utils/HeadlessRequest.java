@@ -47,6 +47,7 @@ public class HeadlessRequest implements Disposable {
 
             this.isDisposed = false;
 
+
             WebSettings settings = this.getSettings();
             settings.setJavaScriptEnabled(true);
             settings.setBlockNetworkImage(true);
@@ -92,7 +93,9 @@ public class HeadlessRequest implements Disposable {
                 // TODO: Ignore css, images, font
                 @Override
                 public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                    onError.accept(new Exception(error.getDescription().toString()));
+                    if(request.isForMainFrame()){
+                        onError.accept(new Exception(request.getUrl() + "  " + error.getErrorCode() + ": " + error.getDescription().toString()));
+                    }
                 }
             });
 

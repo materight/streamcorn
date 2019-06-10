@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <color name="statusbarTransparent">@color/transparent_dark_40</color>
-    <color name="colorAccent">#ffed3b3b</color>
-    <color name="colorAccentDark">#ff880e33</color>
-    <color name="colorControlHighlightAccent">#34ED3B3B</color>
 
     <!-- Light theme color-->
+    <color name="colorAccent">#ffed3b3b</color>
+    <color name="colorAccentDark">#ff880e33</color>
+    <color name="colorControlHighlightAccent">#34ed3b3b</color>
+
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#f8f8f8</color>
     <color name="colorBackground">#f8f8f8</color>
