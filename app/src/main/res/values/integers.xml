@@ -2,4 +2,5 @@
 <resources>
     <integer name="episode_expand_collapse_duration">120</integer>
     <integer name="description_expand_collapse_duration">300</integer>
+    <integer name="grid_columns_count">3</integer>
 </resources>

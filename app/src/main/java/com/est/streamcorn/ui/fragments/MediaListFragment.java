@@ -33,9 +33,6 @@ public class MediaListFragment extends Fragment {
 
     private final static String TAG = "MediaListFragment";
 
-    //  TODO: auto columns:number based on screen width
-    private static final int COLUMNS_NUMBER = 3;
-
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.medias_list)
@@ -93,7 +90,8 @@ public class MediaListFragment extends Fragment {
             swipeRefreshLayout.setRefreshing(false);
         });
 
-        gridLayoutManager = new GridLayoutManager(getActivity(), COLUMNS_NUMBER);
+        final int spanCount = getResources().getInteger(R.integer.grid_columns_count);
+        gridLayoutManager = new GridLayoutManager(getActivity(), spanCount);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -101,7 +99,7 @@ public class MediaListFragment extends Fragment {
                     case MediaAdapter.VIEW_MEDIA:
                         return 1;
                     case MediaAdapter.VIEW_PROGRESS:
-                        return COLUMNS_NUMBER;
+                        return spanCount;
                     default:
                         return -1;
                 }

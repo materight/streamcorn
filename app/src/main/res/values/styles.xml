@@ -63,6 +63,7 @@
         <item name="android:lineSpacingExtra">0.0sp</item>
         <item name="cardBackgroundColor">@color/colorPrimary</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="cardCornerRadius">@dimen/default_card_radius</item>
     </style>
 
     <style name="TabLayout" parent="Widget.Design.TabLayout">
