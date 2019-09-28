@@ -24,7 +24,7 @@
             app:layout_constraintEnd_toEndOf="@id/text"
             app:layout_constraintBottom_toBottomOf="@id/text" />
 
-        <com.est.streamcorn.ui.customs.widgets.ExpandableTextView
+        <com.materight.streamcorn.ui.customs.widgets.ExpandableTextView
             android:id="@+id/text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

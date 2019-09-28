@@ -15,9 +15,9 @@
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         android:background="@color/mediaDetailHeader"
-        app:layout_behavior="com.est.streamcorn.ui.customs.FixAppBarLayoutBehavior">
+        app:layout_behavior="com.materight.streamcorn.ui.customs.FixAppBarLayoutBehavior">
 
-        <com.est.streamcorn.ui.customs.widgets.CustomCollapsingToolbarLayout
+        <com.materight.streamcorn.ui.customs.widgets.CustomCollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -82,7 +82,7 @@
 
             </androidx.appcompat.widget.Toolbar>
 
-        </com.est.streamcorn.ui.customs.widgets.CustomCollapsingToolbarLayout>
+        </com.materight.streamcorn.ui.customs.widgets.CustomCollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 

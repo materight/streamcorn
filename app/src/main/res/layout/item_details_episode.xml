@@ -22,7 +22,7 @@
         app:layout_constraintBottom_toBottomOf="@id/barrier"
         tools:text="1"/>
 
-    <com.est.streamcorn.ui.customs.widgets.FadeTextSwitcher
+    <com.materight.streamcorn.ui.customs.widgets.FadeTextSwitcher
         android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

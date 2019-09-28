@@ -95,7 +95,7 @@
             app:layout_constraintTop_toTopOf="@id/header"
             tools:text="Test title with two rows."/>
 
-    <com.est.streamcorn.ui.customs.widgets.FadeTextSwitcher
+    <com.materight.streamcorn.ui.customs.widgets.FadeTextSwitcher
             android:id="@+id/text1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
             app:layout_constraintTop_toBottomOf="@id/title"
             tools:text="2017"/>
 
-    <com.est.streamcorn.ui.customs.widgets.FadeTextSwitcher
+    <com.materight.streamcorn.ui.customs.widgets.FadeTextSwitcher
             android:id="@+id/text2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -147,7 +147,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/play_button"/>
 
-    <com.est.streamcorn.ui.customs.widgets.ExpandableDescription
+    <com.materight.streamcorn.ui.customs.widgets.ExpandableDescription
             android:id="@+id/description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

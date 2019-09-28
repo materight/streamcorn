@@ -8,7 +8,7 @@
     <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_behavior="com.est.streamcorn.ui.customs.FixAppBarLayoutBehavior">
+            app:layout_behavior="com.materight.streamcorn.ui.customs.FixAppBarLayoutBehavior">
 
         <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"

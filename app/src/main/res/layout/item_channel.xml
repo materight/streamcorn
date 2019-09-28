@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.est.streamcorn.ui.customs.widgets.AspectRatioImageView
+        <com.materight.streamcorn.ui.customs.widgets.AspectRatioImageView
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
