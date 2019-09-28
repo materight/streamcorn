@@ -1,7 +1,7 @@
-<div style='text-align: center;'>
+<p align='center'>
 <img src='screenshots/icon.png' width=100>
-<h1>StreamCorn [unmaintained]</h1>
-</div>
+<h1 align='center'>StreamCorn [unmaintained]</h1>
+</p>
 A simple app for scraping and playing movie and TV shows from streaming websites.
 
 **Note:** I've made this app while learning Adroid development, it probably won't work because websites are updated very often and I'm not working on it anymore.
