@@ -12,7 +12,10 @@ A simple app for scraping and playing movie and TV shows from streaming websites
  - Play media with VLC
 
 ## Screenshots
-<img src='screenshots/img1.jpg' width=300>
-<img src='screenshots/img2.jpg' width=300>
-<img src='screenshots/img3.jpg' width=300>
-<img src='screenshots/img4.jpg' width=300>
+
+<p float="left">
+ <img src='screenshots/img1.jpg' width=200>
+<img src='screenshots/img2.jpg' width=200>
+<img src='screenshots/img3.jpg' width=200>
+<img src='screenshots/img4.jpg' width=200>
+</p>
