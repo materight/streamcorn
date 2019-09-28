@@ -4,6 +4,7 @@
 </p>
 A simple app for scraping and playing movie and TV shows from streaming websites.
 
+
 **Note:** I've made this app while learning Adroid development, it probably won't work because websites are updated very often and I'm not working on it anymore.
 
 ## Features
