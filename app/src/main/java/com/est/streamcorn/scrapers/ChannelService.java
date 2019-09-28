@@ -11,10 +11,9 @@ public class ChannelService {
 
     @StringDef({ChannelType.CINEBLOG01, ChannelType.FILMSENZALIMITI})
     public @interface ChannelType {
-        String CINEBLOG01 = "cb01.tools";
+        String CINEBLOG01 = "cb01.productions";
         String FILMSENZALIMITI = "filmsenzalimiti.beer";
-        String ILGENIODELLOSTREAMING = "ilgeniodellostreaming.pw";
-        String VVVVID = "vvvvid.it";
+        String ILGENIODELLOSTREAMING = "ilgeniodellostreaming.black";
     }
 
     @Nullable
@@ -25,8 +24,6 @@ public class ChannelService {
             case ChannelType.FILMSENZALIMITI:
                 return new FilmSenzaLimiti();
             case ChannelType.ILGENIODELLOSTREAMING:
-                return new IlGenioDelloStreaming();
-            case ChannelType.VVVVID:
                 return new IlGenioDelloStreaming();
         }
         return null;
